@@ -1,8 +1,17 @@
+#ifndef SCENE_H
+# define SCENE_H
+
 typedef	struct	s_R
 {
 	int		x;
 	int		y;
 }				t_R;
+
+typedef	struct	s_point
+{
+	int		x;
+	int		y;
+}				t_point;
 
 typedef	struct	s_A
 {
@@ -14,7 +23,7 @@ typedef	struct	s_c
 {
 	float	*pov[3];
 	float	*v[2];
-	int		*dov[2];
+	int		*fov[2];
 }				t_c;
 
 typedef	struct	s_l
@@ -27,7 +36,7 @@ typedef	struct	s_l
 typedef	struct	s_sp
 {
 	float	*p[3];
-	float	d;
+	float	r;
 	int		*rgb[3];
 }				t_sp;
 
@@ -62,3 +71,5 @@ typedef	struct	s_tr
 	float	*p3[3];
 	int		*rgb[3];
 }				t_tr;
+
+#endif
