@@ -11,6 +11,7 @@ typedef	struct	s_point
 {
 	int		x;
 	int		y;
+	int		z;
 }				t_point;
 
 typedef	struct	s_A

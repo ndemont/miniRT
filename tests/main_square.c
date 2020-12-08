@@ -69,11 +69,11 @@ int		main(void)
 	win_ptr = mlx_new_window(mlx_ptr, 1000, 1000, "Sphere");
 	img_ptr = mlx_new_image(mlx_ptr, 1000, 1000);
 	data_addr = (int *)mlx_get_data_addr(img_ptr, &bits_per_pixel, &size_line, &endian);
-	y = 100;
-	while (y <= 900)
-	{
-		x = 100;
-		while (x <= 900)
+	y = 0;
+	while (y < 1000)
+	{ 
+		x = 0;
+		while (x < 1000)
 		{
 			//rslt = ft_power(x - ca, 2) + ft_power(y - cb, 2);
 			//if (rslt <= ft_power(d / 2, 2))
