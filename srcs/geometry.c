@@ -5,7 +5,7 @@
 
 float		scalaire(t_vector v1, t_vector v2)
 {
-	int rslt;
+	float rslt;
 
 	rslt = (v1.coord[0] * v2.coord[0]) + (v1.coord[1] * v2.coord[1]) + (v1.coord[2] * v2.coord[2]);
 	return (rslt);
@@ -61,6 +61,16 @@ t_vector	v_minus_v(t_vector v1, t_vector v2)
 	return (v3);
 }
 
+t_vector	v_mult_v(t_vector v1, t_vector v2)
+{
+	t_vector v3;
+
+	v3.coord[0] = v1.coord[0] * v2.coord[0];
+	v3.coord[1] = v1.coord[1] * v2.coord[1];
+	v3.coord[2] = v1.coord[2] * v2.coord[2];
+	return (v3);
+}
+
 float		get_norme_2(t_vector v)
 {
 	float rslt;
@@ -105,7 +115,7 @@ int			inter(t_ray ray, t_sphere sphere, t_vector *inter, t_vector *normal)
 	t2 = (-b + (sqrt(delta))) / (2 * a);
  	if (t2 < 0)
 		return (0);
-	if (t1 < 0)
+	if (t1 > 0)
 		t = t1;
 	else 
 		t = t2;

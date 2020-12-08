@@ -22,6 +22,7 @@ typedef struct	s_sphere
 {
 	t_vector	o;
 	float		r;
+	t_vector	albedo;
 }				t_sphere;
 
 int		ft_power(int nb, int power);
@@ -34,6 +35,7 @@ t_vector	get_normalized(t_vector v);
 
 t_vector	v_plus_i(t_vector v, float i);
 t_vector	v_mult_i(t_vector v, float i);
+t_vector	v_mult_v(t_vector v1, t_vector v2);
 t_vector	v_div_i(t_vector v, float i);
 t_vector	v_plus_v(t_vector v1, t_vector v2);
 t_vector	v_minus_v(t_vector v1, t_vector v2);
