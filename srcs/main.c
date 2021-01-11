@@ -1,7 +1,4 @@
 #include "minirt.h"
-#include "libft.h"
-#include "printf.h"
-#include "get_next_line.h"
 
 void	color_img(unsigned char *data_addr, int size_line)
 {
@@ -135,6 +132,12 @@ int		print_errors(int error)
 {
 	if (error == 1)
 		ft_printf("Wrong number of arguments.\n");
+	if (error == 2)
+		ft_printf("Wrong type of file\n");
+	if (error == 3)
+		ft_printf("Wrong configuration of the file\n");
+	if (error == 5)
+		ft_printf("Wrong option\n");
 	return (1);
 }
 
@@ -153,6 +156,7 @@ int		main(int ac, char **av)
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
+	int				ret;
 	t_ray			ray;
 	t_light			light;
 	t_sphere		sphere;
@@ -173,8 +177,15 @@ int		main(int ac, char **av)
 	sphere.r = 5;
 	sphere.albedo = get_normalized(sphere.albedo);
 	(void)av;
-	if (ac > 3)
+	if (ac < 2 || ac > 3)
 		return (print_errors(1));
+	if (!check_file(av[1]))
+		return (print_errors(2));
+	if (ac == 3)
+		if (ft_strcmp(av[2], "-save"))
+			return (print_errors(5));
+	if ((ret = check_parsing(av[1])))
+		return (print_errors(ret));
 	bits_per_pixel = 0;
 	size_line = 0;
 	endian = 0;

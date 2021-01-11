@@ -6,6 +6,18 @@ typedef struct	s_vector
 	float		coord[3];
 }				t_vector;
 
+typedef struct	s_elem
+{
+	char		*type;
+	t_vector	v;
+	t_vector	origin;
+	float		focal;
+	t_vector	color;
+	float		ratio;
+	float		ray;
+
+}				t_elem;
+
 typedef struct	s_ray
 {
 	t_vector	o;

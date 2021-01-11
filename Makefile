@@ -1,5 +1,6 @@
 SRCS		=	./srcs/main.c \
-				./srcs/geometry.c
+				./srcs/geometry.c \
+				./srcs/parsing.c
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	-I./includes -I./libmlx -I./libft/includes
 RM			=	rm -f
@@ -11,7 +12,6 @@ PATH_MLX	=	./libmlx
 PATH_LIBFT	=	./libft
 LIBMLX		=	libmlx.a
 LIBFT		=	libft.a
-LIBMINIRT	=	libminirt.a
 
 all:		${NAME}
 ${NAME}:	${OBJS} ${LIBFT}
