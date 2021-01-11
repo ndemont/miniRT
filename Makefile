@@ -1,6 +1,9 @@
 SRCS		=	./srcs/main.c \
 				./srcs/geometry.c \
-				./srcs/parsing.c
+				./srcs/parsing.c \
+				./srcs/parsing_type.c \
+				./srcs/ft_atof.c
+			
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	-I./includes -I./libmlx -I./libft/includes
 RM			=	rm -f

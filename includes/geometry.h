@@ -9,6 +9,7 @@ typedef struct	s_vector
 typedef struct	s_elem
 {
 	char		*type;
+	float		size[2];
 	t_vector	v;
 	t_vector	origin;
 	float		focal;
@@ -51,5 +52,17 @@ t_vector	v_mult_v(t_vector v1, t_vector v2);
 t_vector	v_div_i(t_vector v, float i);
 t_vector	v_plus_v(t_vector v1, t_vector v2);
 t_vector	v_minus_v(t_vector v1, t_vector v2);
+
+void		parsing_A(char **line, t_elem *elem);
+void		parsing_R(char **line, t_elem *elem);
+void		parsing_c(char **line, t_elem *elem);
+void		parsing_l(char **line, t_elem *elem);
+void		parsing_sp(char **line, t_elem *elem);
+void		parsing_sq(char **line, t_elem *elem);
+void		parsing_cy(char **line, t_elem *elem);
+void		parsing_tr(char **line, t_elem *elem);
+void		parsing_pl(char **line, t_elem *elem);
+
+float		ft_atof(const char *str);
 
 #endif
