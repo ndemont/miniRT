@@ -11,10 +11,12 @@ typedef struct	s_elem
 	char		*type;
 	float		size[2];
 	t_vector	v;
+	t_vector	v2;
 	t_vector	origin;
 	float		focal;
 	t_vector	color;
 	float		ratio;
+	float		height;
 	float		ray;
 
 }				t_elem;

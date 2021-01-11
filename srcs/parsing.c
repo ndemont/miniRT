@@ -77,7 +77,27 @@ t_elem			create_line(char *line)
 	elem.type = split[0];
 	type = get_type(elem.type);
 	fill_type(type, &elem, split);
-	printf("TYPE %s :\nR = %f/%f\nA = %f,%f/%f/%f\n", elem.type, elem.size[0], elem.size[1], elem.ratio, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	printf("LINE %s :\n", line);
+	printf("NUM %d :\n", type);
+	printf("TYPE %s :\n", elem.type);
+	if (type == 0)
+		printf("R = %f - %f\n", elem.size[0], elem.size[1]);
+	if (type == 1)
+		printf("A = %f,%f/%f/%f\n", elem.ratio, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	if (type == 2)
+		printf("c = %f/%f/%f - %f/%f/%f - %f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.focal);
+	if (type == 3)
+		printf("l = %f/%f/%f - %f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.ratio, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	if (type == 12)
+		printf("pl = %f/%f/%f - %f/%f/%f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	if (type == 4)
+		printf("sp = %f/%f/%f - %f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.ray, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	if (type == 6)
+		printf("sq = %f/%f/%f - %f/%f/%f - %f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.height, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	if (type == 8)
+		printf("cy = %f/%f/%f - %f/%f/%f - %f/%f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.height, elem.ray, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
+	if (type == 10)
+		printf("tr = %f/%f/%f - %f/%f/%f - %f/%f/%f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.v2.coord[0], elem.v2.coord[1], elem.v2.coord[2], elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
 	return(elem);
 }
 
@@ -116,7 +136,7 @@ int		check_parsing(char *file)
 		get_next_line(fd, &line);
 		//check_line(line);
 		scene[i] = create_line(line);
-		//printf("type %d = %s\n", i, scene[i].type);
+		free(line);
 		i++;
 	}
 	close(fd);
