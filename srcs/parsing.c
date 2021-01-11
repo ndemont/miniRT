@@ -101,11 +101,12 @@ t_elem			create_line(char *line)
 	return(elem);
 }
 
-t_elem		*check_parsing(char *file)
+int		check_parsing(char *file)
 {
 	int		i;
 	int		fd;
 	char	*line;
+	char	*content;
 	int		ret;
 	int		count;
 	t_elem	*scene;
@@ -117,14 +118,18 @@ t_elem		*check_parsing(char *file)
 		return (2);
 	ret = 1;
 	// faire le comptage en meme temps que la verification
+	content = 0;
 	while (ret > 0)
 	{
 		if (ret < 0)
 			return (3);
 		ret = get_next_line(fd, &line);
+		content = ft_strjoin(content, line);
+		content = ft_strjoin(content, "\n");
 		count++;
 		printf("%s\n", line);
 	}
+	printf("content = [%s]\n", content);
 	close(fd);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -140,5 +145,5 @@ t_elem		*check_parsing(char *file)
 		i++;
 	}
 	close(fd);
-	return ();
+	return (0);
 }

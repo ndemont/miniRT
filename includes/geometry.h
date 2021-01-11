@@ -6,7 +6,7 @@ typedef struct	s_vector
 	float		coord[3];
 }				t_vector;
 
-√typedef struct	s_light
+typedef struct	s_light
 {
 	t_vector	o;
 	float		i;
@@ -24,6 +24,13 @@ typedef struct	s_sphere
 	float		r;
 	t_vector	albedo;
 }				t_sphere;
+
+typedef struct	s_camera
+{
+	t_vector	o;
+	float		r;
+	t_vector	albedo;
+}				t_camera;
 
 typedef struct	s_object
 {

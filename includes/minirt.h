@@ -11,6 +11,6 @@
 # include "get_next_line.h"
 
 int			check_file(char *filename);
-int			check_parsing(char *file);
+int		    check_parsing(char *file);
 
 #endif

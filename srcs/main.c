@@ -147,7 +147,7 @@ void	print_window(void *mlx_ptr, void *win_ptr, void *img_ptr)
 	mlx_loop(mlx_ptr);
 }
 
-void 	create_window
+//void 	create_window
 
 int		main(int ac, char **av)
 {
