@@ -6,6 +6,37 @@ typedef struct	s_vector
 	float		coord[3];
 }				t_vector;
 
+√typedef struct	s_light
+{
+	t_vector	o;
+	float		i;
+}				t_light;
+
+typedef struct	s_ray
+{
+	t_vector	o;
+	t_vector	d;
+}				t_ray;
+
+typedef struct	s_sphere
+{
+	t_vector	o;
+	float		r;
+	t_vector	albedo;
+}				t_sphere;
+
+typedef struct	s_object
+{
+	int			type;
+	t_vector	color;
+	t_vector	origin;
+	t_vector	direction;
+	t_vector	point;
+	float		height;
+	float		diameter;
+
+}				t_object;
+
 typedef struct	s_elem
 {
 	char		*type;
@@ -21,24 +52,16 @@ typedef struct	s_elem
 
 }				t_elem;
 
-typedef struct	s_ray
+typedef struct	s_scene
 {
-	t_vector	o;
-	t_vector	d;
-}				t_ray;
+	float		R[2];
+	float		A;
+	t_light		*lights;
+	t_camera	*cameras;
+	t_object	*objects;
+}				t_scene;
 
-typedef struct	s_light
-{
-	t_vector	o;
-	float		i;
-}				t_light;
 
-typedef struct	s_sphere
-{
-	t_vector	o;
-	float		r;
-	t_vector	albedo;
-}				t_sphere;
 
 int		ft_power(int nb, int power);
 

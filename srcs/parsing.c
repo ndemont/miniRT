@@ -101,7 +101,7 @@ t_elem			create_line(char *line)
 	return(elem);
 }
 
-int		check_parsing(char *file)
+t_elem		*check_parsing(char *file)
 {
 	int		i;
 	int		fd;
@@ -140,5 +140,5 @@ int		check_parsing(char *file)
 		i++;
 	}
 	close(fd);
-	return (0);
+	return ();
 }

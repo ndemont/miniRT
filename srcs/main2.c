@@ -147,8 +147,6 @@ void	print_window(void *mlx_ptr, void *win_ptr, void *img_ptr)
 	mlx_loop(mlx_ptr);
 }
 
-void 	create_window
-
 int		main(int ac, char **av)
 {
 	void			*mlx_ptr;
@@ -178,6 +176,7 @@ int		main(int ac, char **av)
 	sphere.albedo.coord[2] = 100;
 	sphere.r = 5;
 	sphere.albedo = get_normalized(sphere.albedo);
+	(void)av;
 	if (ac < 2 || ac > 3)
 		return (print_errors(1));
 	if (!check_file(av[1]))
