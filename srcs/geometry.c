@@ -95,7 +95,7 @@ t_vector	get_normalized(t_vector v)
 	return (v);
 }
 
-int			inter(t_ray ray, t_sphere sphere, t_vector *inter, t_vector *normal)
+int			inter(t_ray ray, t_object sp, t_vector *inter, t_vector *normal)
 {
 	float a;
 	float b;
@@ -106,8 +106,8 @@ int			inter(t_ray ray, t_sphere sphere, t_vector *inter, t_vector *normal)
 	float t2;
 
 	a = 1; 
-	b = 2 * scalaire(ray.d, v_minus_v(ray.o, sphere.o));
-	c = get_norme_2(v_minus_v(ray.o, sphere.o)) - (sphere.r * sphere.r);
+	b = 2 * scalaire(ray.d, v_minus_v(ray.o, sp.o));
+	c = get_norme_2(v_minus_v(ray.o, sp.o)) - (sp.diam * sp.diam);
 	delta = (b * b) - (4 * a * c);
 	if (delta < 0)
 		return (0);
@@ -122,7 +122,58 @@ int			inter(t_ray ray, t_sphere sphere, t_vector *inter, t_vector *normal)
 	inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
 	inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
 	inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
-	*normal = get_normalized(v_minus_v(*inter, sphere.o));
+	*normal = get_normalized(v_minus_v(*inter, sp.o));
 	return (1);
 }
+
+t_object	*inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
+{
+	float		a;
+	float		b;
+	float		c;
+	float		delta;
+	float		t;
+	float		tf;
+	float		t1;
+	float		t2;
+	int			i;
+	t_object	*final;
+
+	i = 0;
+	a = 1;
 	
+	final = 0;
+	while (sp[i].type != -1)
+	{
+		b = 2 * scalaire(ray.d, v_minus_v(ray.o, sp[i].o));
+		c = get_norme_2(v_minus_v(ray.o, sp[i].o)) - (sp[i].diam * sp[i].diam);
+		delta = (b * b) - (4 * a * c);
+		if (delta >= 0)
+		{
+			t1 = (-b - (sqrt(delta))) / (2 * a);
+			t2 = (-b + (sqrt(delta))) / (2 * a);
+ 			if (t2 >= 0)
+			{
+				if (t1 > 0)
+					t = t1;
+				else 
+					t = t2;
+				inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+				*normal = get_normalized(v_minus_v(*inter, sp[i].o));
+				if (i == 0)
+					tf = t;
+				if (t < tf)
+				{
+					write(1, "check 13\n", 10);
+					tf = t;
+					final = &(sp[i]);
+					write(1, "check 14\n", 10);
+				}
+			}
+		}
+		i++;
+	}
+	return (final);
+}

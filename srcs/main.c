@@ -1,129 +1,64 @@
 #include "minirt.h"
 
-void	color_img(unsigned char *data_addr, int size_line)
+void	color_img(t_scene *s)
 {
 	int			i;
 	int			j;
 	t_ray		ray;
-	t_light		light;
-	t_sphere	sphere;
 	t_vector	inters;
 	t_vector	normal;
 	t_vector	new;
 	int			pixel;
-	float		fov;
-	t_vector	intensity;
+	float		intensity;
 	int			ret;
+	t_object	*ret2;
 	int			w;
 	int			h;
 	float		color;
 
-	(void)size_line;
-	w = 1024;
-	h = 1024;
+	w = s->R[0];
+	h = s->R[1];
 	i = 0;
-	fov = 60 * (M_PI / 180);
-	light.o.coord[0] = 10;
-	light.o.coord[1] = 50;
-	light.o.coord[2] = -20;
-	light.i = 1000000;
+	(void)ret2;
 	ray.o.coord[0] = 0;
 	ray.o.coord[1] = 0;
 	ray.o.coord[2] = 0;
-	sphere.o.coord[0] = 0;
-	sphere.o.coord[1] = 0;
-	sphere.o.coord[2] = -55;
-	sphere.albedo.coord[0] = 17;
-	sphere.albedo.coord[1] = 137;
-	sphere.albedo.coord[2] = 100;
-	sphere.r = 20;
-	color = (sphere.albedo.coord[0] * 65536) + (sphere.albedo.coord[1] * 256) + sphere.albedo.coord[2];
-	sphere.albedo = get_normalized(sphere.albedo);
+	color = (s->objects[0].c.coord[0] * 65536) + (s->objects[0].c.coord[1] * 256) + s->objects[0].c.coord[2];
+	s->objects[0].c = get_normalized(s->objects[0].c);
 	while (i < h)
 	{
 		j = 0;
 		while (j < w)
 		{
-			ray.d.coord[0] = j - (w/2);
-			ray.d.coord[1] = i - (h/2);
-			ray.d.coord[2] = -w / (2*(tan(fov / 2)));
+			write(1, "check 30\n", 9);
+			ray.d.coord[0] = j - ((s->R[0])/2);
+			ray.d.coord[1] = i - ((s->R[1])/2);
+			ray.d.coord[2] = -(s->R[0]) / (2*(tan(s->cameras[0].f / 2)));
 			normalize(&ray.d);
-			ret = inter(ray, sphere, &inters, &normal);
+			write(1, "check 301\n", 10);
+			ret2 = inter2(ray, s->objects, &inters, &normal);
+			write(1, "check 31\n", 9);
+			ret = inter(ray, s->objects[0], &inters, &normal);
+			printf("i = %d, j = %d\n", i, j);
+			write(1, "check 32\n", 9);
 			if (ret)
 			{
-				new = v_minus_v(light.o, inters); 
+				new = v_minus_v(s->lights[0].o, inters); 
 				new = get_normalized(new);
-				intensity.coord[0] = 0.001 * light.i * scalaire(new, normal) / (get_norme_2(v_minus_v(light.o, inters)));
-				intensity.coord[1] = 0.001 * light.i * scalaire(new, normal) / (get_norme_2(v_minus_v(light.o, inters)));
-				intensity.coord[2] = 0.001 * light.i * scalaire(new, normal) / (get_norme_2(v_minus_v(light.o, inters)));
-				if (intensity.coord[0] < 0)
-					intensity.coord[0] = 0;
-				if (intensity.coord[1] < 0)
-					intensity.coord[1] = 0;
-				if (intensity.coord[2] < 0)
-					intensity.coord[2] = 0;
-				if (intensity.coord[0] > 255)
-					intensity.coord[0] = 255;
-				if (intensity.coord[1] > 255)
-					intensity.coord[1] = 255;
-				if (intensity.coord[2] > 255)
-					intensity.coord[2] = 255;
-				pixel = ((h -i -1) * size_line) + (j * 4);
-				data_addr[pixel + 0] = (((int)color) & 0xFF) * intensity.coord[0];
-				data_addr[pixel + 1] = (((int)color >> 8) & 0xFF) * intensity.coord[1];
-				data_addr[pixel + 2] = (((int)color >> 16) & 0xFF) * intensity.coord[2];
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	color_img2(unsigned char *data_addr, int size_line, t_sphere sphere, t_light light, t_ray ray)
-{
-	int			i;
-	int			j;
-	t_vector	inters;
-	t_vector	normal;
-	t_vector	new;
-	int			pixel;
-	float		fov;
-	float		intensity;
-	int			ret;
-	int			w;
-	int			h;
-
-	(void)size_line;
-	w = 1024;
-	h = 1024;
-	i = 0;
-	fov = 60 * (M_PI / 180);
-	while (i < h)
-	{
-		j = 0;
-		while (j < w)
-		{
-			ray.d.coord[0] = j - (w/2);
-			ray.d.coord[1] = i - (h/2);
-			ray.d.coord[2] = -w / (2*(tan(fov / 2)));
-			normalize(&ray.d);
-			ret = inter(ray, sphere, &inters, &normal);
-			if (ret)
-			{
-				new = v_minus_v(light.o, inters); 
-				new = get_normalized(new);
-				intensity = light.i * scalaire(new, normal) / (get_norme_2(v_minus_v(light.o, inters)));
+				intensity = (s->lights[0].i * 2000) * scalaire(new, normal) / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
 				if (intensity < 0)
 					intensity = 0;
-				if (intensity > 255)
-					intensity = 255;
-				pixel = ((h -i -1) * size_line) + (j * 4);
-				data_addr[pixel + 0] = sphere.albedo.coord[0] * intensity;
-				data_addr[pixel + 1] = sphere.albedo.coord[1] * intensity;
-				data_addr[pixel + 2] = sphere.albedo.coord[2] * intensity;
+				if (intensity > 1)
+					intensity = 1;
+				pixel = ((h -i -1) * s->size_line) + (j * 4);
+				s->data_addr[pixel + 0] = (((int)color) & 0xFF) * intensity;
+				s->data_addr[pixel + 1] = (((int)color >> 8) & 0xFF) * intensity;
+				s->data_addr[pixel + 2] = (((int)color >> 16) & 0xFF) * intensity;
 			}
+			write(1, "check 33\n", 9);
 			j++;
 		}
+		write(1, "check 34\n", 9);
 		i++;
 	}
 }
@@ -147,37 +82,22 @@ void	print_window(void *mlx_ptr, void *win_ptr, void *img_ptr)
 	mlx_loop(mlx_ptr);
 }
 
-//void 	create_window
+void	init_general(t_scene *s)
+{
+	s->mlx_ptr = mlx_init();
+	s->bits_per_pixel = 0;
+	s->size_line = 0;
+	s->endian = 0;
+	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "Sphere");
+	s->img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
+	s->data_addr = (unsigned char *)mlx_get_data_addr(s->img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
+}
 
 int		main(int ac, char **av)
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-	void			*img_ptr;
-	unsigned char	*data_addr;
-	int				bits_per_pixel;
-	int				size_line;
-	int				endian;
 	int				ret;
-	t_ray			ray;
-	t_light			light;
-	t_sphere		sphere;
+	t_scene			s;
 
-	light.o.coord[0] = 10;
-	light.o.coord[1] = 50;
-	light.o.coord[2] = -20;
-	light.i = 200000;
-	ray.o.coord[0] = 0;
-	ray.o.coord[1] = 0;
-	ray.o.coord[2] = 0;
-	sphere.o.coord[0] = -10;
-	sphere.o.coord[1] = -5;
-	sphere.o.coord[2] = -35;
-	sphere.albedo.coord[0] = 45;
-	sphere.albedo.coord[1] = 190;
-	sphere.albedo.coord[2] = 100;
-	sphere.r = 5;
-	sphere.albedo = get_normalized(sphere.albedo);
 	if (ac < 2 || ac > 3)
 		return (print_errors(1));
 	if (!check_file(av[1]))
@@ -185,18 +105,10 @@ int		main(int ac, char **av)
 	if (ac == 3)
 		if (ft_strcmp(av[2], "-save"))
 			return (print_errors(5));
-	if ((ret = check_parsing(av[1])))
+	if ((ret = check_parsing(av[1], &s)))
 		return (print_errors(ret));
-	bits_per_pixel = 0;
-	size_line = 0;
-	endian = 0;
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 1024, 1024, "Sphere");
-	img_ptr = mlx_new_image(mlx_ptr, 1024, 1024);
-	data_addr = (unsigned char *)mlx_get_data_addr(img_ptr, &bits_per_pixel, &size_line, &endian);
-	color_img(data_addr, size_line);
-	color_img2(data_addr, size_line, sphere, light, ray);
-	print_window(mlx_ptr, win_ptr, img_ptr);
+	init_general(&s);
+	color_img(&s);
+	print_window(s.mlx_ptr, s.win_ptr, s.img_ptr);
 	return (0);
 }
-

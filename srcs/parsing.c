@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
+/*   Updated: 2021/01/12 15:43:30 by ndemont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-int			check_file(char *filename)
+int		check_file(char *filename)
 {
 	int len;
 
@@ -10,17 +22,10 @@ int			check_file(char *filename)
 	return (1);
 }
 
-
-int			check_line(char *line)
-{
-	(void)line;
-	return (1);
-}
-
 int		get_type(char *line)
 {
-	char *list = "RAclspsqcytrpl";
-	char *type;
+	static char	*list = "RAclspsqcytrpl";
+	char		*type;
 
 	type = ft_strnstr(list, line, 14);
 	if (!type)
@@ -28,96 +33,81 @@ int		get_type(char *line)
 	return (type - list);
 }
 
-int		fill_type(int x, t_elem *elem, char **split)
+int		fill_type2(int x, t_scene *s, char **line)
 {
-	void (*type[13])(char **, t_elem *);
+	void (*type[13])(char **, t_scene *);
 
-	type[0] = &parsing_R;
-	type[1] = &parsing_A;
-	type[2] = &parsing_c;
-	type[3] = &parsing_l;
-	type[4] = &parsing_sp;
-	type[6] = &parsing_sq;
-	type[8] = &parsing_cy;
-	type[10] = &parsing_tr;
-	type[12] = &parsing_pl;
-	(*type[x])(split, elem);
+	type[0] = &parsing_r2;
+	type[1] = &parsing_a2;
+	type[2] = &parsing_c2;
+	type[3] = &parsing_l2;
+	type[4] = &parsing_sp2;
+	type[6] = &parsing_sq2;
+	type[8] = &parsing_cy2;
+	type[10] = &parsing_tr2;
+	type[12] = &parsing_pl2;
+	(*type[x])(line, s);
 	return (1);
 }
 
-void	init_elem(t_elem *elem)
+int		fill_scene(t_scene *s, char **list)
 {
-	elem->type = "\0";
-	elem->size[0] = 0;
-	elem->size[1] = 0;
-	elem->v.coord[0] = 0;
-	elem->v.coord[1] = 0;
-	elem->v.coord[2] = 0;
-	elem->origin.coord[0] = 0;
-	elem->origin.coord[1] = 0;
-	elem->origin.coord[2] = 0;
-	elem->focal = 0;
-	elem->color.coord[0] = 0;
-	elem->color.coord[1] = 0;
-	elem->color.coord[2] = 0;
-	elem->ratio = 0;
-	elem->ray = 0;
-}
-
-t_elem			create_line(char *line)
-{
-	int		i;
 	int		type;
-	t_elem	elem;
-	char	**split;
+	char	**line;
 
-	i = 0;
-	split = ft_split(line, ' ');
-	init_elem(&elem);
-	elem.type = split[0];
-	type = get_type(elem.type);
-	fill_type(type, &elem, split);
-	printf("LINE %s :\n", line);
-	printf("NUM %d :\n", type);
-	printf("TYPE %s :\n", elem.type);
-	if (type == 0)
-		printf("R = %f - %f\n", elem.size[0], elem.size[1]);
-	if (type == 1)
-		printf("A = %f,%f/%f/%f\n", elem.ratio, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	if (type == 2)
-		printf("c = %f/%f/%f - %f/%f/%f - %f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.focal);
-	if (type == 3)
-		printf("l = %f/%f/%f - %f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.ratio, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	if (type == 12)
-		printf("pl = %f/%f/%f - %f/%f/%f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	if (type == 4)
-		printf("sp = %f/%f/%f - %f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.ray, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	if (type == 6)
-		printf("sq = %f/%f/%f - %f/%f/%f - %f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.height, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	if (type == 8)
-		printf("cy = %f/%f/%f - %f/%f/%f - %f/%f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.height, elem.ray, elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	if (type == 10)
-		printf("tr = %f/%f/%f - %f/%f/%f - %f/%f/%f - %f/%f/%f\n", elem.origin.coord[0], elem.origin.coord[1], elem.origin.coord[2], elem.v.coord[0], elem.v.coord[1], elem.v.coord[2], elem.v2.coord[0], elem.v2.coord[1], elem.v2.coord[2], elem.color.coord[0], elem.color.coord[1], elem.color.coord[2]);
-	return(elem);
+	while (*list)
+	{
+		type = get_type((ft_split(*list, ' '))[0]);
+		line = ft_split(*list, ' ');
+		fill_type2(type, s, line);
+		list++;
+	}
+	return (1);
 }
 
-int		check_parsing(char *file)
+int		init_scene(t_scene *s, char **list)
 {
-	int		i;
+	int c;
+	int l;
+	int o;
+
+	c = 0;
+	l = 0;
+	o = 0;
+	while (*list)
+	{
+		if ((*list)[0] == 'c' && (*list)[1] == ' ')
+			c++;
+		if ((*list)[0] == 'l')
+			l++;
+		if (((*list)[0] == 'p') || ((*list)[0] == 's') || \
+			((*list)[0] == 'c' && (*list)[1] == 'y') || ((*list)[0] == 't'))
+			o++;
+		list++;
+	}
+	if (!(s->lights = malloc(sizeof(t_light) * (l + 1))))
+		return (0);
+	if (!(s->cameras = malloc(sizeof(t_camera) * (c + 1))))
+		return (0);
+	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
+		return (0);
+	s->objects[0].type = -1;
+	printf("l = %d\no = %d\nc = %d\n", l, o, c);
+	return (1);
+}
+
+int		check_parsing(char *file, t_scene *s)
+{
 	int		fd;
 	char	*line;
 	char	*content;
-	int		ret;
-	int		count;
-	t_elem	*scene;
+	char 	**list;
+	int		ret; 
 
-	i = 0;
 	fd = open(file, O_RDONLY);
-	count = 0;
 	if (fd < 0)
 		return (2);
 	ret = 1;
-	// faire le comptage en meme temps que la verification
 	content = 0;
 	while (ret > 0)
 	{
@@ -126,24 +116,27 @@ int		check_parsing(char *file)
 		ret = get_next_line(fd, &line);
 		content = ft_strjoin(content, line);
 		content = ft_strjoin(content, "\n");
-		count++;
-		printf("%s\n", line);
 	}
+	list = ft_split(content, '\n');
 	printf("content = [%s]\n", content);
 	close(fd);
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (2);
-	printf("count = %d\n", count);
-	scene = malloc(sizeof(t_elem) * count);
-	while (i < count)
-	{
-		get_next_line(fd, &line);
-		//check_line(line);
-		scene[i] = create_line(line);
-		free(line);
-		i++;
-	}
-	close(fd);
+	if (!init_scene(s, list))
+		return (0);
+	fill_scene(s, list);
+	// printf("s.R[0] = %f\n", s->R[0]);
+	// printf("s.R[1] = %f\n", s->R[1]);
+	// printf("s.A.i = %f\n", s->A.i);
+	// ret = 0;
+	// while (s->objects[ret].type != -1)
+	// {
+	// 	printf("s.objects[%d].type = %d\n", ret, s->objects[ret].type);
+	// 	printf("s.objects[%d].o.coord[0] = %f\n", ret, s->objects[ret].o.coord[0]);
+	// 	printf("s.objects[%d].o.coord[1] = %f\n", ret, s->objects[ret].o.coord[1]);
+	// 	printf("s.objects[%d].o.coord[2] = %f\n", ret, s->objects[ret].o.coord[2]);
+	// 	printf("s.objects[%d].c.coord[0] = %f\n", ret, s->objects[ret].c.coord[0]);
+	// 	printf("s.objects[%d].c.coord[1] = %f\n", ret, s->objects[ret].c.coord[1]);
+	// 	printf("s.objects[%d].c.coord[2] = %f\n", ret, s->objects[ret].c.coord[2]);
+	// 	ret++;
+	// }
 	return (0);
 }
