@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/12 15:43:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/12 19:25:20 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,20 +123,5 @@ int		check_parsing(char *file, t_scene *s)
 	if (!init_scene(s, list))
 		return (0);
 	fill_scene(s, list);
-	// printf("s.R[0] = %f\n", s->R[0]);
-	// printf("s.R[1] = %f\n", s->R[1]);
-	// printf("s.A.i = %f\n", s->A.i);
-	// ret = 0;
-	// while (s->objects[ret].type != -1)
-	// {
-	// 	printf("s.objects[%d].type = %d\n", ret, s->objects[ret].type);
-	// 	printf("s.objects[%d].o.coord[0] = %f\n", ret, s->objects[ret].o.coord[0]);
-	// 	printf("s.objects[%d].o.coord[1] = %f\n", ret, s->objects[ret].o.coord[1]);
-	// 	printf("s.objects[%d].o.coord[2] = %f\n", ret, s->objects[ret].o.coord[2]);
-	// 	printf("s.objects[%d].c.coord[0] = %f\n", ret, s->objects[ret].c.coord[0]);
-	// 	printf("s.objects[%d].c.coord[1] = %f\n", ret, s->objects[ret].c.coord[1]);
-	// 	printf("s.objects[%d].c.coord[2] = %f\n", ret, s->objects[ret].c.coord[2]);
-	// 	ret++;
-	// }
 	return (0);
 }

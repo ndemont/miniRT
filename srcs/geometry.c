@@ -141,7 +141,7 @@ t_object	*inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 
 	i = 0;
 	a = 1;
-	
+	tf = 1E99;
 	final = 0;
 	while (sp[i].type != -1)
 	{
@@ -158,18 +158,14 @@ t_object	*inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 					t = t1;
 				else 
 					t = t2;
-				inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
-				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
-				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
-				*normal = get_normalized(v_minus_v(*inter, sp[i].o));
-				if (i == 0)
-					tf = t;
 				if (t < tf)
 				{
-					write(1, "check 13\n", 10);
 					tf = t;
 					final = &(sp[i]);
-					write(1, "check 14\n", 10);
+					inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+					inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+					inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+					*normal = get_normalized(v_minus_v(*inter, sp[i].o));
 				}
 			}
 		}

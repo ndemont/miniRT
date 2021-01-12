@@ -19,30 +19,23 @@ void	color_img(t_scene *s)
 	w = s->R[0];
 	h = s->R[1];
 	i = 0;
-	(void)ret2;
+	(void)ret;
 	ray.o.coord[0] = 0;
 	ray.o.coord[1] = 0;
 	ray.o.coord[2] = 0;
-	color = (s->objects[0].c.coord[0] * 65536) + (s->objects[0].c.coord[1] * 256) + s->objects[0].c.coord[2];
-	s->objects[0].c = get_normalized(s->objects[0].c);
-	while (i < h)
+	while (i < s->R[1])
 	{
 		j = 0;
-		while (j < w)
+		while (j < s->R[0])
 		{
-			write(1, "check 30\n", 9);
 			ray.d.coord[0] = j - ((s->R[0])/2);
 			ray.d.coord[1] = i - ((s->R[1])/2);
 			ray.d.coord[2] = -(s->R[0]) / (2*(tan(s->cameras[0].f / 2)));
 			normalize(&ray.d);
-			write(1, "check 301\n", 10);
 			ret2 = inter2(ray, s->objects, &inters, &normal);
-			write(1, "check 31\n", 9);
-			ret = inter(ray, s->objects[0], &inters, &normal);
-			printf("i = %d, j = %d\n", i, j);
-			write(1, "check 32\n", 9);
-			if (ret)
+			if (ret2)
 			{
+				color = (ret2->c.coord[0] * 65536) + (ret2->c.coord[1] * 256) + ret2->c.coord[2];
 				new = v_minus_v(s->lights[0].o, inters); 
 				new = get_normalized(new);
 				intensity = (s->lights[0].i * 2000) * scalaire(new, normal) / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
@@ -55,10 +48,8 @@ void	color_img(t_scene *s)
 				s->data_addr[pixel + 1] = (((int)color >> 8) & 0xFF) * intensity;
 				s->data_addr[pixel + 2] = (((int)color >> 16) & 0xFF) * intensity;
 			}
-			write(1, "check 33\n", 9);
 			j++;
 		}
-		write(1, "check 34\n", 9);
 		i++;
 	}
 }
