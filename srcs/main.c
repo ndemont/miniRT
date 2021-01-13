@@ -26,34 +26,34 @@ float	set_color(float r, float g, float b, float i)
 int		check_shadow(t_scene *s, t_vector inter)
 {
 	t_ray		ray;
-	float 		ret;
-	float		d;
+	double 		ret;
+	double		d;
 	t_vector	normal;
 	t_vector	shadow;
 
-	ray.o.coord[0] = inter.coord[0];
-	ray.o.coord[1] = inter.coord[1];
-	ray.o.coord[2] = inter.coord[2];
-	// if (ray.o.coord[0])
-	// {
-	// 	printf("ray.o.coord[0] = %f\n", ray.o.coord[0]);
-	// 	printf("ray.o.coord[1] = %f\n", ray.o.coord[1]);
-	// 	printf("ray.o.coord[3] = %f\n", ray.o.coord[2]);
-	// }
+	normal = get_normalized(v_minus_v(inter, s->lights[0].o));
+	ray.o.coord[0] = inter.coord[0] + 0.01; //* normal.coord[0];
+	ray.o.coord[1] = inter.coord[1] + 0.01; //* normal.coord[1];
+	ray.o.coord[2] = inter.coord[2] + 0.01; //* normal.coord[2];
 	ray.d.coord[0] = s->lights[0].o.coord[0] - inter.coord[0];
 	ray.d.coord[1] = s->lights[0].o.coord[1] - inter.coord[1];
 	ray.d.coord[2] = s->lights[0].o.coord[2] - inter.coord[2];
+	normalize(&ray.d);
 	ret = inter3(ray, s->objects, &shadow, &normal);
-	if (ret != -1)
+	//printf(" ret = %f\n\n", ret);
+	if (ret < 1E99)
 	{
-		d = distance(ray.o, s->lights[0].o);
-		// printf(" distance = %f\n", d);
-		// printf(" ret = %f\n\n", ret);
-		if (ret > d)
+		ret *= ret;
+		d = get_norme_2(v_minus_v(s->lights[0].o, inter));
+		//printf(" distance 2= %f\n", d);
+		//printf(" ret = %f\n\n", ret);
+		if (ret < d)
 			ret = 1;
 		else
-			ret = -1;
+			ret = 0;
 	}
+	else 
+		ret = 0;
 	return (ret);
 }
 
@@ -93,13 +93,13 @@ void	color_img(t_scene *s)
 				new = v_minus_v(s->lights[0].o, inters); 
 				new = get_normalized(new);
 				intensity = (s->lights[0].i * 2000 * scalaire(new, normal)) / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
+				ret2 = check_shadow(s, inters);
 				if (intensity < 0)
 					intensity = 0;
 				if (intensity > 1)
 					intensity = 1;
-				ret2 = check_shadow(s, inters);
-				if (ret2 != -1)
-					intensity = 0;
+				else if (ret2 == 1)
+					intensity *= 0.5;
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
 				s->data_addr[pixel] = (((int)color) & 0xFF) * intensity;
 				s->data_addr[pixel + 1] = ((((int)color) >> 8) & 0xFF) * intensity;

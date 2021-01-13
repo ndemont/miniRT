@@ -134,23 +134,21 @@ t_vector	get_normalized(t_vector v)
 // 	return (1);
 // }
 
-float	inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
+double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 {
 	float		a;
 	float		b;
 	float		c;
 	float		delta;
 	float		t;
-	float		tf;
+	double		tf;
 	float		t1;
 	float		t2;
 	int			i;
-	float		final;
 
 	i = 0;
 	a = 1;
 	tf = 1E99;
-	final = -1;
 	while (sp[i].type != -1)
 	{
 		b = 2 * scalaire(ray.d, v_minus_v(ray.o, sp[i].o));
@@ -174,18 +172,16 @@ float	inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 						//printf(" i = %d\n", i);
 						//printf(" color R = %f\n", sp[i].c.coord[0]);
 					}
-					final = tf;
 					inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
 					inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
 					inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
-					printf("t = %f\n", tf);
 					*normal = get_normalized(v_minus_v(*inter, sp[i].o));
 				}
 			}
 		}
 		i++;
 	}
-	return (final);
+	return (tf);
 }
 
 
