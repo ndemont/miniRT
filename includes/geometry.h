@@ -77,6 +77,7 @@ typedef struct	s_scene
 	void			*win_ptr;
 	void			*img_ptr;
 	unsigned char	*data_addr;
+	int				*data_addr2;
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
@@ -91,8 +92,10 @@ float		scalaire(t_vector v1, t_vector v2);
 float		get_norme_2(t_vector v1);
 void		normalize(t_vector *v);
 int			inter(t_ray ray, t_object sphere, t_vector *inter, t_vector *normal);
-t_object	*inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
+int			inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
+float		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
 t_vector	get_normalized(t_vector v);
+float		distance(t_vector v1, t_vector v2);
 
 t_vector	v_plus_i(t_vector v, float i);
 t_vector	v_mult_i(t_vector v, float i);
