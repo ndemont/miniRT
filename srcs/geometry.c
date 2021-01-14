@@ -85,7 +85,7 @@ t_vector	v_produit_v(t_vector v1, t_vector v2)
 
 	v3.coord[0] = v1.coord[1] * v2.coord[2] - v1.coord[2] * v2.coord[1];
 	v3.coord[1] = v1.coord[2] * v2.coord[0] - v1.coord[0] * v2.coord[2];
-	v3.coord[2] = v1.coord[0] * v2.coord[2] - v1.coord[2] * v2.coord[0];
+	v3.coord[2] = v1.coord[0] * v2.coord[1] - v1.coord[2] * v2.coord[0];
 	return (v3);
 }
 
@@ -122,37 +122,6 @@ t_vector	get_normalized(t_vector v)
 	normalize(&v);
 	return (v);
 }
-
-// int			inter(t_ray ray, t_object sp, t_vector *inter, t_vector *normal)
-// {
-// 	float a;
-// 	float b;
-// 	float c;
-// 	float delta;
-// 	float t;
-// 	float t1;
-// 	float t2;
-
-// 	a = 1; 
-// 	b = 2 * scalaire(ray.d, v_minus_v(ray.o, sp.o));
-// 	c = get_norme_2(v_minus_v(ray.o, sp.o)) - (sp.diam * sp.diam);
-// 	delta = (b * b) - (4 * a * c);
-// 	if (delta < 0)
-// 		return (0);
-// 	t1 = (-b - (sqrt(delta))) / (2 * a);
-// 	t2 = (-b + (sqrt(delta))) / (2 * a);
-//  	if (t2 < 0)
-// 		return (0);
-// 	if (t1 > 0)
-// 		t = t1;
-// 	else 
-// 		t = t2;
-// 	inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
-// 	inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
-// 	inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
-// 	*normal = get_normalized(v_minus_v(*inter, sp.o));
-// 	return (1);
-// }
 
 double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 {
@@ -240,11 +209,6 @@ int		inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 				if (t < tf)
 				{
 					tf = t;
-					if (i)
-					{
-						//printf(" i = %d\n", i);
-						//printf(" color R = %f\n", sp[i].c.coord[0]);
-					}
 					final = i;
 					inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
 					inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
@@ -289,38 +253,23 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 	i = 0;
 	a = 1;
 	final = -1;
-	//printf("sp[i].type = %d\n", sp[i].type);
 	while (sp[i].type != -1)
 	{
 		v1 = v_minus_v(sp[i].d, sp[i].o);
-		//printf("v1 : a = %f - b = %f - c = %f\n", v1.coord[0], v1.coord[1], v1.coord[2]);
 		v2 = v_minus_v(sp[i].p, sp[i].o);
-		//printf("v2 : a = %f - b = %f - c = %f\n", v2.coord[0], v2.coord[1], v2.coord[2]);
 		*N = v_produit_v(v1, v2);
-		//printf("N1 : a = %f - b = %f - c = %f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 		*N = get_normalized(*N);
-		//printf("N2 : a = %f - b = %f - c = %f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 		v5 = v_minus_v(sp[i].p, ray.o);
-		//printf("v5 : a = %f - b = %f - c = %f\n", v5.coord[0], v5.coord[1], v5.coord[2]);
 		v3 = scalaire(v5, *N);
-		//printf("v3 = %f\n", v3);
 		v4 = scalaire(ray.d, *N);
-		//printf("v4 = %f\n", v3);
 		t = v3 / v4;
-		// printf("t = %f\n", t);
-		// printf("O : a = %f - b = %f, c = %f\n", sp[i].o.coord[0], sp[i].o.coord[1], sp[i].o.coord[2]);
-		// printf("P : a = %f - b = %f, c = %f\n", sp[i].p.coord[0], sp[i].p.coord[1], sp[i].p.coord[2]);
-		// printf("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
+		f("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
 
 		if (t >= 0)
 		{
-			// printf("t = %f\n", t);
 			inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
 			inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
 			inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
-			// printf("inter->coord[0] = %f\n", inter->coord[0]);
-			// printf("inter->coord[1] = %f\n", inter->coord[1]);
-			// printf("inter->coord[2] = %f\n", inter->coord[2]);
 			u = v_minus_v(sp[i].d, sp[i].o);
 			v = v_minus_v(sp[i].p, sp[i].o);
 			w = v_minus_v(*inter, sp[i].o);

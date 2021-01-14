@@ -98,13 +98,14 @@ void	color_img(t_scene *s)
 				//printf("New : a = %f - b = %f - c = %f\n", new.coord[0], new.coord[1], new.coord[2]);
 				new = get_normalized(new);
 				//printf("New : a = %f - b = %f - c = %f\n", new.coord[0], new.coord[1], new.coord[2]);
-				intensity = (s->lights[0].i * 2000 * scalaire(new, normal));
+				intensity = (s->lights[0].i * 1000 * scalaire(new, normal));
 				//printf("intensity = %f\n", intensity);
 				intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
 				//ret2 = check_shadow(s, inters);
-				//printf("intensity = %f\n", intensity);
+				printf("intensity = %f\n", intensity);
 				if (intensity < 0)
 					intensity = 0;
+				intensity += 0.1;
 				if (intensity > 1)
 					intensity = 1;
 				//else if (ret2 == 1)
