@@ -94,6 +94,7 @@ void		normalize(t_vector *v);
 int			inter(t_ray ray, t_object sphere, t_vector *inter, t_vector *normal);
 int			inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
 double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
+int			inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N);
 t_vector	get_normalized(t_vector v);
 float		distance(t_vector v1, t_vector v2);
 

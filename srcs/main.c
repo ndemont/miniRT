@@ -77,6 +77,7 @@ void	color_img(t_scene *s)
 	(void)ret2;
 	i = 0;
 	intensity = 1;
+	//printf("s->objects[i].type = %d\n", s->objects[i].type);
 	while (i < s->R[1])
 	{
 		j = 0;
@@ -86,20 +87,21 @@ void	color_img(t_scene *s)
 			ray.d.coord[1] = i - ((s->R[1])/2);
 			ray.d.coord[2] = -(s->R[0]) / (2*(tan(s->cameras[0].f / 2)));
 			normalize(&ray.d);
-			ret = inter2(ray, s->objects, &inters, &normal);
+			//ret = inter2(ray, s->objects, &inters, &normal);
+			ret = inter_triangle(ray, s->objects, &inters, &normal);
 			if (ret != -1)
 			{		
 				color = (s->objects[ret].c.coord[0] * 65536) + (s->objects[ret].c.coord[1] * 256) + s->objects[ret].c.coord[2];
 				new = v_minus_v(s->lights[0].o, inters); 
 				new = get_normalized(new);
 				intensity = (s->lights[0].i * 2000 * scalaire(new, normal)) / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
-				ret2 = check_shadow(s, inters);
+				//ret2 = check_shadow(s, inters);
 				if (intensity < 0)
 					intensity = 0;
 				if (intensity > 1)
 					intensity = 1;
-				else if (ret2 == 1)
-					intensity *= 0.5;
+				//else if (ret2 == 1)
+				//	intensity *= 0.5;
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
 				s->data_addr[pixel] = (((int)color) & 0xFF) * intensity;
 				s->data_addr[pixel + 1] = ((((int)color) >> 8) & 0xFF) * intensity;

@@ -237,3 +237,38 @@ int		inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 	}
 	return (final);
 }
+
+int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
+{
+	float		a;
+	float		t;
+	float		tf;
+	int			i;
+	int			final;
+
+	i = 0;
+	a = 1;
+	tf = 1E99;
+	final = -1;
+	//printf("sp[i].type = %d\n", sp[i].type);
+	while (sp[i].type != -1)
+	{
+		*N = get_normalized(v_mult_v(v_minus_v(sp[i].o, sp[i].d), v_minus_v(sp[i].p, sp[i].d)));
+		printf("N : a = %f - b = %f - c = %f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
+		t = scalaire(v_minus_v(sp[i].p, ray.o), *N) / scalaire(ray.d, *N);
+		printf("t = %f\n", t);
+		printf("O : a = %f - b = %f, c = %f\n", sp[i].o.coord[0], sp[i].o.coord[1], sp[i].o.coord[2]);
+		printf("P : a = %f - b = %f, c = %f\n", sp[i].p.coord[0], sp[i].p.coord[1], sp[i].p.coord[2]);
+		printf("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
+		if (t < tf && t > 0)
+		{
+			inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+			inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+			inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+			final = i;
+			printf("t2 = %f\n", t);
+		}
+		i++;
+	}
+	return (final);
+}
