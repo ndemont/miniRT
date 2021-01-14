@@ -226,6 +226,7 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 {
 	float		a;
 	float		t;
+	float		tf;
 	int			i;
 	int			final;
 	t_vector	v1;
@@ -252,6 +253,7 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 
 	i = 0;
 	a = 1;
+	tf = 1E99;
 	final = -1;
 	while (sp[i].type != -1)
 	{
@@ -263,9 +265,8 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 		v3 = scalaire(v5, *N);
 		v4 = scalaire(ray.d, *N);
 		t = v3 / v4;
-		f("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
-
-		if (t >= 0)
+		//f("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
+		if (t >= 0 && tf > t)
 		{
 			inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
 			inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
@@ -287,9 +288,7 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 			gamma = detg / detm;
 			alpha = 1 - beta - gamma;
 			if (alpha >= 0 && alpha <= 1 && beta >= 0 && beta <= 1 && gamma >= 0 && gamma <= 1)
-			{
 				final = i;
-			}
 		}
 		i++;
 	}
