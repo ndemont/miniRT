@@ -85,7 +85,7 @@ t_vector	v_produit_v(t_vector v1, t_vector v2)
 
 	v3.coord[0] = v1.coord[1] * v2.coord[2] - v1.coord[2] * v2.coord[1];
 	v3.coord[1] = v1.coord[2] * v2.coord[0] - v1.coord[0] * v2.coord[2];
-	v3.coord[2] = v1.coord[0] * v2.coord[1] - v1.coord[2] * v2.coord[0];
+	v3.coord[2] = v1.coord[0] * v2.coord[1] - v1.coord[1] * v2.coord[0];
 	return (v3);
 }
 
@@ -174,7 +174,7 @@ double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 }
 
 
-int		inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
+int		inter_sp(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 {
 	float		a;
 	float		b;
@@ -222,7 +222,7 @@ int		inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 	return (final);
 }
 
-int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
+int		inter_tr(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 {
 	float		a;
 	float		t;
@@ -258,9 +258,13 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 	while (sp[i].type != -1)
 	{
 		v1 = v_minus_v(sp[i].d, sp[i].o);
+		//printf("v1 = %f/%f/%f\n", v1.coord[0], v1.coord[1], v1.coord[2]);
 		v2 = v_minus_v(sp[i].p, sp[i].o);
+		//printf("v2 = %f/%f/%f\n", v2.coord[0], v2.coord[1], v2.coord[2]);
 		*N = v_produit_v(v1, v2);
+		//printf("Normal1 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 		*N = get_normalized(*N);
+		//printf("Normal2 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 		v5 = v_minus_v(sp[i].p, ray.o);
 		v3 = scalaire(v5, *N);
 		v4 = scalaire(ray.d, *N);
@@ -288,9 +292,70 @@ int		inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 			gamma = detg / detm;
 			alpha = 1 - beta - gamma;
 			if (alpha >= 0 && alpha <= 1 && beta >= 0 && beta <= 1 && gamma >= 0 && gamma <= 1)
-				final = i;
+				final = i;	
 		}
 		i++;
 	}
+	return (final);
+}
+
+float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N)
+{
+	float		t;
+	t_vector	v;
+	
+	*N = sp.d;
+	*N = get_normalized(*N);
+    //printf("Normal1 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
+	v = v_minus_v(sp.o, ray.o);
+	t = scalaire(v, *N) / scalaire(ray.d, *N);
+    //printf("t = %f\n", t);
+	if (t >= 0)
+		*inter = v_plus_v(ray.o, v_mult_i(ray.d, t));
+	else 
+		t = 1E99;
+	return (t);
+}
+
+int		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N)
+{
+	float (*type[13])(t_ray, t_object, t_vector *, t_vector *);
+	float t;
+
+	// type[4] = &inter_sp;
+	// type[6] = &inter_sq;
+	// type[8] = &inter_cy;
+	// type[10] = &inter_tr;
+	type[12] = &inter_pl;
+	t = (*type[o.type])(ray, o, inter, N);
+	return (t);
+}
+
+int		closest_inter(t_ray ray, t_scene s, t_vector *inter, t_vector *N)
+{
+	t_vector	interf;
+	t_vector	Nf;
+	int			i;
+	int			final;
+	float		t;
+	float		tp;
+
+	t = 1E99;
+	final = -1;
+	i = 0;
+	while (s.objects[i].type != -1)
+	{
+		tp = inter_type(ray, s.objects[i], inter, N);
+		if (tp < t)
+		{
+			t = tp;
+			Nf = *N;
+			interf = *inter;
+			final = i;
+		}
+		i++;
+	}
+	*N = Nf;
+	*inter = interf;
 	return (final);
 }

@@ -88,7 +88,8 @@ void	color_img(t_scene *s)
 			ray.d.coord[2] = -(s->R[0]) / (2*(tan(s->cameras[0].f / 2)));
 			normalize(&ray.d);
 			//ret = inter2(ray, s->objects, &inters, &normal);
-			ret = inter_triangle(ray, s->objects, &inters, &normal);
+			//ret = inter_pl(ray, s->objects, &inters, &normal);
+			ret = closest_inter(ray, *s, &inters, &normal);
 			if (ret != -1)
 			{		
 				color = (s->objects[ret].c.coord[0] * 65536) + (s->objects[ret].c.coord[1] * 256) + s->objects[ret].c.coord[2];
@@ -102,8 +103,8 @@ void	color_img(t_scene *s)
 				//printf("intensity = %f\n", intensity);
 				intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
 				//ret2 = check_shadow(s, inters);
-				printf("intensity = %f\n", intensity);
-				intensity += 2;
+				//printf("intensity = %f\n", intensity);
+				//intensity *= -1;
 				if (intensity < 0)
 					intensity = 0;
 				if (intensity > 1)

@@ -7,7 +7,7 @@ SRCS		=	./srcs/main.c \
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	-I./includes -I./libmlx -I./libft/includes
 RM			=	rm -f
-FLAG_C		=	-Wall -Werror -Wextra
+FLAG_C		=	-Wall -Werror -Wextra -O3 -Ofast
 FLAG_MLX	=	-lmlx -lft -framework OpenGL -framework AppKit
 NAME		=	minirt
 FLAG_LIB	=	-L

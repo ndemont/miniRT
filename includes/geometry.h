@@ -51,21 +51,6 @@ typedef struct	s_object
 
 }				t_object;
 
-typedef struct	s_elem
-{
-	char		*type;
-	float		size[2];
-	t_vector	v;
-	t_vector	v2;
-	t_vector	origin;
-	float		focal;
-	t_vector	color;
-	float		ratio;
-	float		height;
-	float		ray;
-
-}				t_elem;
-
 typedef struct	s_scene
 {
 	float			R[2];
@@ -94,7 +79,11 @@ void		normalize(t_vector *v);
 int			inter(t_ray ray, t_object sphere, t_vector *inter, t_vector *normal);
 int			inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
 double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
-int			inter_triangle(t_ray ray, t_object *sp, t_vector *inter, t_vector *N);
+int			inter_tr(t_ray ray, t_object *sp, t_vector *inter, t_vector *N);
+float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
+int			inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N);
+int			closest_inter(t_ray ray, t_scene s, t_vector *inter, t_vector *N);
+
 t_vector	get_normalized(t_vector v);
 float		distance(t_vector v1, t_vector v2);
 
