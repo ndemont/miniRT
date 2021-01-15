@@ -90,6 +90,7 @@ void	color_img(t_scene *s)
 			//ret = inter2(ray, s->objects, &inters, &normal);
 			//ret = inter_pl(ray, s->objects, &inters, &normal);
 			ret = closest_inter(ray, *s, &inters, &normal);
+			//printf("ret = %d\n", ret);
 			if (ret != -1)
 			{		
 				color = (s->objects[ret].c.coord[0] * 65536) + (s->objects[ret].c.coord[1] * 256) + s->objects[ret].c.coord[2];

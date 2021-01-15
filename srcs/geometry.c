@@ -174,7 +174,7 @@ double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 }
 
 
-int		inter_sp(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
+int		inter_sp2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 {
 	float		a;
 	float		b;
@@ -222,7 +222,45 @@ int		inter_sp(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal)
 	return (final);
 }
 
-int		inter_tr(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
+
+float		inter_sp(t_ray ray, t_object sp, t_vector *inter, t_vector *normal)
+{
+	float		a;
+	float		b;
+	float		c;
+	float		delta;
+	float		t;
+	float		t1;
+	float		t2;
+	int			i;
+
+	i = 0;
+	a = 1;
+	t = 1E99;
+	b = 2 * scalaire(ray.d, v_minus_v(ray.o, sp.o));
+	c = get_norme_2(v_minus_v(ray.o, sp.o)) - (sp.diam * sp.diam);
+	delta = (b * b) - (4 * a * c);
+	if (delta >= 0)
+	{
+		t1 = (-b - (sqrt(delta))) / (2 * a);
+		t2 = (-b + (sqrt(delta))) / (2 * a);
+ 		if (t2 >= 0)
+		{
+			if (t1 > 0)
+				t = t1;
+			else 
+				t = t2;
+			inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+			inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+			inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+			*normal = get_normalized(v_minus_v(*inter, sp.o));
+		}
+	}
+	return (t);
+}
+
+
+int		inter_tr2(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 {
 	float		a;
 	float		t;
@@ -299,6 +337,82 @@ int		inter_tr(t_ray ray, t_object *sp, t_vector *inter, t_vector *N)
 	return (final);
 }
 
+
+float		inter_tr(t_ray ray, t_object sp, t_vector *inter, t_vector *N)
+{
+	float		a;
+	float		t;
+	float		tf;
+	int			i;
+	int			final;
+	t_vector	v1;
+	t_vector	v2;
+	t_vector	v5;
+	float		v3;
+	float		v4;
+	t_vector 	u;
+	t_vector 	v;
+	t_vector 	w;
+	double		m11;
+	double		m12;
+	double		m22;
+	double		detm;
+	double		b11;
+	double		b21;
+	double		beta;
+	double		detb;
+	double		g12;
+	double		g22;
+	double		detg;
+	double		gamma;
+	double		alpha;
+
+	i = 0;
+	a = 1;
+	tf = 1E99;
+	final = -1;
+	v1 = v_minus_v(sp.d, sp.o);
+	//printf("v1 = %f/%f/%f\n", v1.coord[0], v1.coord[1], v1.coord[2]);
+	v2 = v_minus_v(sp.p, sp.o);
+	//printf("v2 = %f/%f/%f\n", v2.coord[0], v2.coord[1], v2.coord[2]);
+	*N = v_produit_v(v1, v2);
+	//printf("Normal1 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
+	*N = get_normalized(*N);
+	//printf("Normal2 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
+	v5 = v_minus_v(sp.p, ray.o);
+	v3 = scalaire(v5, *N);
+	v4 = scalaire(ray.d, *N);
+	t = v3 / v4;
+	//t *= -1;
+	printf("t = %f\n", t);
+	//f("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
+	if (t >= 0)
+	{
+		inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+		inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+		inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+		u = v_minus_v(sp.d, sp.o);
+		v = v_minus_v(sp.p, sp.o);
+		w = v_minus_v(*inter, sp.o);
+		m11 = get_norme_2(u);
+		m12 = scalaire(u, v);
+		m22 = get_norme_2(v);
+		detm = (m11) * (m22) - (m12 * m12);
+		b11 = scalaire(w, u);
+		b21 = scalaire(w, v);
+		detb = (b11) * (m22) - (b21 * m12);
+		beta = detb / detm;
+		g12 = b11;
+		g22 = b21;
+		detg = (m11 * g22) - (m12 * g12);
+		gamma = detg / detm;
+		alpha = 1 - beta - gamma;
+		if (alpha >= 0 && alpha <= 1 && beta >= 0 && beta <= 1 && gamma >= 0 && gamma <= 1)
+			tf = t;
+	}
+	return (tf);
+}
+
 float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N)
 {
 	float		t;
@@ -317,15 +431,15 @@ float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N)
 	return (t);
 }
 
-int		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N)
+float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N)
 {
 	float (*type[13])(t_ray, t_object, t_vector *, t_vector *);
 	float t;
 
-	// type[4] = &inter_sp;
+	type[4] = &inter_sp;
 	// type[6] = &inter_sq;
 	// type[8] = &inter_cy;
-	// type[10] = &inter_tr;
+	type[10] = &inter_tr;
 	type[12] = &inter_pl;
 	t = (*type[o.type])(ray, o, inter, N);
 	return (t);
