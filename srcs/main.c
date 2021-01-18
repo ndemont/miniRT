@@ -23,7 +23,7 @@ float	set_color(float r, float g, float b, float i)
 	return (color);
 }
 
-int		check_shadow(t_scene *s, t_vector inter)
+int		check_shadow(t_scene *s, t_vector inter, t_vector N)
 {
 	t_ray		ray;
 	double 		ret;
@@ -31,14 +31,16 @@ int		check_shadow(t_scene *s, t_vector inter)
 	int			i;
 	t_vector	interf;
 	float		t;
+	int			final;
 	t_vector	normal;
 	t_vector	shadow;
 
 	i = 0;
 	t = 1E99;
 
-
-	inter = v_plus_i(inter, 0.01);
+	(void)N;
+	//inter = v_plus_i(inter, 0.01);
+	inter = v_plus_v(inter, v_mult_i(N, 0.01));
 	//normal = get_normalized(v_minus_v(inter, s->lights[0].o));
 	ray.o.coord[0] = inter.coord[0]; //* normal.coord[0];
 	ray.o.coord[1] = inter.coord[1]; //* normal.coord[1];
@@ -56,7 +58,7 @@ int		check_shadow(t_scene *s, t_vector inter)
 			t = ret;
 			//Nf = *N;
 			interf = shadow;
-			//final = i;
+			final = i;
 		}
 		i++;
 	}
@@ -64,8 +66,12 @@ int		check_shadow(t_scene *s, t_vector inter)
 	{
 		t *= t;
 		d = get_norme_2(v_minus_v(s->lights[0].o, inter));
-		if (t < d)
+		if (t < d) //&& ((round(inter.coord[0]) * 10) != (round(interf.coord[0])* 10)) && ((round(inter.coord[1]) * 10) != (round(interf.coord[1])* 10)) && ((round(inter.coord[2]) * 10) != (round(interf.coord[2])* 10))) 
+		{ 
+			printf("inter %d = %f - %f - %f\n", i, inter.coord[0], inter.coord[1], inter.coord[2]);
+			printf("interf %d = %f - %f - %f\n", i, interf.coord[0], interf.coord[1], interf.coord[2]);
 			t = 1;
+		}
 		else
 			t = 0;
 	}
@@ -118,7 +124,7 @@ void	color_img(t_scene *s)
 				intensity = (s->lights[0].i * 2000 * scalaire(new, normal));
 				//printf("intensity = %f\n", intensity);
 				intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
-				ret2 = check_shadow(s, inters);
+				ret2 = check_shadow(s, inters, normal);
 				//printf("intensity = %f\n", intensity);
 				//intensity *= -1;
 				if (intensity < 0)
