@@ -27,34 +27,51 @@ int		check_shadow(t_scene *s, t_vector inter)
 {
 	t_ray		ray;
 	double 		ret;
-	double		d;
+	float		d;
+	int			i;
+	t_vector	interf;
+	float		t;
 	t_vector	normal;
 	t_vector	shadow;
 
-	normal = get_normalized(v_minus_v(inter, s->lights[0].o));
-	ray.o.coord[0] = inter.coord[0] + 0.01; //* normal.coord[0];
-	ray.o.coord[1] = inter.coord[1] + 0.01; //* normal.coord[1];
-	ray.o.coord[2] = inter.coord[2] + 0.01; //* normal.coord[2];
+	i = 0;
+	t = 1E99;
+
+
+	inter = v_plus_i(inter, 0.01);
+	//normal = get_normalized(v_minus_v(inter, s->lights[0].o));
+	ray.o.coord[0] = inter.coord[0]; //* normal.coord[0];
+	ray.o.coord[1] = inter.coord[1]; //* normal.coord[1];
+	ray.o.coord[2] = inter.coord[2]; //* normal.coord[2];
 	ray.d.coord[0] = s->lights[0].o.coord[0] - inter.coord[0];
 	ray.d.coord[1] = s->lights[0].o.coord[1] - inter.coord[1];
 	ray.d.coord[2] = s->lights[0].o.coord[2] - inter.coord[2];
 	normalize(&ray.d);
-	ret = inter3(ray, s->objects, &shadow, &normal);
-	//printf(" ret = %f\n\n", ret);
-	if (ret < 1E99)
+	//ret = closest_inter(ray, *s, &shadow, &normal);
+	while (s->objects[i].type != -1)
 	{
-		ret *= ret;
+		ret = inter_type(ray, s->objects[i], &shadow, &normal);
+		if (ret < t)
+		{
+			t = ret;
+			//Nf = *N;
+			interf = shadow;
+			//final = i;
+		}
+		i++;
+	}
+	if (t < 1E99)
+	{
+		t *= t;
 		d = get_norme_2(v_minus_v(s->lights[0].o, inter));
-		//printf(" distance 2= %f\n", d);
-		//printf(" ret = %f\n\n", ret);
-		if (ret < d)
-			ret = 1;
+		if (t < d)
+			t = 1;
 		else
-			ret = 0;
+			t = 0;
 	}
 	else 
-		ret = 0;
-	return (ret);
+		t = 0;
+	return (t);
 }
 
 void	color_img(t_scene *s)
@@ -87,8 +104,6 @@ void	color_img(t_scene *s)
 			ray.d.coord[1] = i - ((s->R[1])/2);
 			ray.d.coord[2] = -(s->R[0]) / (2*(tan(s->cameras[0].f / 2)));
 			normalize(&ray.d);
-			//ret = inter2(ray, s->objects, &inters, &normal);
-			//ret = inter_pl(ray, s->objects, &inters, &normal);
 			ret = closest_inter(ray, *s, &inters, &normal);
 			//printf("ret = %d\n", ret);
 			if (ret != -1)
@@ -103,15 +118,15 @@ void	color_img(t_scene *s)
 				intensity = (s->lights[0].i * 2000 * scalaire(new, normal));
 				//printf("intensity = %f\n", intensity);
 				intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
-				//ret2 = check_shadow(s, inters);
+				ret2 = check_shadow(s, inters);
 				//printf("intensity = %f\n", intensity);
 				//intensity *= -1;
 				if (intensity < 0)
 					intensity = 0;
-				if (intensity > 1)
+				else if (intensity > 1)
 					intensity = 1;
-				//else if (ret2 == 1)
-				//	intensity *= 0.5;
+				else if (ret2 == 1)
+					intensity *= 0.6;
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
 				s->data_addr[pixel] = (((int)color) & 0xFF) * intensity;
 				s->data_addr[pixel + 1] = ((((int)color) >> 8) & 0xFF) * intensity;

@@ -378,13 +378,14 @@ float		inter_tr(t_ray ray, t_object sp, t_vector *inter, t_vector *N)
 	*N = v_produit_v(v1, v2);
 	//printf("Normal1 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 	*N = get_normalized(*N);
+	//*N = v_mult_i(*N, -1);
 	//printf("Normal2 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 	v5 = v_minus_v(sp.p, ray.o);
 	v3 = scalaire(v5, *N);
 	v4 = scalaire(ray.d, *N);
 	t = v3 / v4;
 	//t *= -1;
-	printf("t = %f\n", t);
+	//printf("t = %f\n", t);
 	//f("D : a = %f - b = %f, c = %f\n", sp[i].d.coord[0], sp[i].d.coord[1], sp[i].d.coord[2]);
 	if (t >= 0)
 	{
