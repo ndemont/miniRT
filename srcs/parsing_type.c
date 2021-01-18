@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/12 15:48:00 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/18 13:45:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void		parsing_c2(char **line, t_scene *elem)
 	elem->cameras[i].c.coord[0] = ft_atof(split[0]);
 	elem->cameras[i].c.coord[1] = ft_atof(split[1]);
 	elem->cameras[i].c.coord[2] = ft_atof(split[2]);
+	printf("cam = %f/%f/%f\n", elem->cameras[0].c.coord[0], elem->cameras[0].c.coord[1], elem->cameras[0].c.coord[2]);
 	elem->cameras[i].f = ft_atof(line[3]) * (M_PI / 180);
 }
 

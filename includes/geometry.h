@@ -94,6 +94,8 @@ t_vector	v_mult_v(t_vector v1, t_vector v2);
 t_vector	v_div_i(t_vector v, float i);
 t_vector	v_plus_v(t_vector v1, t_vector v2);
 t_vector	v_minus_v(t_vector v1, t_vector v2);
+t_vector	v_produit_v(t_vector v1, t_vector v2);
+float		scalaire(t_vector v1, t_vector v2);
 
 void		parsing_a2(char **line, t_scene *elem);
 void		parsing_r2(char **line, t_scene *elem);

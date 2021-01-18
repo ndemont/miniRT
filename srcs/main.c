@@ -1,77 +1,32 @@
 #include "minirt.h"
 
-float	set_color(float r, float g, float b, float i)
-{
-	float color;
-
-	r = r * i;
-	if (r < 1)
-		r = 0;
-	if (r > 255)
-		r = 255;
-	g = g * i;
-	if (g < 1)
-		g = 0;
-	if (g > 255)
-		g = 255;
-	b = b * i;
-	if (b < 1)
-		b = 0;
-	if (b > 255)
-		b = 255;
-	color = (r * 65536) + (g * 256) + b;
-	return (color);
-}
-
 int		check_shadow(t_scene *s, t_vector inter, t_vector N)
 {
 	t_ray		ray;
 	double 		ret;
 	float		d;
 	int			i;
-	t_vector	interf;
 	float		t;
-	int			final;
-	t_vector	normal;
-	t_vector	shadow;
 
 	i = 0;
 	t = 1E99;
-
-	(void)N;
-	//inter = v_plus_i(inter, 0.01);
 	inter = v_plus_v(inter, v_mult_i(N, 0.01));
-	//normal = get_normalized(v_minus_v(inter, s->lights[0].o));
-	ray.o.coord[0] = inter.coord[0]; //* normal.coord[0];
-	ray.o.coord[1] = inter.coord[1]; //* normal.coord[1];
-	ray.o.coord[2] = inter.coord[2]; //* normal.coord[2];
-	ray.d.coord[0] = s->lights[0].o.coord[0] - inter.coord[0];
-	ray.d.coord[1] = s->lights[0].o.coord[1] - inter.coord[1];
-	ray.d.coord[2] = s->lights[0].o.coord[2] - inter.coord[2];
+	ray.o = inter;
+	ray.d = v_minus_v(s->lights[0].o, inter);
 	normalize(&ray.d);
-	//ret = closest_inter(ray, *s, &shadow, &normal);
+	d = get_norme_2(v_minus_v(s->lights[0].o, inter));
 	while (s->objects[i].type != -1)
 	{
-		ret = inter_type(ray, s->objects[i], &shadow, &normal);
+		ret = inter_type(ray, s->objects[i], &inter, &N);
 		if (ret < t)
-		{
 			t = ret;
-			//Nf = *N;
-			interf = shadow;
-			final = i;
-		}
 		i++;
 	}
 	if (t < 1E99)
 	{
 		t *= t;
-		d = get_norme_2(v_minus_v(s->lights[0].o, inter));
-		if (t < d) //&& ((round(inter.coord[0]) * 10) != (round(interf.coord[0])* 10)) && ((round(inter.coord[1]) * 10) != (round(interf.coord[1])* 10)) && ((round(inter.coord[2]) * 10) != (round(interf.coord[2])* 10))) 
-		{ 
-			printf("inter %d = %f - %f - %f\n", i, inter.coord[0], inter.coord[1], inter.coord[2]);
-			printf("interf %d = %f - %f - %f\n", i, interf.coord[0], interf.coord[1], interf.coord[2]);
+		if (t < d)
 			t = 1;
-		}
 		else
 			t = 0;
 	}
@@ -87,46 +42,42 @@ void	color_img(t_scene *s)
 	t_ray		ray;
 	t_vector	inters;
 	t_vector	normal;
+	//t_vector 	N1;
+	//t_vector 	N2;
 	t_vector	new;
 	int			pixel;
 	float		intensity;
 	int			ret;
 	int			ret2;
+	//float		scal1;
+	//float		scal2;
+	//float		angle;
 	float		color;
 
-	ray.o.coord[0] = 0;
-	ray.o.coord[1] = 0;
-	ray.o.coord[2] = 0;
-	(void)ret2;
+	ray.o = s->cameras[0].o;
 	i = 0;
 	intensity = 1;
-	//printf("s->objects[i].type = %d\n", s->objects[i].type);
+	printf("cam = %f/%f/%f\n", s->cameras[0].c.coord[0], s->cameras[0].c.coord[1], s->cameras[0].c.coord[2]);
 	while (i < s->R[1])
 	{
 		j = 0;
 		while (j < s->R[0])
+
 		{
-			ray.d.coord[0] = j - ((s->R[0])/2);
-			ray.d.coord[1] = i - ((s->R[1])/2);
-			ray.d.coord[2] = -(s->R[0]) / (2*(tan(s->cameras[0].f / 2)));
-			normalize(&ray.d);
+			ray.d.coord[0] = (j - ((s->R[0])/2));
+			ray.d.coord[1] = (i - ((s->R[1])/2));
+			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[0].f / 2))));
+			normalize(&ray.d);	
+			//ray.d.coord[0] += 0.1 * s->cameras[0].c.coord[0];
 			ret = closest_inter(ray, *s, &inters, &normal);
-			//printf("ret = %d\n", ret);
 			if (ret != -1)
 			{		
 				color = (s->objects[ret].c.coord[0] * 65536) + (s->objects[ret].c.coord[1] * 256) + s->objects[ret].c.coord[2];
-				//printf("Light: a = %f - b = %f - c = %f\n", s->lights[0].o.coord[0], new.coord[1], new.coord[2]);
-				
 				new = v_minus_v(s->lights[0].o, inters);
-				//printf("New : a = %f - b = %f - c = %f\n", new.coord[0], new.coord[1], new.coord[2]);
 				new = get_normalized(new);
-				//printf("New : a = %f - b = %f - c = %f\n", new.coord[0], new.coord[1], new.coord[2]);
 				intensity = (s->lights[0].i * 2000 * scalaire(new, normal));
-				//printf("intensity = %f\n", intensity);
 				intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
 				ret2 = check_shadow(s, inters, normal);
-				//printf("intensity = %f\n", intensity);
-				//intensity *= -1;
 				if (intensity < 0)
 					intensity = 0;
 				else if (intensity > 1)
