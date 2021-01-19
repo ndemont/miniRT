@@ -1,0 +1,7 @@
+*.dSYM
+*.pdf
+*.DS_Store
+*.o
+libft.a
+a.out
+main.c

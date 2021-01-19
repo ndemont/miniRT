@@ -65,17 +65,16 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 		*fint = *fint + intensity;
 		//printf("intensity = %f\n", intensity);
 		color = v_plus_v(v_mult_i(s.lights[i].c, intensity), color);
-		//printf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
 		i++;
 	}
-	//color = v_plus_v(v_mult_i(s.A.color, s.A.i), color);
+	*fint = *fint + s.A.i;
+	color = v_plus_v(v_mult_i(s.A.color, s.A.i), color);
 	if (*fint < 0)
 		*fint = 0;
 	if (*fint > 1)
 		*fint = 1;
-	color = v_div_i(color, i);
-	//printf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
-
+	color = v_div_i(color, i + 1);
+	printf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
 	return (color);
 } 
 
@@ -118,19 +117,19 @@ void	color_img(t_scene *s)
 				///if (intensity < 0)
 				///	intensity = 0;
 				//intensity *= ret2;
-				intensity += s->A.i;
-				if (intensity > 1)
-					intensity = 1;
+				//intensity += s->A.i;
+				//if (intensity > 1)
+					//intensity = 1;
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
-				// s->data_addr[pixel + 2] = (s->objects[ret].c.coord[0] + lights.coord[0]) / 2;
-				// s->data_addr[pixel + 1] = (s->objects[ret].c.coord[1] + lights.coord[1]) / 2;
-				// s->data_addr[pixel + 0] = (s->objects[ret].c.coord[2] + lights.coord[2]) / 2;
-				s->data_addr[pixel + 2] = ((s->objects[ret].c.coord[0] + lights.coord[0]) / 2) * intensity;
-				s->data_addr[pixel + 1] = ((s->objects[ret].c.coord[1] + lights.coord[1]) / 2) * intensity;
-				s->data_addr[pixel + 0] = ((s->objects[ret].c.coord[2]+ lights.coord[2]) / 2) * intensity;
-				// s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0], s->lights[0].c.coord[0]) * intensity;
-				// s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1], s->lights[0].c.coord[1]) * intensity;
-				// s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2], s->lights[0].c.coord[2]) * intensity;
+				s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0] , lights.coord[0]) * intensity;
+				s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1] , lights.coord[1]) * intensity;
+				s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2] , lights.coord[2]) * intensity;
+				//s->data_addr[pixel + 2] = ((s->objects[ret].c.coord[0] + lights.coord[0]) / 2) * intensity;
+				//s->data_addr[pixel + 1] = ((s->objects[ret].c.coord[1] + lights.coord[1]) / 2) * intensity;
+				//s->data_addr[pixel + 0] = ((s->objects[ret].c.coord[2]+ lights.coord[2]) / 2) * intensity;
+				//s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0], s->lights[0].c.coord[0]) * intensity;
+				//s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1], s->lights[0].c.coord[1]) * intensity;
+				//s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2], s->lights[0].c.coord[2]) * intensity;
 			}
 			j++;
 		}
