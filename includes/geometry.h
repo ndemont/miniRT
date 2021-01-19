@@ -10,6 +10,7 @@ typedef struct	s_light
 {
 	t_vector	o;
 	t_vector	c;
+	t_vector	f;
 	float		i;
 }				t_light;
 
