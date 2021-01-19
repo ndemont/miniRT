@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/18 13:45:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/19 12:45:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void		parsing_l2(char **line, t_scene *elem)
 	elem->lights[i].c.coord[0] = ft_atof(split[0]);
 	elem->lights[i].c.coord[1] = ft_atof(split[1]);
 	elem->lights[i].c.coord[2] = ft_atof(split[2]);
+	i++;
+	elem->lights[i].i = 0;
 }
 
 void		parsing_pl2(char **line, t_scene *elem)

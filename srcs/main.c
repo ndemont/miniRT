@@ -1,39 +1,75 @@
 #include "minirt.h"
 
-int		check_shadow(t_scene *s, t_vector inter, t_vector N)
+float		check_shadow(t_scene *s, t_vector inter, t_vector N)
 {
 	t_ray		ray;
 	double 		ret;
 	float		d;
 	int			i;
+	int			j;
 	float		t;
+	float		tf;
 
-	i = 0;
-	t = 1E99;
+	j = 0;
 	inter = v_plus_v(inter, v_mult_i(N, 0.01));
 	ray.o = inter;
-	ray.d = v_minus_v(s->lights[0].o, inter);
-	normalize(&ray.d);
-	d = get_norme_2(v_minus_v(s->lights[0].o, inter));
-	while (s->objects[i].type != -1)
+	tf = 0;
+	while (s->lights[j].i)
 	{
-		ret = inter_type(ray, s->objects[i], &inter, &N);
-		if (ret < t)
-			t = ret;
+		t = 1E99;
+		ray.d = v_minus_v(s->lights[j].o, inter);
+		normalize(&ray.d);
+		d = get_norme_2(v_minus_v(s->lights[j].o, inter));
+		i = 0;
+		while (s->objects[i].type != -1)
+		{
+			ret = inter_type(ray, s->objects[i], &inter, &N);
+			if (ret < t)
+				t = ret;
+			i++;
+		}
+		if (t < 1E99)
+		{
+			t *= t;
+			if (t < d)
+				t = 0;
+			else
+				t = 1;
+		}
+		else 
+			t = 1;
+		if (!t)
+			tf++;
+		j++;
+	}
+	tf = 1 - (0.2 * tf);
+	return (tf);
+}
+
+float	find_intensity(t_vector inter, t_light *light, t_vector N)
+{
+	int			i;
+	float		intensity;
+	float		final;
+	t_vector	new;
+
+
+	i = 0;
+	final = 0;
+	while (light[i].i)
+	{
+		new = get_normalized(v_minus_v(light[i].o, inter));
+		intensity = (light[i].i * 500 * scalaire(new, N));
+		intensity = intensity / (get_norme_2(v_minus_v(light[i].o, inter)));
+		if (intensity < 0)
+			intensity = 0;
+		final += intensity;
 		i++;
 	}
-	if (t < 1E99)
-	{
-		t *= t;
-		if (t < d)
-			t = 1;
-		else
-			t = 0;
-	}
-	else 
-		t = 0;
-	return (t);
-}
+	if (final > 1)
+		final = 1;
+	return (final);
+} 
 
 void	color_img(t_scene *s)
 {
@@ -42,52 +78,44 @@ void	color_img(t_scene *s)
 	t_ray		ray;
 	t_vector	inters;
 	t_vector	normal;
-	//t_vector 	N1;
-	//t_vector 	N2;
 	t_vector	new;
 	int			pixel;
 	float		intensity;
 	int			ret;
-	int			ret2;
-	//float		scal1;
-	//float		scal2;
-	//float		angle;
-	float		color;
+	float		ret2;
 
 	ray.o = s->cameras[0].o;
-	i = 0;
+ 	i = 0;
 	intensity = 1;
-	printf("cam = %f/%f/%f\n", s->cameras[0].c.coord[0], s->cameras[0].c.coord[1], s->cameras[0].c.coord[2]);
 	while (i < s->R[1])
 	{
 		j = 0;
 		while (j < s->R[0])
-
 		{
 			ray.d.coord[0] = (j - ((s->R[0])/2));
 			ray.d.coord[1] = (i - ((s->R[1])/2));
 			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[0].f / 2))));
 			normalize(&ray.d);	
-			//ray.d.coord[0] += 0.1 * s->cameras[0].c.coord[0];
 			ret = closest_inter(ray, *s, &inters, &normal);
 			if (ret != -1)
-			{		
-				color = (s->objects[ret].c.coord[0] * 65536) + (s->objects[ret].c.coord[1] * 256) + s->objects[ret].c.coord[2];
+			{	
+
 				new = v_minus_v(s->lights[0].o, inters);
 				new = get_normalized(new);
 				intensity = (s->lights[0].i * 2000 * scalaire(new, normal));
 				intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
+				intensity = find_intensity(inters, s->lights, normal);
 				ret2 = check_shadow(s, inters, normal);
 				if (intensity < 0)
 					intensity = 0;
-				else if (intensity > 1)
+				intensity *= ret2;
+				intensity += s->A.i;
+				if (intensity > 1)
 					intensity = 1;
-				else if (ret2 == 1)
-					intensity *= 0.6;
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
-				s->data_addr[pixel] = (((int)color) & 0xFF) * intensity;
-				s->data_addr[pixel + 1] = ((((int)color) >> 8) & 0xFF) * intensity;
-				s->data_addr[pixel + 2] = ((((int)color) >> 16) & 0xFF) * intensity;
+				s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0], s->lights[0].c.coord[0]) * intensity;
+				s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1], s->lights[0].c.coord[1]) * intensity;
+				s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2], s->lights[0].c.coord[2]) * intensity;
 			}
 			j++;
 		}
