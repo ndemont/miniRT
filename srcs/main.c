@@ -96,7 +96,7 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 	if (*fint > 1)
 		*fint = 1;
 	//color = v_div_i(color, i + 1);
-	printf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
+	//sprintf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
 	return (color);
 } 
 
@@ -116,6 +116,7 @@ void	color_img(t_scene *s)
 
 	ray.o = s->cameras[0].o;
  	i = 0;
+	//et_plan(s);
 	while (i < s->R[1])
 	{
 		j = 0;
@@ -125,7 +126,7 @@ void	color_img(t_scene *s)
 			ray.d.coord[1] = (i - ((s->R[1])/2));
 			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[0].f / 2))));
 			normalize(&ray.d);	
-			ret = closest_inter(ray, *s, &inters, &normal);
+			ret = closest_inter(ray, s, &inters, &normal);
 			if (ret != -1)
 			{	
 				intensity = 0;
