@@ -26,7 +26,7 @@ float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l)
 	{
 		t *= t;
 		if (t < d)
-			t = 0.3;
+			t = 0.1;
 		else
 			t = 1;
 	}
@@ -40,12 +40,13 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 	int			i;
 	float		intensity;
 	t_vector	color;
-	int			count;	
 	t_vector	new;
+	int			r;
+	int			g;
+	int			b;
 
 
 	i = 0;
-	count = 0;
 	color.coord[0] = 0;
 	color.coord[1] = 0;
 	color.coord[2] = 0;
@@ -55,25 +56,46 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 		intensity = (s.lights[i].i * 1000 * scalaire(new, N));
 		intensity = intensity / (get_norme_2(v_minus_v(s.lights[i].o, inter)));
 		if (intensity < 0)
-		{
 			intensity = 0;
-			count++;
-		}
 		if (intensity > 1)
 			intensity = 1;
 		intensity = intensity * (check_shadow(&s, inter, N, i));
 		*fint = *fint + intensity;
 		//printf("intensity = %f\n", intensity);
-		color = v_plus_v(v_mult_i(s.lights[i].c, intensity), color);
+		r = color.coord[0] + (s.lights[i].c.coord[0] * intensity);
+		g = color.coord[1] + (s.lights[i].c.coord[1] * intensity);
+		b = color.coord[2] + (s.lights[i].c.coord[2] * intensity);
+		if (r > 255)
+			r = 255;
+		if (g > 255)
+			g = 255;
+		if  (b > 255)
+			b = 255;
+		color.coord[0] = r;
+		color.coord[1] = g;
+		color.coord[2] = b;
+		//color = v_plus_v(v_mult_i(s.lights[i].c, intensity), color);
 		i++;
 	}
 	*fint = *fint + s.A.i;
-	color = v_plus_v(v_mult_i(s.A.color, s.A.i), color);
+	//color = v_plus_v(v_mult_i(s.A.color, s.A.i), color);
+	r = color.coord[0] + (s.A.color.coord[0] * s.A.i);
+	g = color.coord[1] + (s.A.color.coord[1] * s.A.i);
+	b = color.coord[2] + (s.A.color.coord[2] * s.A.i);
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if  (b > 255)
+		b = 255;
+	color.coord[0] = r;
+	color.coord[1] = g;
+	color.coord[2] = b;
 	if (*fint < 0)
 		*fint = 0;
 	if (*fint > 1)
 		*fint = 1;
-	color = v_div_i(color, i + 1);
+	//color = v_div_i(color, i + 1);
 	printf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
 	return (color);
 } 
@@ -110,26 +132,10 @@ void	color_img(t_scene *s)
 				new = v_minus_v(s->lights[0].o, inters);
 				new = get_normalized(new);
 				lights = find_intensity(inters, &intensity, normal, *s);
-				//intensity = (s->lights[0].i * 2000 * scalaire(new, normal));
-				//intensity = intensity / (get_norme_2(v_minus_v(s->lights[0].o, inters)));
-				//intensity = find_intensity(inters, s->lights, normal);
-				//ret2 = check_shadow(s, inters, normal);
-				///if (intensity < 0)
-				///	intensity = 0;
-				//intensity *= ret2;
-				//intensity += s->A.i;
-				//if (intensity > 1)
-					//intensity = 1;
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
 				s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0] , lights.coord[0]) * intensity;
 				s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1] , lights.coord[1]) * intensity;
 				s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2] , lights.coord[2]) * intensity;
-				//s->data_addr[pixel + 2] = ((s->objects[ret].c.coord[0] + lights.coord[0]) / 2) * intensity;
-				//s->data_addr[pixel + 1] = ((s->objects[ret].c.coord[1] + lights.coord[1]) / 2) * intensity;
-				//s->data_addr[pixel + 0] = ((s->objects[ret].c.coord[2]+ lights.coord[2]) / 2) * intensity;
-				//s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0], s->lights[0].c.coord[0]) * intensity;
-				//s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1], s->lights[0].c.coord[1]) * intensity;
-				//s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2], s->lights[0].c.coord[2]) * intensity;
 			}
 			j++;
 		}
