@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/19 15:24:08 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/21 15:46:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,5 @@ int		check_parsing(char *file, t_scene *s)
 	if (!init_scene(s, list))
 		return (0);
 	fill_scene(s, list);
-	printf("s->objects[0] = %f/%f/%f\n", s->objects[0].c.coord[0], s->objects[0].c.coord[1], s->objects[0].c.coord[2]);
-	printf("s->objects[1] = %f/%f/%f\n", s->objects[1].c.coord[0], s->objects[1].c.coord[1], s->objects[1].c.coord[2]);
-	printf("s->objects[2] = %f/%f/%f\n", s->objects[2].c.coord[0], s->objects[2].c.coord[1], s->objects[2].c.coord[2]);
-	printf("s->objects[3] = %f/%f/%f\n", s->objects[3].c.coord[0], s->objects[3].c.coord[1], s->objects[3].c.coord[2]);
-	printf("s->objects[4] = %f/%f/%f\n", s->objects[4].c.coord[0], s->objects[4].c.coord[1], s->objects[4].c.coord[2]);
-	printf("s->objects[5] = %f/%f/%f\n", s->objects[5].c.coord[0], s->objects[5].c.coord[1], s->objects[5].c.coord[2]);
-	printf("s->objects[6] = %f/%f/%f\n", s->objects[6].c.coord[0], s->objects[6].c.coord[1], s->objects[6].c.coord[2]);
-	printf("s->objects[7] = %f/%f/%f\n", s->objects[7].c.coord[0], s->objects[7].c.coord[1], s->objects[7].c.coord[2]);
-	printf("s->objects[8] = %f/%f/%f\n", s->objects[8].c.coord[0], s->objects[8].c.coord[1], s->objects[8].c.coord[2]);
 	return (0);
 }

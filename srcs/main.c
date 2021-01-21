@@ -61,7 +61,6 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 			intensity = 1;
 		intensity = intensity * (check_shadow(&s, inter, N, i));
 		*fint = *fint + intensity;
-		//printf("intensity = %f\n", intensity);
 		r = color.coord[0] + (s.lights[i].c.coord[0] * intensity);
 		g = color.coord[1] + (s.lights[i].c.coord[1] * intensity);
 		b = color.coord[2] + (s.lights[i].c.coord[2] * intensity);
@@ -74,11 +73,9 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 		color.coord[0] = r;
 		color.coord[1] = g;
 		color.coord[2] = b;
-		//color = v_plus_v(v_mult_i(s.lights[i].c, intensity), color);
 		i++;
 	}
 	*fint = *fint + s.A.i;
-	//color = v_plus_v(v_mult_i(s.A.color, s.A.i), color);
 	r = color.coord[0] + (s.A.color.coord[0] * s.A.i);
 	g = color.coord[1] + (s.A.color.coord[1] * s.A.i);
 	b = color.coord[2] + (s.A.color.coord[2] * s.A.i);
@@ -95,8 +92,6 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s)
 		*fint = 0;
 	if (*fint > 1)
 		*fint = 1;
-	//color = v_div_i(color, i + 1);
-	//sprintf("color = %f/%f/%f\n", color.coord[0], color.coord[1], color.coord[2]);
 	return (color);
 } 
 
@@ -116,7 +111,7 @@ void	color_img(t_scene *s)
 
 	ray.o = s->cameras[0].o;
  	i = 0;
-	//et_plan(s);
+	set_plan(s);
 	while (i < s->R[1])
 	{
 		j = 0;
