@@ -15,7 +15,11 @@ float		distance(t_vector v1, t_vector v2)
 {
 	float rslt;
 
-	rslt = sqrt((powf((v2.coord[0] - v1.coord[0]), 2) + powf((v2.coord[1] - v1.coord[1]), 2)) + powf((v2.coord[2] - v1.coord[2]), 2));
+	rslt = powf((v2.coord[0] - v1.coord[0]), 2) + powf((v2.coord[1] - v1.coord[1]), 2) + powf((v2.coord[2] - v1.coord[2]), 2);
+	if (!rslt)
+		rslt = 0;
+	else
+		rslt = sqrt(rslt);
 	return (rslt);
 }
 
@@ -159,52 +163,157 @@ float		inter_sp(t_ray ray, t_object sp, t_vector *inter, t_vector *normal)
 	return (t);
 }
 
+float		inter_cy2(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
+{
+	float 		r;
+	float		t;
+	t_vector 	va;
+	t_vector	v;
+	t_vector	rao;
+	t_vector 	s;
+	t_vector	rorcy;
+	float		D;
+	float		t1;
+	float		t2;
+	float		a;
+	float		b;
+	float		c;
+	t_vector	C;
+	float		d;
+
+	r = cy.diam / 2;
+	t = -1;
+	v = ray.d;
+	s = cy.d;
+	rorcy = v_minus_v(ray.o, cy.o);
+	rao = v_produit_v(v_produit_v(s, rorcy), s);
+	va = v_produit_v(v_produit_v(s, v), s);
+	a = scalaire(va, va);
+	b = scalaire(v_mult_i(rao, 2), va);
+	c = scalaire(rao, rao) - powf(r, 2);
+	D = (b * b) - (4 * a * c);
+	if (D >= 0)
+	{
+		t1 = (-b - (sqrt(D))) / (2 * a);
+		t2 = (-b + (sqrt(D))) / (2 * a);
+ 		if (t2 >= 0)
+		{
+			if (t1 > 0)
+			{
+				t = t1;
+				inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+				//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
+				d = scalaire(v_minus_v(*inter, cy.o), cy.d);
+				if (d < cy.h && d > 0)
+				{
+					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+					*N = get_normalized(v_minus_v(*inter, C));
+					printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
+				}
+				else 
+					t = -1;
+			}
+			if (t == -1)
+			{
+				t = t2;
+				inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+				//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
+				d = scalaire(v_minus_v(*inter, cy.o), cy.d);
+				if (d < cy.h && d > 0)
+				{
+					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+					*N = get_normalized(v_minus_v(*inter, C));
+				}
+				else
+					t = -1;
+			}
+		}
+	}
+	if (t == -1)
+		t = 1E99;
+	return (t);
+}	
+
+
 float		inter_cy(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
 {
 	float 		r;
-	float 		m;
 	float		t;
-	t_vector	X;
+	t_vector 	va;
+	t_vector	v;
+	t_vector	rao;
+	t_vector 	s;
+	t_vector	rorcy;
 	float		D;
 	float		t1;
+	float		t2;
+	float		a;
+	float		b;
+	float		c;
+	t_vector	C;
+	float		d;
 
-	t1 = -1;
-	cy.d = get_normalized(cy.d);
-	X = v_minus_v(cy.o,ray.o);
-	X = get_normalized(X);
 	r = cy.diam / 2;
-	t = 0;
-	inter->coord[0] =  powf(ray.d.coord[0], 2) + powf(ray.d.coord[1], 2);
-	inter->coord[1] = 2 * ((ray.o.coord[0] * ray.d.coord[0]) + (ray.o.coord[1] * ray.d.coord[1]));
-	inter->coord[2] = (ray.o.coord[0] * ray.o.coord[0]) + (ray.o.coord[1] * ray.o.coord[1]) - 1;
-
-	D = powf(inter->coord[1], 2) - (4 * inter->coord[0] * inter->coord[2]);
-	//printf("D = %f\n", D);
-	if (D > 0)
+	t = -1;
+	v = ray.d;
+	s = cy.d;
+	rorcy = v_minus_v(ray.o, cy.o);
+	rao = v_produit_v(v_produit_v(s, rorcy), s);
+	va = v_produit_v(v_produit_v(s, v), s);
+	a = scalaire(va, va);
+	b = scalaire(v_mult_i(rao, 2), va);
+	c = scalaire(rao, rao) - powf(r, 2);
+	D = (b * b) - (4 * a * c);
+	if (D >= 0)
 	{
-		t1 = ((-1 * inter->coord[1]) - sqrt(D)) / ((2 * inter->coord[0]) - 0.0001);
-        if (t1 <= 0)
+		t1 = (-b - (sqrt(D))) / (2 * a);
+		t2 = (-b + (sqrt(D))) / (2 * a);
+ 		if (t2 >= 0)
 		{
-        	t1 = ((sqrt(D) - inter->coord[1])) / ((2 * inter->coord[0]) - 0.0001);
-        }
+			if (t1 > 0)
+			{
+				t = t1;
+				inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+				//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
+				d = scalaire(v_minus_v(*inter, cy.o), cy.d);
+				if (d < cy.h && d > 0)
+				{
+					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+					*N = get_normalized(v_minus_v(*inter, C));
+					printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
+				}
+				else 
+					t = -1;
+			}
+			if (t == -1)
+			{
+				t = t2;
+				inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
+				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
+				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
+				//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
+				d = scalaire(v_minus_v(*inter, cy.o), cy.d);
+				if (d < cy.h && d > 0)
+				{
+					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+					*N = get_normalized(v_minus_v(*inter, C));
+				}
+				else
+					t = -1;
+			}
+		}
 	}
-	//inter->coord[0] = scalaire(ray.d, ray.d) - powf(scalaire(ray.d, tr.d), 2);
-	//inter->coord[1] = (scalaire(ray.d, X) - (scalaire(ray.d, tr.d) * scalaire(X, tr.d))) * 2;
-	//inter->coord[2] = powf(scalaire(X, X), 2) + (powf(scalaire(X, tr.d), 2)) - (r * r);
-	//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
-	m = (scalaire(ray.d, cy.d) * t) + scalaire(X, cy.d);
-	*N = v_mult_i(cy.d, m);
-	*N = v_minus_v(cy.o, *N);
-	*N = v_minus_v(*inter, *N);
-	*N = get_normalized(*N);
-	if (t1 >= 0)
-	{
-		//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
-		printf("t = %f\n", t1);
-		return (t1);
-	}
-	else
-		return (1E99);
+	if (t == -1)
+		t = 1E99;
+	if (scalaire(*N, ray.d) > 0)
+		*N = v_mult_i(*N, -1);
+	return (t);
 }	
 
 
@@ -318,11 +427,8 @@ float		inter_pl(t_ray ray, t_object sq, t_vector *inter, t_vector *N)
 	t_vector	v;
 	
 	*N = sq.d;
-	*N = get_normalized(*N);
-    //printf("Normal1 = %f/%f/%f\n", N[0].coord[0], N[0].coord[1], N[0].coord[2]);
 	v = v_minus_v(sq.o, ray.o);
 	t = scalaire(v, *N) / scalaire(ray.d, *N);
-    //printf("t = %f\n", t);
 	if (t >= 0)
 		*inter = v_plus_v(ray.o, v_mult_i(ray.d, t));
 	else 
@@ -344,13 +450,25 @@ float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N)
 	return (t);
 }
 
+float		inter_type2(t_ray ray, t_object o, t_vector *inter, t_vector *N)
+{
+	float (*type[13])(t_ray, t_object, t_vector *, t_vector *);
+	float t;
+
+	type[4] = &inter_sp;
+	type[6] = &inter_sq;
+	type[8] = &inter_cy2;
+	type[10] = &inter_tr;
+	type[12] = &inter_pl;
+	t = (*type[o.type])(ray, o, inter, N);
+	return (t);
+}
+
 void	set_plan(t_scene *s)
 {
 	t_ray		ray;
 	float		scal1;
-	float		scal2;
 	t_vector	normal;
-	float		t;
 	int 		i;
 
 	i = 0;
@@ -362,34 +480,14 @@ void	set_plan(t_scene *s)
 		if (s->objects[i].type == 6 || s->objects[i].type == 12)
 		{
 			normal = s->objects[i].d;
-			printf("\n\nnormal 1 = %f/%f/%f\n", normal.coord[0], normal.coord[1], normal.coord[2]);
 			normal = get_normalized(normal);
 			scal1 = scalaire(v_minus_v(s->objects[i].o, ray.o), normal);
-			scal2 = scalaire(ray.d, normal);
-			printf("NUMERO %d\nscal1  = %f\nscal2 = %f\nt = %f\n", i, scal1, scal2, t);
-			t = scal1 / scal2;
 			if (scal1 > 0)
 			{
 				s->objects[i].d = v_mult_i(s->objects[i].d, -1);
 				printf("switch\n");
 			}
 			printf("normal 2 = %f/%f/%f\n", s->objects[i].d.coord[0], s->objects[i].d.coord[1], s->objects[i].d.coord[2]);
-		}
-		if (s->objects[i].type == 20)
-		{
-			//s->objects[i].d = v_minus_v(s->objects[i].p1, s->objects[i].p2);
-			//s->objects[i].d = v_produit_v(s->objects[i].d, v_minus_v(s->objects[i].p3, s->objects[i].p2));
-			//printf("normal = %f/%f/%f\n", normal.coord[0], normal.coord[1], normal.coord[2]);
-			normal = get_normalized(s->objects[i].d);
-			printf("normal = %f/%f/%f\n", normal.coord[0], normal.coord[1], normal.coord[2]);
-			//scal1 = scalaire(v_minus_v(s->objects[i].p1, ray.o), normal);
-			scal2 = scalaire(ray.d, normal);
-			t = scal1 / scal2;
-			if (scal1 > 0)
-				s->objects[i].d = v_mult_i(normal, -1);
-			else 
-				s->objects[i].d = get_normalized(s->objects[i].d);
-			printf("NUMERO %d\nscal1  = %f\nscal2 = %f\nt = %f\n", i, scal1, scal2, t);
 		}
 		i++;
 	}

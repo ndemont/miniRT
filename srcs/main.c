@@ -17,7 +17,7 @@ float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l)
 	i = 0;
 	while (s->objects[i].type != -1)
 	{
-		ret = inter_type(ray, s->objects[i], &inter, &N);
+		ret = inter_type2(ray, s->objects[i], &inter, &N);
 		if (ret < t)
 			t = ret;
 		i++;
@@ -132,6 +132,16 @@ void	color_img(t_scene *s)
 				s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0] , lights.coord[0]) * intensity;
 				s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1] , lights.coord[1]) * intensity;
 				s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2] , lights.coord[2]) * intensity;
+				// if (ret == 11)
+				// {
+				// 	printf("i = %d\n", i);
+				// 	printf("object = %f/%f/%f\n", s->objects[ret].c.coord[0], s->objects[ret].c.coord[1], s->objects[ret].c.coord[2]);
+				// 	printf("lights = %f/%f/%f\n", lights.coord[0], lights.coord[1], lights.coord[2]);
+				// 	printf("intensity = %f\n", intensity);
+				// 	printf("normal = %f/%f/%f\n", normal.coord[0], normal.coord[1], normal.coord[2]);
+				// 	printf("color = %i/%i/%i\n\n", (int)s->data_addr[pixel + 2], (int)s->data_addr[pixel + 1], (int)s->data_addr[pixel + 0]);
+				
+				// }
 			}
 			j++;
 		}

@@ -83,6 +83,7 @@ float		inter_tr(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
 float		inter_sp(t_ray ray, t_object sp, t_vector *inter, t_vector *normal);
 float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
 float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N);
+float		inter_type2(t_ray ray, t_object o, t_vector *inter, t_vector *N);
 int			closest_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *N);
 
 void		set_plan(t_scene *s);
