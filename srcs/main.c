@@ -14,17 +14,21 @@ float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l)
 	ray.d = v_minus_v(s->lights[l].o, inter);
 	normalize(&ray.d);
 	d = get_norme_2(v_minus_v(s->lights[l].o, inter));
+	d = sqrt(d);
 	i = 0;
 	while (s->objects[i].type != -1)
 	{
 		ret = inter_type2(ray, s->objects[i], &inter, &N);
 		if (ret < t)
+		{
 			t = ret;
+		}
 		i++;
 	}
 	if (t < 1E99)
 	{
 		t *= t;
+		t = sqrt(t);
 		if (t < d)
 			t = 0.1;
 		else

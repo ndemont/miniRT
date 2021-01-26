@@ -196,7 +196,7 @@ float		inter_cy2(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
 	{
 		t1 = (-b - (sqrt(D))) / (2 * a);
 		t2 = (-b + (sqrt(D))) / (2 * a);
- 		if (t2 >= 0)
+ 		if (t1 >= 0)
 		{
 			if (t1 > 0)
 			{
@@ -210,7 +210,7 @@ float		inter_cy2(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
 				{
 					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
 					*N = get_normalized(v_minus_v(*inter, C));
-					printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
+					//printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
 				}
 				else 
 					t = -1;
@@ -260,7 +260,8 @@ float		inter_cy(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
 	r = cy.diam / 2;
 	t = -1;
 	v = ray.d;
-	s = cy.d;
+	t2 = 0;
+	s = get_normalized(cy.d);
 	rorcy = v_minus_v(ray.o, cy.o);
 	rao = v_produit_v(v_produit_v(s, rorcy), s);
 	va = v_produit_v(v_produit_v(s, v), s);
@@ -281,12 +282,19 @@ float		inter_cy(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
 				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
 				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
 				//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
-				d = scalaire(v_minus_v(*inter, cy.o), cy.d);
-				if (d < cy.h && d > 0)
+				d = scalaire(v_minus_v(*inter, cy.o), s);
+				if (d < cy.h / 2 && d > -cy.h / 2) //&& d > 0)
 				{
-					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+				// 	C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+				// 	*N = get_normalized(v_minus_v(*inter, C));
+				// 	// if (scalaire(*N, ray.d) > 0)
+				// 	// {
+					//if (d >= 0)
+						//cy.d = v_mult_i(cy.d, -1);
+					C = v_plus_v(cy.o, v_mult_i(s, d));
 					*N = get_normalized(v_minus_v(*inter, C));
-					printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
+
+				// 	printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
 				}
 				else 
 					t = -1;
@@ -298,11 +306,19 @@ float		inter_cy(t_ray ray, t_object cy, t_vector *inter, t_vector *N)
 				inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
 				inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
 				//printf("intersection = %f/%f/%f\n", inter->coord[0], inter->coord[1], inter->coord[2]);
-				d = scalaire(v_minus_v(*inter, cy.o), cy.d);
-				if (d < cy.h && d > 0)
+				d = scalaire(v_minus_v(*inter, cy.o), s);
+				if (d < cy.h / 2 && d > -cy.h / 2) //&& d > 0)
 				{
-					C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+				// 	C = v_plus_v(cy.o, v_mult_i(cy.d, d));
+				// 	*N = get_normalized(v_minus_v(*inter, C));
+				// 	// if (scalaire(*N, ray.d) > 0)
+				// 	// {
+					//if (d >= 0)
+						//cy.d = v_mult_i(cy.d, -1);
+					C = v_plus_v(cy.o, v_mult_i(s, d));
 					*N = get_normalized(v_minus_v(*inter, C));
+
+				// 	printf("N = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
 				}
 				else
 					t = -1;
@@ -457,7 +473,7 @@ float		inter_type2(t_ray ray, t_object o, t_vector *inter, t_vector *N)
 
 	type[4] = &inter_sp;
 	type[6] = &inter_sq;
-	type[8] = &inter_cy2;
+	type[8] = &inter_cy;
 	type[10] = &inter_tr;
 	type[12] = &inter_pl;
 	t = (*type[o.type])(ray, o, inter, N);
