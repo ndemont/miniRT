@@ -6,6 +6,14 @@ typedef struct	s_vector
 	float		coord[3];
 }				t_vector;
 
+typedef struct	s_matrix
+{
+	t_vector r1;
+	t_vector r2;
+	t_vector r3;
+	t_vector r4;
+}				t_matrix;
+
 typedef struct	s_light
 {
 	t_vector	o;
@@ -74,6 +82,7 @@ typedef struct	s_scene
 int		ft_power(int nb, int power);
 
 float		scalaire(t_vector v1, t_vector v2);
+float		get_norme(t_vector v);
 float		get_norme_2(t_vector v1);
 void		normalize(t_vector *v);
 int			inter(t_ray ray, t_object sphere, t_vector *inter, t_vector *normal);
@@ -98,6 +107,7 @@ t_vector	v_div_i(t_vector v, float i);
 t_vector	v_plus_v(t_vector v1, t_vector v2);
 t_vector	v_minus_v(t_vector v1, t_vector v2);
 t_vector	v_produit_v(t_vector v1, t_vector v2);
+t_vector	v_mult_m(t_vector v, t_matrix m);
 float		scalaire(t_vector v1, t_vector v2);
 
 void		parsing_a2(char **line, t_scene *elem);

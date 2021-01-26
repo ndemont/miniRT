@@ -1,5 +1,55 @@
 #include "minirt.h"
 
+t_vector	pixel_window(t_scene s, int i, int j)
+{
+	float	pixelx_screen;
+	float	pixely_screen;
+	float	pixelx_camera;
+	float	pixely_camera;
+	float	pixelz_camera;
+	float	aspect;
+	t_vector	window;
+
+	aspect = s.R[0] / s.R[1];
+	pixelx_screen = (j) / s.R[0];
+	pixely_screen = (i) / s.R[1];
+	pixelx_screen = (2 * pixelx_screen) - 1;
+	pixely_screen = 1 - (2 * pixely_screen);
+	
+	pixelx_camera = ((2 * pixelx_screen) - 1) * aspect * (tan(s.cameras[0].f / 2));
+	pixely_camera = (1 - (2 * pixelx_screen)) * (tan(s.cameras[0].f / 2));
+	pixelz_camera = -((s.R[0]) / (2*(tan(s.cameras[0].f / 2))));
+	window.coord[0] = pixelx_camera;
+	window.coord[1] = pixely_camera;
+	window.coord[2] = pixelz_camera;
+	return (window);
+}
+
+t_matrix	rotation_normal(t_scene s)
+{
+	t_vector F;
+	t_vector R;
+	t_vector U;
+	t_vector O;
+	t_matrix m;
+
+	O.coord[0] = 0;
+	O.coord[1] = 0;
+	O.coord[2] = 0;
+	R.coord[0] = 0;
+	R.coord[1] = 1;
+	R.coord[2] = 0;
+	R = get_normalized(R);
+	F = get_normalized(v_minus_v(O, s.cameras[0].o));
+	R = v_produit_v(R, F);
+	U = v_produit_v(F, R);
+	m.r1 = R;
+	m.r2 = U;
+	m.r3 = F;
+	m.r4 = O;
+	return (m);
+}
+
 float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l)
 {
 	t_ray		ray;
@@ -18,7 +68,7 @@ float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l)
 	i = 0;
 	while (s->objects[i].type != -1)
 	{
-		ret = inter_type2(ray, s->objects[i], &inter, &N);
+		ret = inter_type(ray, s->objects[i], &inter, &N);
 		if (ret < t)
 		{
 			t = ret;
@@ -111,10 +161,16 @@ void	color_img(t_scene *s)
 	int			pixel;
 	float		intensity;
 	int			ret;
-
+	t_vector	ref;
+	t_matrix    m;
 
 	ray.o = s->cameras[0].o;
  	i = 0;
+	ref.coord[0] = 0;
+	ref.coord[1] = 0;
+	ref.coord[1] = -1;
+	s->cameras[0].c = get_normalized(s->cameras[0].c);
+	ref = get_normalized(ref);
 	set_plan(s);
 	while (i < s->R[1])
 	{
@@ -124,7 +180,8 @@ void	color_img(t_scene *s)
 			ray.d.coord[0] = (j - ((s->R[0])/2));
 			ray.d.coord[1] = (i - ((s->R[1])/2));
 			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[0].f / 2))));
-			normalize(&ray.d);	
+			m = rotation_normal(*s);
+			ray.d = v_mult_m(ray.d, m);
 			ret = closest_inter(ray, s, &inters, &normal);
 			if (ret != -1)
 			{	
@@ -136,16 +193,6 @@ void	color_img(t_scene *s)
 				s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0] , lights.coord[0]) * intensity;
 				s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1] , lights.coord[1]) * intensity;
 				s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2] , lights.coord[2]) * intensity;
-				// if (ret == 11)
-				// {
-				// 	printf("i = %d\n", i);
-				// 	printf("object = %f/%f/%f\n", s->objects[ret].c.coord[0], s->objects[ret].c.coord[1], s->objects[ret].c.coord[2]);
-				// 	printf("lights = %f/%f/%f\n", lights.coord[0], lights.coord[1], lights.coord[2]);
-				// 	printf("intensity = %f\n", intensity);
-				// 	printf("normal = %f/%f/%f\n", normal.coord[0], normal.coord[1], normal.coord[2]);
-				// 	printf("color = %i/%i/%i\n\n", (int)s->data_addr[pixel + 2], (int)s->data_addr[pixel + 1], (int)s->data_addr[pixel + 0]);
-				
-				// }
 			}
 			j++;
 		}
