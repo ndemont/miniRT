@@ -3,7 +3,7 @@
 #include <math.h>
 #include <geometry.h>
 
-float		quadratic_equation(float a, float b, float c, float *t1, float *t2)
+float		quadratic_resolution(float a, float b, float c, float *t1, float *t2)
 {
 		float delta;
 
@@ -26,6 +26,26 @@ float		scalaire(t_vector v1, t_vector v2)
 	return (rslt);
 }
 
+float		intensity_limit(float i)
+{
+	if (i < 0)
+		i = 0;
+	if (i > 1)
+		i = 1;
+	return (i);
+}
+
+t_vector	color_limit(t_vector v)
+{
+	if (v.coord[0] > 255)
+		v.coord[0] = 255;
+	if (v.coord[1] > 255)
+		v.coord[1] = 255;
+	if (v.coord[2] > 255)
+		v.coord[2] = 255;
+	return (v);
+}
+
 float		distance(t_vector v1, t_vector v2)
 {
 	float rslt;
@@ -45,6 +65,26 @@ t_vector	v_plus_i(t_vector v, float i)
 	v3.coord[0] = v.coord[0] + i;
 	v3.coord[1] = v.coord[1] + i;
 	v3.coord[2] = v.coord[2] + i;
+	return (v3);
+}
+
+t_vector	init_vector(float x, float y, float z)
+{
+	t_vector new;
+
+	new.coord[0] = x;
+	new.coord[1] = y;
+	new.coord[2] = z;
+	return (new);
+}
+
+t_vector	v_minus_i(t_vector v, float i)
+{
+	t_vector v3;
+	
+	v3.coord[0] = v.coord[0] - i;
+	v3.coord[1] = v.coord[1] - i;
+	v3.coord[2] = v.coord[2] - i;
 	return (v3);
 }
 
@@ -72,9 +112,9 @@ t_vector	v_mult_m(t_vector v, t_matrix m)
 {
 	t_vector new;
 
-	new.coord[0] = (m.r1.coord[0] * v.coord[0] + m.r1.coord[1] * v.coord[1] + m.r1.coord[2] * v.coord[2]);
-	new.coord[0] = (m.r2.coord[0] * v.coord[0] + m.r2.coord[1] * v.coord[1] + m.r2.coord[2] * v.coord[2]);
-	new.coord[0] = (m.r3.coord[0] * v.coord[0] + m.r3.coord[1] * v.coord[1] + m.r3.coord[2] * v.coord[2]);
+	new.coord[0] = (m.r1.coord[0] * v.coord[0]) + (m.r2.coord[0] * v.coord[1]) + (m.r3.coord[0] * v.coord[2]);
+	new.coord[1] = (m.r1.coord[1] * v.coord[0]) + (m.r2.coord[1] * v.coord[1]) + (m.r3.coord[1] * v.coord[2]);
+	new.coord[2] = (m.r1.coord[2] * v.coord[0]) + (m.r2.coord[2] * v.coord[1]) + (m.r3.coord[2] * v.coord[2]);
 	return (new);
 } 
 

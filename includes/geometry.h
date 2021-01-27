@@ -82,8 +82,11 @@ typedef struct	s_scene
 }				t_scene;
 
 
+t_vector	color_limit(t_vector v);
 
-int		ft_power(int nb, int power);
+float		intensity_limit(float i);
+
+int			ft_power(int nb, int power);
 
 float		scalaire(t_vector v1, t_vector v2);
 float		get_norme(t_vector v);
@@ -98,15 +101,21 @@ float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
 float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N);
 int			closest_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *N);
 
+float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l);
+
+t_vector	init_vector(float x, float y, float z);
+
 void		set_plan(t_scene *s);
 
-float		quadratic_equation(float a, float b, float c, float *t1, float *t2);
+float		quadratic_resolution(float a, float b, float c, float *t1, float *t2);
+t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s);
 
 
 t_vector	get_normalized(t_vector v);
 float		distance(t_vector v1, t_vector v2);
 
 t_vector	v_plus_i(t_vector v, float i);
+t_vector	v_minus_i(t_vector v, float i);
 t_vector	v_mult_i(t_vector v, float i);
 t_vector	v_mult_v(t_vector v1, t_vector v2);
 t_vector	v_div_i(t_vector v, float i);

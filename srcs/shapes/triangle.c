@@ -6,82 +6,47 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:12:37 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/27 11:12:40 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/27 13:00:59 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <geometry.h>
 
-float		inter_tr(t_ray ray, t_object sp, t_vector *inter, t_vector *N)
+float		cramer_tr(t_object tr, t_vector inter)
 {
-	float		a;
-	float		t;
-	float		tf;
-	int			i;
-	int			final;
-	t_vector	v1;
-	t_vector	v2;
-	t_vector	v5;
-	float		v3;
-	float		v4;
-	t_vector 	u;
-	t_vector 	v;
-	t_vector 	w;
-	double		m11;
-	double		m12;
-	double		m22;
-	double		detm;
-	double		b11;
-	double		b21;
-	double		beta;
-	double		detb;
-	double		g12;
-	double		g22;
-	double		detg;
-	double		gamma;
-	double		alpha;
+	double m[3];
+	double g[2];
+	double alpha;
+	double beta;
+	double gamma;
 
-	i = 0;
-	a = 1;
-	tf = 1E99;
-	final = -1;
-	v1 = v_minus_v(sp.d, sp.o);
-	v2 = v_minus_v(sp.p, sp.o);
-	*N = v_produit_v(v1, v2);
-	*N = get_normalized(*N);
-	//*N = get_normalized(sp.d);
-	//printf("normal = %f/%f/%f\n", N->coord[0], N->coord[1], N->coord[2]);
-	v5 = v_minus_v(sp.p, ray.o);
-	v3 = scalaire(v5, *N);
-	v4 = scalaire(ray.d, *N);
-	t = v3 / v4;
-	//write(1, "test 00\n", 9);
+	m[0] = get_norme_2(v_minus_v(tr.d, tr.o));
+	m[1] = scalaire(v_minus_v(tr.d, tr.o), v_minus_v(tr.p, tr.o));
+	m[2] = get_norme_2(v_minus_v(tr.p, tr.o));
+	g[0] = scalaire(v_minus_v(inter, tr.o), v_minus_v(tr.d, tr.o));
+	g[1] = scalaire(v_minus_v(inter, tr.o), v_minus_v(tr.p, tr.o));
+	beta = ((g[0] * m[2]) - (g[1] * m[1])) / ((m[0] * m[2]) - (m[1] * m[1]));
+	gamma = ((m[0] * g[1]) - (m[1] * g[0])) / ((m[0] * m[2]) - (m[1] * m[1]));
+	alpha = 1 - beta - gamma;
+	if (alpha >= 0 && alpha <= 1)
+		if (beta >= 0 && beta <= 1)
+			if (gamma >= 0 && gamma <= 1)
+				return (1);
+	return (0);
+}
+
+float		inter_tr(t_ray ray, t_object tr, t_vector *p, t_vector *normal)
+{
+	float		t;
+
+	*normal = v_produit_v(v_minus_v(tr.d, tr.o), v_minus_v(tr.p, tr.o));
+	*normal = get_normalized(*normal);
+	t = scalaire(v_minus_v(tr.p, ray.o), *normal) / scalaire(ray.d, *normal);
 	if (t >= 0)
 	{
-		inter->coord[0] = ray.o.coord[0] + (t * ray.d.coord[0]);
-		inter->coord[1] = ray.o.coord[1] + (t * ray.d.coord[1]);
-		inter->coord[2] = ray.o.coord[2] + (t * ray.d.coord[2]);
-		u = v_minus_v(sp.d, sp.o);
-		v = v_minus_v(sp.p, sp.o);
-		w = v_minus_v(*inter, sp.o);
-		// u = v_minus_v(sp.p1, sp.p2);
-		// v = v_minus_v(sp.p3, sp.p2);
-		// w = v_minus_v(*inter, sp.p2);
-		m11 = get_norme_2(u);
-		m12 = scalaire(u, v);
-		m22 = get_norme_2(v);
-		detm = (m11) * (m22) - (m12 * m12);
-		b11 = scalaire(w, u);
-		b21 = scalaire(w, v);
-		detb = (b11) * (m22) - (b21 * m12);
-		beta = detb / detm;
-		g12 = b11;
-		g22 = b21;
-		detg = (m11 * g22) - (m12 * g12);
-		gamma = detg / detm;
-		alpha = 1 - beta - gamma;
-		if (alpha >= 0 && alpha <= 1 && beta >= 0 && beta <= 1 && gamma >= 0 && gamma <= 1)
-			tf = t;
+		*p = v_plus_v(ray.o, v_mult_i(ray.d, t));
+		if (cramer_tr(tr, *p))
+			return (t);
 	}
-	return (tf);
+	return (1E99);
 }

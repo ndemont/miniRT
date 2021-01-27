@@ -8,6 +8,8 @@ SRCS		=	./srcs/main.c \
 				./srcs/shapes/square.c \
 				./srcs/shapes/cylinder.c \
 				./srcs/shapes/plan.c \
+				./srcs/colors/lights.c \
+				./srcs/colors/shadows.c \
 			
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	-I./includes -I./libmlx -I./libft/includes

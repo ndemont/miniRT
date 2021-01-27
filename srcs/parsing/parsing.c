@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/21 15:46:28 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/27 15:37:42 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int		init_scene(t_scene *s, char **list)
 	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
 		return (0);
 	s->objects[0].type = -1;
+	s->A.i = 0;
 	printf("l = %d\no = %d\nc = %d\n", l, o, c);
 	return (1);
 }

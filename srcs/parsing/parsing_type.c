@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/22 09:59:53 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/27 13:26:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void		parsing_cy2(char **line, t_scene *elem)
 	elem->objects[i].d.coord[0] = ft_atof(split[0]);
 	elem->objects[i].d.coord[1] = ft_atof(split[1]);
 	elem->objects[i].d.coord[2] = ft_atof(split[2]);
-	elem->objects[i].diam = ft_atof(line[3]);
+	elem->objects[i].diam = ft_atof(line[3]) / 2;
 	elem->objects[i].h = ft_atof(line[4]);
 	split = ft_split(line[5], ',');
 	elem->objects[i].c.coord[0] = ft_atof(split[0]);
