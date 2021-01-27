@@ -1,6 +1,10 @@
 #ifndef GEOMETRY_H
 # define GEOMETRY_H
 
+#include <unistd.h>
+#include <stdio.h>
+#include <math.h>
+
 typedef struct	s_vector
 {
 	float		coord[3];
@@ -86,16 +90,18 @@ float		get_norme(t_vector v);
 float		get_norme_2(t_vector v1);
 void		normalize(t_vector *v);
 int			inter(t_ray ray, t_object sphere, t_vector *inter, t_vector *normal);
-int			inter2(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
-double		inter3(t_ray ray, t_object *sp, t_vector *inter, t_vector *normal);
 float		inter_tr(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
+float		inter_cy(t_ray ray, t_object cy, t_vector *inter, t_vector *N);
 float		inter_sp(t_ray ray, t_object sp, t_vector *inter, t_vector *normal);
+float		inter_sq(t_ray ray, t_object sq, t_vector *inter, t_vector *N);
 float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
 float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N);
-float		inter_type2(t_ray ray, t_object o, t_vector *inter, t_vector *N);
 int			closest_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *N);
 
 void		set_plan(t_scene *s);
+
+float		quadratic_equation(float a, float b, float c, float *t1, float *t2);
+
 
 t_vector	get_normalized(t_vector v);
 float		distance(t_vector v1, t_vector v2);

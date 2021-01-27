@@ -161,16 +161,16 @@ void	color_img(t_scene *s)
 	int			pixel;
 	float		intensity;
 	int			ret;
-	t_vector	ref;
-	t_matrix    m;
+	//t_vector	ref;
+	//t_matrix    m;
 
 	ray.o = s->cameras[0].o;
  	i = 0;
-	ref.coord[0] = 0;
-	ref.coord[1] = 0;
-	ref.coord[1] = -1;
-	s->cameras[0].c = get_normalized(s->cameras[0].c);
-	ref = get_normalized(ref);
+	//ref.coord[0] = 0;
+	//ref.coord[1] = 0;
+	//ref.coord[1] = -1;
+	//s->cameras[0].c = get_normalized(s->cameras[0].c);
+	//ref = get_normalized(ref);
 	set_plan(s);
 	while (i < s->R[1])
 	{
@@ -180,8 +180,9 @@ void	color_img(t_scene *s)
 			ray.d.coord[0] = (j - ((s->R[0])/2));
 			ray.d.coord[1] = (i - ((s->R[1])/2));
 			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[0].f / 2))));
-			m = rotation_normal(*s);
-			ray.d = v_mult_m(ray.d, m);
+			normalize(&ray.d);
+			//m = rotation_normal(*s);
+			//ray.d = v_mult_m(ray.d, m);
 			ret = closest_inter(ray, s, &inters, &normal);
 			if (ret != -1)
 			{	

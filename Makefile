@@ -1,8 +1,13 @@
 SRCS		=	./srcs/main.c \
-				./srcs/geometry.c \
-				./srcs/parsing.c \
-				./srcs/parsing_type.c \
-				./srcs/ft_atof.c
+				./srcs/geometry/geometry.c \
+				./srcs/parsing/parsing.c \
+				./srcs/parsing/parsing_type.c \
+				./srcs/ft_atof.c \
+				./srcs/shapes/sphere.c \
+				./srcs/shapes/triangle.c \
+				./srcs/shapes/square.c \
+				./srcs/shapes/cylinder.c \
+				./srcs/shapes/plan.c \
 			
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	-I./includes -I./libmlx -I./libft/includes
