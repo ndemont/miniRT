@@ -14,7 +14,7 @@ int			check_file(char *filename);
 int		    check_parsing(char *file, t_scene *s);
 int         ft_event(int keycode, t_scene *s);
 int         ft_close_win(int keycode, t_scene *s);
-void        color_img(t_scene *s);
+void        color_img(t_scene *s, int c);
 void	    print_window(void *mlx_ptr, void *win_ptr, void *img_ptr);
 int         ft_switch_cam(int keycode, t_scene *s);
 

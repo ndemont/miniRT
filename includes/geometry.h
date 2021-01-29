@@ -63,6 +63,13 @@ typedef struct	s_object
 
 }				t_object;
 
+typedef struct	s_img
+{
+	void			*img_ptr;
+	unsigned char	*data_addr;
+}				t_img;
+
+
 typedef struct	s_scene
 {
 	float			R[2];
@@ -78,16 +85,11 @@ typedef struct	s_scene
 	int				size_line;
 	int				endian;
 	int				ret;
-	int				cam;
+	int				cam_i;
+	int				cam_nbr;
+	t_img			*images;
 }				t_scene;
 
-
-typedef struct	s_img
-{
-	void			*img_ptr;
-	unsigned char	*data_addr;
-
-}				t_img;
 
 t_vector	color_limit(t_vector v);
 

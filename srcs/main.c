@@ -7,7 +7,7 @@ t_matrix	rotation_matrix(t_scene s)
 	t_vector right;
 	t_vector up;
 
-	forward = get_normalized(v_mult_i(s.cameras[s.cam].c, -1));
+	forward = get_normalized(v_mult_i(s.cameras[s.cam_i].c, -1));
 	right = get_normalized(init_vector(0, 1, 0));
 	right = v_produit_v(right, forward);
 	up = v_produit_v(forward, right);
@@ -17,7 +17,7 @@ t_matrix	rotation_matrix(t_scene s)
 	return (matrix);
 }
 
-void	color_img(t_scene *s)
+void	color_img(t_scene *s, int c)
 {
 	int			i;
 	int			j;
@@ -30,8 +30,9 @@ void	color_img(t_scene *s)
 	float		intensity;
 	int			ret;
 
-	ray.o = s->cameras[s->cam].o;
+	ray.o = s->cameras[s->cam_i].o;
  	i = 0;
+	 (void)c;
 	set_plan(s);
 	while (i < s->R[1])
 	{
@@ -40,7 +41,7 @@ void	color_img(t_scene *s)
 		{
 			ray.d.coord[0] = (j - ((s->R[0])/2));
 			ray.d.coord[1] = (i - ((s->R[1])/2));
-			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[s->cam].f / 2))));
+			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[s->cam_i].f / 2))));
 			normalize(&ray.d);
 			ray.d = get_normalized(v_mult_m(ray.d, rotation_matrix(*s)));
 			ret = closest_inter(ray, s, &inters, &normal);
@@ -51,9 +52,11 @@ void	color_img(t_scene *s)
 				new = get_normalized(new);
 				lights = find_intensity(inters, &intensity, normal, *s);
 				pixel = (((s->R[1]) -i -1) * s->size_line) + ((s->R[0]) -j -1) * 4;
+				//printf("before coloring data\n");
 				s->data_addr[pixel + 2] = fmin(s->objects[ret].c.coord[0] , lights.coord[0]) * intensity;
 				s->data_addr[pixel + 1] = fmin(s->objects[ret].c.coord[1] , lights.coord[1]) * intensity;
 				s->data_addr[pixel + 0] = fmin(s->objects[ret].c.coord[2] , lights.coord[2]) * intensity;
+				//printf("after coloring data\n");
 			}
 			j++;
 		}
@@ -80,16 +83,46 @@ void	print_window(void *mlx_ptr, void *win_ptr, void *img_ptr)
 	mlx_loop(mlx_ptr);
 }
 
+t_img	ft_new_img(t_scene *s, int i)
+{
+	t_img img;
+
+	img.img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
+	s->data_addr = (unsigned char *)mlx_get_data_addr(img.img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
+	printf("data created for %d\n", i);
+	color_img(s, i);
+	printf("images colored for %d\n", i);
+	return (img);
+}
+
+t_img	*ft_load_imgs(t_scene *s)
+{
+	int 	i;
+	t_img	*images;
+
+	i = 0;
+	images = malloc(sizeof(t_img) * s->cam_nbr);
+	while (i < s->cam_nbr)
+	{
+		printf("i = %d\n", 1);
+		printf("cam nbr = %d\n", s->cam_nbr);
+		s->cam_i = i;
+		images[i] = ft_new_img(s, i);
+		printf("%d done\n", i);
+		i++;
+	}
+	return (images);
+}
+
 void	init_general(t_scene *s)
 {
-	s->cam = 0;
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
 	s->size_line = 0;
 	s->endian = 0;
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
-	s->img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
-	s->data_addr = (unsigned char *)mlx_get_data_addr(s->img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
+	s->images = ft_load_imgs(s);
+	s->cam_i = 0;
 }
 
 int		main(int ac, char **av)
@@ -107,10 +140,9 @@ int		main(int ac, char **av)
 	if ((ret = check_parsing(av[1], &s)))
 		return (print_errors(ret));
 	init_general(&s);
-	color_img(&s);
 	mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s);
 	mlx_loop_hook(s.mlx_ptr, ft_event, &s);
-	print_window(s.mlx_ptr, s.win_ptr, s.img_ptr);
+	print_window(s.mlx_ptr, s.win_ptr, s.images[0].img_ptr);
 	return (0);
 }
 

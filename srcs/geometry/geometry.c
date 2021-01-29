@@ -219,27 +219,22 @@ float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N)
 void	set_plan(t_scene *s)
 {
 	t_ray		ray;
-	float		scal1;
+	float		scal;
 	t_vector	normal;
 	int 		i;
 
 	i = 0;
 	while (s->objects[i].type != -1)
 	{
-		ray.o = s->cameras[s->cam].o;
-		ray.d = s->cameras[s->cam].c;
+		ray.o = s->cameras[s->cam_i].o;
+		ray.d = s->cameras[s->cam_i].c;
 		normalize(&ray.d);
 		if (s->objects[i].type == 6 || s->objects[i].type == 12)
 		{
-			normal = s->objects[i].d;
-			normal = get_normalized(normal);
-			scal1 = scalaire(v_minus_v(s->objects[i].o, ray.o), normal);
-			if (scal1 > 0)
-			{
+			normal = get_normalized(s->objects[i].d);
+			scal = scalaire(v_minus_v(s->objects[i].o, ray.o), normal);
+			if (scal > 0)
 				s->objects[i].d = v_mult_i(s->objects[i].d, -1);
-				printf("switch\n");
-			}
-			printf("normal 2 = %f/%f/%f\n", s->objects[i].d.coord[0], s->objects[i].d.coord[1], s->objects[i].d.coord[2]);
 		}
 		i++;
 	}

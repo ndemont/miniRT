@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 10:12:22 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/29 11:49:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/29 15:11:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int             ft_switch_cam(int keycode, t_scene *s)
 {
     if (keycode == 0x08)
     {
-        s->cam++;
-        if (s->cameras[s->cam].f == -1)
-            s->cam = 0;
-        color_img(s);
+        s->cam_i++;
+        if (s->cameras[s->cam_i].f == -1)
+            s->cam_i = 0;
+        //color_img(s);
 	    //mlx_clear_window(s->mlx_ptr, s->win_ptr);
-        print_window(s->mlx_ptr, s->win_ptr, s->img_ptr);
+        print_window(s->mlx_ptr, s->win_ptr, s->images[s->cam_i].img_ptr);
     }
     return (1);
 }
