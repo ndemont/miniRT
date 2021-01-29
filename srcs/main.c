@@ -7,7 +7,7 @@ t_matrix	rotation_matrix(t_scene s)
 	t_vector right;
 	t_vector up;
 
-	forward = get_normalized(v_mult_i(s.cameras[0].c, -1));
+	forward = get_normalized(v_mult_i(s.cameras[s.cam].c, -1));
 	right = get_normalized(init_vector(0, 1, 0));
 	right = v_produit_v(right, forward);
 	up = v_produit_v(forward, right);
@@ -29,9 +29,8 @@ void	color_img(t_scene *s)
 	int			pixel;
 	float		intensity;
 	int			ret;
-	t_matrix    m;
 
-	ray.o = s->cameras[0].o;
+	ray.o = s->cameras[s->cam].o;
  	i = 0;
 	set_plan(s);
 	while (i < s->R[1])
@@ -41,10 +40,9 @@ void	color_img(t_scene *s)
 		{
 			ray.d.coord[0] = (j - ((s->R[0])/2));
 			ray.d.coord[1] = (i - ((s->R[1])/2));
-			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[0].f / 2))));
+			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[s->cam].f / 2))));
 			normalize(&ray.d);
-			m = rotation_matrix(*s);
-			ray.d = get_normalized(v_mult_m(ray.d, m));
+			ray.d = get_normalized(v_mult_m(ray.d, rotation_matrix(*s)));
 			ret = closest_inter(ray, s, &inters, &normal);
 			if (ret != -1)
 			{	
@@ -84,58 +82,35 @@ void	print_window(void *mlx_ptr, void *win_ptr, void *img_ptr)
 
 void	init_general(t_scene *s)
 {
+	s->cam = 0;
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
 	s->size_line = 0;
 	s->endian = 0;
-	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "Sphere");
+	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
 	s->img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
 	s->data_addr = (unsigned char *)mlx_get_data_addr(s->img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
 }
 
-//int		main(int ac, char **av)
-//{
-//	int				ret;
-//	t_scene			s;
-
-//	if (ac < 2 || ac > 3)
-//		return (print_errors(1));
-//	if (!check_file(av[1]))
-//		return (print_errors(2));
-//	if (ac == 3)
-//		if (ft_strcmp(av[2], "-save"))
-//			return (print_errors(5));
-//	if ((ret = check_parsing(av[1], &s)))
-//		return (print_errors(ret));
-//	init_general(&s);
-//	color_img(&s);
-//	print_window(s.mlx_ptr, s.win_ptr, s.img_ptr);
-//	return (0);
-//}
-
-
-typedef struct  s_vars {
-        void    *mlx;
-        void    *win;
-}               t_vars;
-
-int             ft_close(int keycode, t_vars *vars)
+int		main(int ac, char **av)
 {
-	(void)vars;
-	if (keycode == 0x35)
-		mlx_destroy_window(vars->mlx, vars->win);
-	return (1);
+	int				ret;
+	t_scene			s;
+
+	if (ac < 2 || ac > 3)
+		return (print_errors(1));
+	if (!check_file(av[1]))
+		return (print_errors(2));
+	if (ac == 3)
+		if (ft_strcmp(av[2], "-save"))
+			return (print_errors(5));
+	if ((ret = check_parsing(av[1], &s)))
+		return (print_errors(ret));
+	init_general(&s);
+	color_img(&s);
+	mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s);
+	mlx_loop_hook(s.mlx_ptr, ft_event, &s);
+	print_window(s.mlx_ptr, s.win_ptr, s.img_ptr);
+	return (0);
 }
 
-int             main(void)
-{
-    t_vars	vars;
-	int		i;
-
-    vars.mlx = mlx_init();
-    vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
-    i = mlx_hook(vars.win, 2, 1L<<0, ft_close, &vars);
-	printf("touche = %d\n", i);
-    mlx_loop(vars.mlx);
-	return (0);
-} 

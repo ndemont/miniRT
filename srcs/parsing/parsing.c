@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/28 19:11:18 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/29 10:53:51 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int		init_scene(t_scene *s, char **list)
 	s->lights[0].i = -1;
 	if (!(s->cameras = malloc(sizeof(t_camera) * (c + 1))))
 		return (0);
+	s->cameras[0].f = -1;
 	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
 		return (0);
 	s->objects[0].type = -1;

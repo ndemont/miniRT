@@ -74,13 +74,20 @@ typedef struct	s_scene
 	void			*win_ptr;
 	void			*img_ptr;
 	unsigned char	*data_addr;
-	int				*data_addr2;
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
 	int				ret;
+	int				cam;
 }				t_scene;
 
+
+typedef struct	s_img
+{
+	void			*img_ptr;
+	unsigned char	*data_addr;
+
+}				t_img;
 
 t_vector	color_limit(t_vector v);
 

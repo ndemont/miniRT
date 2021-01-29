@@ -226,8 +226,8 @@ void	set_plan(t_scene *s)
 	i = 0;
 	while (s->objects[i].type != -1)
 	{
-		ray.o = s->cameras[0].o;
-		ray.d = s->cameras[0].c;
+		ray.o = s->cameras[s->cam].o;
+		ray.d = s->cameras[s->cam].c;
 		normalize(&ray.d);
 		if (s->objects[i].type == 6 || s->objects[i].type == 12)
 		{
