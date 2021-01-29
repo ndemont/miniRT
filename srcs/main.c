@@ -93,22 +93,49 @@ void	init_general(t_scene *s)
 	s->data_addr = (unsigned char *)mlx_get_data_addr(s->img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
 }
 
-int		main(int ac, char **av)
-{
-	int				ret;
-	t_scene			s;
+//int		main(int ac, char **av)
+//{
+//	int				ret;
+//	t_scene			s;
 
-	if (ac < 2 || ac > 3)
-		return (print_errors(1));
-	if (!check_file(av[1]))
-		return (print_errors(2));
-	if (ac == 3)
-		if (ft_strcmp(av[2], "-save"))
-			return (print_errors(5));
-	if ((ret = check_parsing(av[1], &s)))
-		return (print_errors(ret));
-	init_general(&s);
-	color_img(&s);
-	print_window(s.mlx_ptr, s.win_ptr, s.img_ptr);
-	return (0);
+//	if (ac < 2 || ac > 3)
+//		return (print_errors(1));
+//	if (!check_file(av[1]))
+//		return (print_errors(2));
+//	if (ac == 3)
+//		if (ft_strcmp(av[2], "-save"))
+//			return (print_errors(5));
+//	if ((ret = check_parsing(av[1], &s)))
+//		return (print_errors(ret));
+//	init_general(&s);
+//	color_img(&s);
+//	print_window(s.mlx_ptr, s.win_ptr, s.img_ptr);
+//	return (0);
+//}
+
+
+typedef struct  s_vars {
+        void    *mlx;
+        void    *win;
+}               t_vars;
+
+int             ft_close(int keycode, t_vars *vars)
+{
+	(void)vars;
+	if (keycode == 0x35)
+		mlx_destroy_window(vars->mlx, vars->win);
+	return (1);
 }
+
+int             main(void)
+{
+    t_vars	vars;
+	int		i;
+
+    vars.mlx = mlx_init();
+    vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello world!");
+    i = mlx_hook(vars.win, 2, 1L<<0, ft_close, &vars);
+	printf("touche = %d\n", i);
+    mlx_loop(vars.mlx);
+	return (0);
+} 

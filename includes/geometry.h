@@ -125,15 +125,15 @@ t_vector	v_produit_v(t_vector v1, t_vector v2);
 t_vector	v_mult_m(t_vector v, t_matrix m);
 float		scalaire(t_vector v1, t_vector v2);
 
-void		parsing_a2(char **line, t_scene *elem);
-void		parsing_r2(char **line, t_scene *elem);
-void		parsing_c2(char **line, t_scene *elem);
-void		parsing_l2(char **line, t_scene *elem);
-void		parsing_sp2(char **line, t_scene *elem);
-void		parsing_sq2(char **line, t_scene *elem);
-void		parsing_cy2(char **line, t_scene *elem);
-void		parsing_tr2(char **line, t_scene *elem);
-void		parsing_pl2(char **line, t_scene *elem);
+void		parsing_a(char **line, t_scene *elem);
+void		parsing_r(char **line, t_scene *elem);
+void		parsing_c(char **line, t_scene *elem);
+void		parsing_l(char **line, t_scene *elem);
+void		parsing_sp(char **line, t_scene *elem);
+void		parsing_sq(char **line, t_scene *elem);
+void		parsing_cy(char **line, t_scene *elem);
+void		parsing_tr(char **line, t_scene *elem);
+void		parsing_pl(char **line, t_scene *elem);
 
 float		ft_atof(const char *str);
 

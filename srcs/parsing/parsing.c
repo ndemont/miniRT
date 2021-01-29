@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/27 15:37:42 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/28 19:11:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ int		fill_type2(int x, t_scene *s, char **line)
 {
 	void (*type[13])(char **, t_scene *);
 
-	type[0] = &parsing_r2;
-	type[1] = &parsing_a2;
-	type[2] = &parsing_c2;
-	type[3] = &parsing_l2;
-	type[4] = &parsing_sp2;
-	type[6] = &parsing_sq2;
-	type[8] = &parsing_cy2;
-	type[10] = &parsing_tr2;
-	type[12] = &parsing_pl2;
+	type[0] = &parsing_r;
+	type[1] = &parsing_a;
+	type[2] = &parsing_c;
+	type[3] = &parsing_l;
+	type[4] = &parsing_sp;
+	type[6] = &parsing_sq;
+	type[8] = &parsing_cy;
+	type[10] = &parsing_tr;
+	type[12] = &parsing_pl;
 	(*type[x])(line, s);
 	return (1);
 }

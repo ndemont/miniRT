@@ -6,19 +6,19 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/27 13:26:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/28 19:10:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void		parsing_r2(char **line, t_scene *elem)
+void		parsing_r(char **line, t_scene *elem)
 {
 	elem->R[0] = ft_atof(line[1]);
 	elem->R[1] = ft_atof(line[2]);
 }
 
-void		parsing_a2(char **line, t_scene *elem)
+void		parsing_a(char **line, t_scene *elem)
 {
 	char	**split;
 
@@ -29,7 +29,7 @@ void		parsing_a2(char **line, t_scene *elem)
 	elem->A.color.coord[2] = ft_atof(split[2]);
 }
 
-void		parsing_c2(char **line, t_scene *elem)
+void		parsing_c(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
@@ -49,7 +49,7 @@ void		parsing_c2(char **line, t_scene *elem)
 	elem->cameras[i].f = ft_atof(line[3]) * (M_PI / 180);
 }
 
-void		parsing_l2(char **line, t_scene *elem)
+void		parsing_l(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
@@ -70,7 +70,7 @@ void		parsing_l2(char **line, t_scene *elem)
 	elem->lights[i].i = -1;
 }
 
-void		parsing_pl2(char **line, t_scene *elem)
+void		parsing_pl(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
@@ -94,7 +94,7 @@ void		parsing_pl2(char **line, t_scene *elem)
 	elem->objects[i].c.coord[2] = ft_atof(split[2]);
 }
 
-void		parsing_sp2(char **line, t_scene *elem)
+void		parsing_sp(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
@@ -115,7 +115,7 @@ void		parsing_sp2(char **line, t_scene *elem)
 	elem->objects[i].c.coord[2] = ft_atof(split[2]);
 }
 
-void		parsing_sq2(char **line, t_scene *elem)
+void		parsing_sq(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
@@ -140,7 +140,7 @@ void		parsing_sq2(char **line, t_scene *elem)
 	elem->objects[i].c.coord[2] = ft_atof(split[2]);
 }
 
-void		parsing_cy2(char **line, t_scene *elem)
+void		parsing_cy(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
@@ -166,7 +166,7 @@ void		parsing_cy2(char **line, t_scene *elem)
 	elem->objects[i].c.coord[2] = ft_atof(split[2]);
 }
 
-void		parsing_tr2(char **line, t_scene *elem)
+void		parsing_tr(char **line, t_scene *elem)
 {
 	char	**split;
 	int		i;
