@@ -140,7 +140,8 @@ int		main(int ac, char **av)
 	if ((ret = check_parsing(av[1], &s)))
 		return (print_errors(ret));
 	init_general(&s);
-	mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s);
+	if (!mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s))
+		return (0);
 	mlx_loop_hook(s.mlx_ptr, ft_event, &s);
 	print_window(s.mlx_ptr, s.win_ptr, s.images[0].img_ptr);
 	return (0);

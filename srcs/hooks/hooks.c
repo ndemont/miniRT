@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 10:12:22 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/29 15:11:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/01/30 13:19:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 int             ft_event(int keycode, t_scene *s)
 {
-    ft_close_win(keycode, s);
+    if (!ft_close_win(keycode, s))
+		exit (0);
     ft_switch_cam(keycode, s);
     return (1);
 }
@@ -23,7 +24,10 @@ int             ft_event(int keycode, t_scene *s)
 int             ft_close_win(int keycode, t_scene *s)
 {
 	if (keycode == 0x35)
+	{
 		mlx_destroy_window(s->mlx_ptr, s->win_ptr);
+		return (0);
+	}
 	return (1);
 }
 
