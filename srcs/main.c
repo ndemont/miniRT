@@ -8,7 +8,10 @@ t_matrix	rotation_matrix(t_scene s)
 	t_vector up;
 
 	forward = get_normalized(v_mult_i(s.cameras[s.cam_i].c, -1));
-	right = get_normalized(init_vector(0, 1, 0));
+	if (abs((int)forward.coord[1]) == 1)
+		right = get_normalized(init_vector(1, 0, 0));
+	else
+		right = get_normalized(init_vector(0, 1, 0));
 	right = v_produit_v(right, forward);
 	up = v_produit_v(forward, right);
 	matrix.r1 = right;
