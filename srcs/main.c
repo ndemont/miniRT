@@ -91,9 +91,8 @@ t_img	ft_new_img(t_scene *s, int i)
 
 	img.img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
 	s->data_addr = (unsigned char *)mlx_get_data_addr(img.img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
-	//printf("data created for %d\n", i);
+	printf("data created for %d\n", i);
 	color_img(s);
-	//printf("images colored for %d\n", i);
 	return (img);
 }
 
@@ -118,10 +117,13 @@ t_img	*ft_load_imgs(t_scene *s)
 
 void	init_general(t_scene *s)
 {
+
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
 	s->size_line = 0;
 	s->endian = 0;
+	//mlx_get_screen_size(s->mlx_ptr, &x, &y);
+	//printf("x = %d - y = %d\n", x, y);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
 	s->images = ft_load_imgs(s);
 	s->cam_i = 0;

@@ -124,7 +124,6 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s);
 
 
 t_vector	get_normalized(t_vector v);
-float		distance(t_vector v1, t_vector v2);
 
 t_vector	v_plus_i(t_vector v, float i);
 t_vector	v_minus_i(t_vector v, float i);

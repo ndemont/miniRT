@@ -6,11 +6,31 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 15:36:39 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/27 15:54:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/01 14:27:11 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+float		intensity_limit(float i)
+{
+	if (i < 0)
+		i = 0;
+	if (i > 1)
+		i = 1;
+	return (i);
+}
+
+t_vector	color_limit(t_vector v)
+{
+	if (v.coord[0] > 255)
+		v.coord[0] = 255;
+	if (v.coord[1] > 255)
+		v.coord[1] = 255;
+	if (v.coord[2] > 255)
+		v.coord[2] = 255;
+	return (v);
+}
 
 t_vector	find_intensity(t_vector inter, float *fint, t_vector n, t_scene s)
 {

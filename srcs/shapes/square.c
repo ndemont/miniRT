@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:12:46 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/27 15:27:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/01 18:49:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ float		inter_sq(t_ray ray, t_object sq, t_vector *inter, t_vector *normal)
 			count++;
 		if (inter->coord[2] <= l.coord[2] && inter->coord[2] >= l2.coord[2])
 			count++;
-		if (count != 3)
-			t = 1E99;
 	}
-	else
+	if (count != 3)
 		t = 1E99;
 	return (t);
 }
