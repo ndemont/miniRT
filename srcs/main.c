@@ -32,10 +32,12 @@ void	color_img(t_scene *s)
 	int			pixel;
 	float		intensity;
 	int			ret;
+	t_matrix	m;
 
 	ray.o = s->cameras[s->cam_i].o;
  	i = 0;
 	set_plan(s);
+	m = rotation_matrix(*s);
 	while (i < s->R[1])
 	{
 		j = 0;
@@ -45,7 +47,7 @@ void	color_img(t_scene *s)
 			ray.d.coord[1] = (i - ((s->R[1])/2));
 			ray.d.coord[2] = -((s->R[0]) / (2*(tan(s->cameras[s->cam_i].f / 2))));
 			normalize(&ray.d);
-			ray.d = get_normalized(v_mult_m(ray.d, rotation_matrix(*s)));
+			ray.d = get_normalized(v_mult_m(ray.d, m));
 			ret = closest_inter(ray, s, &inters, &normal);
 			if (ret != -1)
 			{	
@@ -89,9 +91,9 @@ t_img	ft_new_img(t_scene *s, int i)
 
 	img.img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
 	s->data_addr = (unsigned char *)mlx_get_data_addr(img.img_ptr, &(s->bits_per_pixel), &(s->size_line), &(s->endian));
-	printf("data created for %d\n", i);
+	//printf("data created for %d\n", i);
 	color_img(s);
-	printf("images colored for %d\n", i);
+	//printf("images colored for %d\n", i);
 	return (img);
 }
 
