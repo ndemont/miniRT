@@ -236,6 +236,14 @@ void	set_plan(t_scene *s)
 			if (scal > 0)
 				s->objects[i].d = v_mult_i(s->objects[i].d, -1);
 		}
+		if (s->objects[i].type == 10)
+		{
+			normal = v_produit_v(v_minus_v(s->objects[i].t2, s->objects[i].t1), v_minus_v(s->objects[i].t3, s->objects[i].t1));
+			scal = scalaire(v_minus_v(s->objects[i].t1, ray.o), normal);
+			s->objects[i].d = normal;
+			if (scal > 0)
+				s->objects[i].d = v_mult_i(s->objects[i].d, -1);
+		}
 		i++;
 	}
 }

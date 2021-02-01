@@ -57,7 +57,9 @@ typedef struct	s_object
 	t_vector	c;
 	t_vector	o;
 	t_vector	d;
-	t_vector	p2;
+	t_vector	t1;
+	t_vector	t2;
+	t_vector	t3;
 	t_vector	p;
 	float		h;
 	float		diam;

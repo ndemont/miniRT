@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:12:37 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/27 13:00:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/01 12:33:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ float		cramer_tr(t_object tr, t_vector inter)
 	double beta;
 	double gamma;
 
-	m[0] = get_norme_2(v_minus_v(tr.d, tr.o));
-	m[1] = scalaire(v_minus_v(tr.d, tr.o), v_minus_v(tr.p, tr.o));
-	m[2] = get_norme_2(v_minus_v(tr.p, tr.o));
-	g[0] = scalaire(v_minus_v(inter, tr.o), v_minus_v(tr.d, tr.o));
-	g[1] = scalaire(v_minus_v(inter, tr.o), v_minus_v(tr.p, tr.o));
+	m[0] = get_norme_2(v_minus_v(tr.t2, tr.t1));
+	m[1] = scalaire(v_minus_v(tr.t2, tr.t1), v_minus_v(tr.t3, tr.t1));
+	m[2] = get_norme_2(v_minus_v(tr.t3, tr.t1));
+	g[0] = scalaire(v_minus_v(inter, tr.t1), v_minus_v(tr.t2, tr.t1));
+	g[1] = scalaire(v_minus_v(inter, tr.t1), v_minus_v(tr.t3, tr.t1));
 	beta = ((g[0] * m[2]) - (g[1] * m[1])) / ((m[0] * m[2]) - (m[1] * m[1]));
 	gamma = ((m[0] * g[1]) - (m[1] * g[0])) / ((m[0] * m[2]) - (m[1] * m[1]));
 	alpha = 1 - beta - gamma;
@@ -39,9 +39,10 @@ float		inter_tr(t_ray ray, t_object tr, t_vector *p, t_vector *normal)
 {
 	float		t;
 
-	*normal = v_produit_v(v_minus_v(tr.d, tr.o), v_minus_v(tr.p, tr.o));
+	//*normal = v_produit_v(v_minus_v(tr.t2, tr.t1), v_minus_v(tr.t3, tr.t1));
+	*normal = tr.d;
 	*normal = get_normalized(*normal);
-	t = scalaire(v_minus_v(tr.p, ray.o), *normal) / scalaire(ray.d, *normal);
+	t = scalaire(v_minus_v(tr.t3, ray.o), *normal) / scalaire(ray.d, *normal);
 	if (t >= 0)
 	{
 		*p = v_plus_v(ray.o, v_mult_i(ray.d, t));
