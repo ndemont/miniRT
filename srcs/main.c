@@ -117,7 +117,7 @@ t_img	*ft_load_imgs(t_scene *s)
 
 void	init_general(t_scene *s)
 {
-
+	printf("initialization");
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
 	s->size_line = 0;
@@ -125,7 +125,9 @@ void	init_general(t_scene *s)
 	//mlx_get_screen_size(s->mlx_ptr, &x, &y);
 	//printf("x = %d - y = %d\n", x, y);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
+	printf("before images");
 	s->images = ft_load_imgs(s);
+	printf("after images");
 	s->cam_i = 0;
 }
 
@@ -141,8 +143,10 @@ int		main(int ac, char **av)
 	if (ac == 3)
 		if (ft_strcmp(av[2], "-save"))
 			return (print_errors(5));
+	write(1, "before pars\n", 12);
 	if ((ret = check_parsing(av[1], &s)))
 		return (print_errors(ret));
+	write(1, "before init\n", 12);
 	init_general(&s);
 	if (!mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s))
 		return (0);

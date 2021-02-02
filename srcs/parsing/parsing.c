@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/01/29 12:41:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/02 11:07:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ int		fill_type2(int x, t_scene *s, char **line)
 int		fill_scene(t_scene *s, char **list)
 {
 	int		type;
+	int		i;
 	char	**line;
 
+	i = 0;
 	while (*list)
 	{
 		type = get_type((ft_split(*list, ' '))[0]);
