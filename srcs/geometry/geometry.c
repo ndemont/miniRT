@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:32:23 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/01 14:32:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/02 17:26:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ void	set_plan(t_scene *s)
 		ray.o = s->cameras[s->cam_i].o;
 		ray.d = s->cameras[s->cam_i].c;
 		normalize(&ray.d);
-		if (s->objects[i].type == 6 || s->objects[i].type == 12)
+		if (s->objects[i].type == 5 || s->objects[i].type == 8)
 		{
 			normal = get_normalized(s->objects[i].d);
 			scal = scalaire(v_minus_v(s->objects[i].o, ray.o), normal);
 			if (scal > 0)
 				s->objects[i].d = v_mult_i(s->objects[i].d, -1);
 		}
-		if (s->objects[i].type == 10)
+		if (s->objects[i].type == 7)
 		{
 			normal = v_produit_v(v_minus_v(s->objects[i].t2, s->objects[i].t1), v_minus_v(s->objects[i].t3, s->objects[i].t1));
 			scal = scalaire(v_minus_v(s->objects[i].t1, ray.o), normal);

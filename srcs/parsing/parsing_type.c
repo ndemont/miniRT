@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 15:55:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/02 17:26:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,57 @@ int			ft_count_coma(char *str)
 		return (0);
 	return (1);
 }
+
+char		*ft_check_coord(char *line, float *x, float *y, float *z)
+{
+	char	**split;
+
+	if (!(ft_count_coma(line)))
+		return ("Wrong arguments format");
+	split = ft_split(line, ',');
+	if (ft_strisfloat(split[0]))
+		*x = ft_atof(split[1]);
+	else
+		return ("Color value must be float");
+	if (ft_strisfloat(split[1]))
+		*y = ft_atof(split[2]);
+	else
+		return ("Color value must be float");
+	if (ft_strisfloat(split[2]))
+		*z = ft_atof(split[2]);
+	else
+		return ("Color value must be float");
+	if (split[3])
+		return ("Wrong number of coordinates arguments");
+	return (0);
+}
+
+char		*ft_check_color(char *line, float *coord[3])
+{
+	char	**split;
+
+	if (!(ft_count_coma(line)))
+		return ("Wrong arguments format");
+	split = ft_split(line, ',');
+	if (ft_strisdigit(split[0]))
+		*coord[0] = ft_atof(split[1]);
+	else
+		return ("Color value must be integer");
+	if (ft_strisdigit(split[1]))
+		*coord[1] = ft_atof(split[2]);
+	else
+		return ("Color value must be integer");
+	if (ft_strisdigit(split[2]))
+		*coord[2] = ft_atof(split[2]);
+	else
+		return ("Color value must be integer");
+	if (split[3])
+		return ("Wrong number of color arguments");
+	if (*x < 0 || *y < 0 || *z < 0 || *x > 255 || *y > 255 || *z > 255)
+		return ("Color values must ∈ [0;255]");
+	return (0);
+}
+
 char		*parsing_r(char **line, t_scene *elem)
 {
 	int i;
@@ -68,7 +119,7 @@ char		*parsing_r(char **line, t_scene *elem)
 			return ("Resolution: value must be digital.\n");
 		i++;
 	}
-	if (line[i])
+	if (line[3])
 		return ("Resolution: too many arguments.\n");
 	elem->R[0] = ft_atof(line[1]);
 	elem->R[1] = ft_atof(line[2]);
@@ -112,6 +163,8 @@ char		*parsing_c(char **line, t_scene *elem)
 	char	**split;
 	int		i;
 
+	if (line[4])
+		return ("Camera: too many arguments.\n");
 	i = 0;
 	while (elem->cameras[i].f != -1)
 		i++;
@@ -134,6 +187,8 @@ char		*parsing_l(char **line, t_scene *elem)
 	char	**split;
 	int		i;
 
+	if (line[4])
+		return ("Light: too many arguments.\n");
 	i = 0;
 	while (elem->lights[i].i != -1)
 		i++;
@@ -158,6 +213,8 @@ char		*parsing_pl(char **line, t_scene *elem)
 	int		i;
 
 	i = 0;
+	if (line[4])
+		return ("Plan: too many arguments.\n");
 	while (elem->objects[i].type != -1)
 		i++;
 	elem->objects[i].type = 12;
@@ -182,6 +239,8 @@ char		*parsing_sp(char **line, t_scene *elem)
 	char	**split;
 	int		i;
 
+	if (line[4])
+		return ("Sphere: too many arguments.\n");
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
@@ -205,6 +264,8 @@ char		*parsing_sq(char **line, t_scene *elem)
 	int		i;
 
 	i = 0;
+	if (line[5])
+		return ("Square: too many arguments.\n");
 	while (elem->objects[i].type != -1)
 		i++;
 	elem->objects[i].type = 6;
@@ -230,6 +291,8 @@ char		*parsing_cy(char **line, t_scene *elem)
 	char	**split;
 	int		i;
 
+	if (line[6])
+		return ("Cylinder: too many arguments.\n");
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
@@ -258,6 +321,8 @@ char		*parsing_tr(char **line, t_scene *elem)
 	char	**split;
 	int		i;
 
+	if (line[5])
+		return ("Triangle: too many arguments.\n");
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
