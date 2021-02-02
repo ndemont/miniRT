@@ -81,7 +81,7 @@ int		print_errors(int error)
 
 int		print_errors2(char *error)
 {
-	ft_printf("%s\n", error);
+	ft_printf("%s", error);
 	return (1);
 }
 

@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 13:17:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/02 15:55:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int			str_is_f(char *str)
+int			ft_strisfloat(char *str)
 {
 	int i;
 
@@ -28,12 +28,48 @@ int			str_is_f(char *str)
 	return (1);
 }
 
+int			ft_strisdigit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i])
+		return (0);
+	return (1);
+}
+
+int			ft_count_coma(char *str)
+{
+	int i;
+	int c;
+
+	i = 0;
+	c = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			c++;
+		i++;
+	}
+	if (c > 2)
+		return (0);
+	return (1);
+}
 char		*parsing_r(char **line, t_scene *elem)
 {
-	if (!str_is_f(line[1]))
-		return ("Resolution: value must be digital.\n");
-	if (!str_is_f(line[2]))
-		return ("Resolution: value must be digital.\n");
+	int i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (!ft_strisfloat(line[1]))
+			return ("Resolution: value must be digital.\n");
+		i++;
+	}
+	if (line[i])
+		return ("Resolution: too many arguments.\n");
 	elem->R[0] = ft_atof(line[1]);
 	elem->R[1] = ft_atof(line[2]);
 	if ((int)(elem->R[0]) <= 0 || (int)(elem->R[1]) <= 0)
@@ -42,20 +78,32 @@ char		*parsing_r(char **line, t_scene *elem)
 	// 	elem->R[0] = width_max;
 	// if (elem->R[1] > height_max)
 	// 	elem->R[1] = height_max;
-	if (line[3])
-		return ("Resolution: too many inputs.\n");
 	return (0);
 }
 
 char		*parsing_a(char **line, t_scene *elem)
 {
 	char	**split;
+	int		i;
 
+	if (!ft_strisfloat(line[1]))
+		return ("Ambiant light: value must be digital.\n");
 	elem->A.i = ft_atof(line[1]);
+	if (!(ft_count_coma(line[2])))
+		return ("Ambiant light: wrong arguments format");
 	split = ft_split(line[2], ',');
-	elem->A.color.coord[0] = ft_atof(split[0]);
-	elem->A.color.coord[1] = ft_atof(split[1]);
-	elem->A.color.coord[2] = ft_atof(split[2]);
+	i = 0;
+	while (i < 3)
+	{
+		if (!ft_strisdigit(split[i]))
+			return ("Ambiant light: color values must be digital.");
+		elem->A.color.coord[i] = ft_atof(split[i]);
+		if ((int)elem->A.color.coord[i] < 0 || (int)elem->A.color.coord[i] > 255)
+			return ("Ambiant light: color values must ∈ [0;255]");
+		i++;
+	}
+	if (line[3] || split[i])
+		return ("Ambiant light: too many arguments.");
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 12:54:04 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/02 15:33:06 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,21 @@ int		check_file(char *filename)
 
 int		get_type(char *line)
 {
-	static char	*list = "RAclspsqcytrpl";
-	char		*type;
+	int i;
+	int len;
+	static char	*list2[9] = {"R", "A", "c", "l", "sp", "sq", "cy", "tr", "pl"};
 
-	type = ft_strnstr(list, line, 14);
-	if (!type)
-		return (-1);
-	return (type - list);
+	i = 0;
+	len = 1;
+	while (i < 9)
+	{
+		if (i == 4)
+			len = 2;
+		if (ft_strnstr(list2[i], line, len))
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 char		*fill_type2(int x, t_scene *s, char **line)
@@ -43,10 +51,10 @@ char		*fill_type2(int x, t_scene *s, char **line)
 	type[2] = &parsing_c;
 	type[3] = &parsing_l;
 	type[4] = &parsing_sp;
-	type[6] = &parsing_sq;
-	type[8] = &parsing_cy;
-	type[10] = &parsing_tr;
-	type[12] = &parsing_pl;
+	type[5] = &parsing_sq;
+	type[6] = &parsing_cy;
+	type[7] = &parsing_tr;
+	type[8] = &parsing_pl;
 	error = (*type[x])(line, s);
 	return (error);
 }
@@ -62,6 +70,8 @@ char		*fill_scene(t_scene *s, char **list)
 	while (*list)
 	{
 		type = get_type((ft_split(*list, ' '))[0]);
+		if (type == -1)
+			return ("Wrong object");
 		line = ft_split(*list, ' ');
 		if ((error = fill_type2(type, s, line)))
 			return (error);
@@ -114,20 +124,21 @@ char		*check_parsing(char *file, t_scene *s)
 	char 	*error;
 
 	fd = open(file, O_RDONLY);
+	error = NULL;
 	if (fd < 0)
-		return ("Reading file error\n.");
+		return ("Opening file error\n.");
 	ret = 1;
 	content = 0;
 	while (ret > 0)
 	{
-		if (ret < 0)
-			return ("Error of malloc");
 		ret = get_next_line(fd, &line);
+		if (ret < 0)
+			return ("Reading file error.\n");
 		content = ft_strjoin(content, line);
 		content = ft_strjoin(content, "\n");
 	}
 	list = ft_split(content, '\n');
-	printf("[%s]\n", content);
+	printf("[%s]", content);
 	close(fd);
 	if (!init_scene(s, list))
 		return (0);
