@@ -79,6 +79,12 @@ int		print_errors(int error)
 	return (1);
 }
 
+int		print_errors2(char *error)
+{
+	ft_printf("%s\n", error);
+	return (1);
+}
+
 void	print_window(void *mlx_ptr, void *win_ptr, void *img_ptr)
 {
 	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
@@ -125,15 +131,13 @@ void	init_general(t_scene *s)
 	//mlx_get_screen_size(s->mlx_ptr, &x, &y);
 	//printf("x = %d - y = %d\n", x, y);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
-	printf("before images");
 	s->images = ft_load_imgs(s);
-	printf("after images");
 	s->cam_i = 0;
 }
 
 int		main(int ac, char **av)
 {
-	int				ret;
+	char 			*error;
 	t_scene			s;
 
 	if (ac < 2 || ac > 3)
@@ -143,10 +147,8 @@ int		main(int ac, char **av)
 	if (ac == 3)
 		if (ft_strcmp(av[2], "-save"))
 			return (print_errors(5));
-	write(1, "before pars\n", 12);
-	if ((ret = check_parsing(av[1], &s)))
-		return (print_errors(ret));
-	write(1, "before init\n", 12);
+	if ((error = check_parsing(av[1], &s)))
+		return (print_errors2(error));
 	init_general(&s);
 	if (!mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 11:07:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/02 12:54:04 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ int		get_type(char *line)
 	return (type - list);
 }
 
-int		fill_type2(int x, t_scene *s, char **line)
+char		*fill_type2(int x, t_scene *s, char **line)
 {
-	void (*type[13])(char **, t_scene *);
+	char	*(*type[13])(char **, t_scene *);
+	char	*error;
 
 	type[0] = &parsing_r;
 	type[1] = &parsing_a;
@@ -46,28 +47,30 @@ int		fill_type2(int x, t_scene *s, char **line)
 	type[8] = &parsing_cy;
 	type[10] = &parsing_tr;
 	type[12] = &parsing_pl;
-	(*type[x])(line, s);
-	return (1);
+	error = (*type[x])(line, s);
+	return (error);
 }
 
-int		fill_scene(t_scene *s, char **list)
+char		*fill_scene(t_scene *s, char **list)
 {
 	int		type;
 	int		i;
 	char	**line;
+	char 	*error;
 
 	i = 0;
 	while (*list)
 	{
 		type = get_type((ft_split(*list, ' '))[0]);
 		line = ft_split(*list, ' ');
-		fill_type2(type, s, line);
+		if ((error = fill_type2(type, s, line)))
+			return (error);
 		list++;
 	}
-	return (1);
+	return (error);
 }
 
-int		init_scene(t_scene *s, char **list)
+int 	init_scene(t_scene *s, char **list)
 {
 	int c;
 	int l;
@@ -101,32 +104,34 @@ int		init_scene(t_scene *s, char **list)
 	return (1);
 }
 
-int		check_parsing(char *file, t_scene *s)
+char		*check_parsing(char *file, t_scene *s)
 {
 	int		fd;
 	char	*line;
 	char	*content;
 	char 	**list;
-	int		ret; 
+	int		ret;
+	char 	*error;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (2);
+		return ("Reading file error\n.");
 	ret = 1;
 	content = 0;
 	while (ret > 0)
 	{
 		if (ret < 0)
-			return (3);
+			return ("Error of malloc");
 		ret = get_next_line(fd, &line);
 		content = ft_strjoin(content, line);
 		content = ft_strjoin(content, "\n");
 	}
 	list = ft_split(content, '\n');
-	printf("content = [%s]\n", content);
+	printf("[%s]\n", content);
 	close(fd);
 	if (!init_scene(s, list))
 		return (0);
-	fill_scene(s, list);
-	return (0);
+	error = fill_scene(s, list);
+	return (error);
 }
+
