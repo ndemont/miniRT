@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:32:23 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 17:26:43 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/03 11:27:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	set_plan(t_scene *s)
 	int 		i;
 
 	i = 0;
+	printf("quoi\n");
 	while (s->objects[i].type != -1)
 	{
 		ray.o = s->cameras[s->cam_i].o;
@@ -109,4 +110,5 @@ void	set_plan(t_scene *s)
 		}
 		i++;
 	}
+	printf("quoi 2\n");
 }

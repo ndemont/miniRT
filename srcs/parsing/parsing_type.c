@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 17:26:36 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/03 11:25:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ char		*ft_check_color(char *line, float *coord[3])
 		return ("Color value must be integer");
 	if (split[3])
 		return ("Wrong number of color arguments");
-	if (*x < 0 || *y < 0 || *z < 0 || *x > 255 || *y > 255 || *z > 255)
-		return ("Color values must ∈ [0;255]");
+	//if (*x < 0 || *y < 0 || *z < 0 || *x > 255 || *y > 255 || *z > 255)
+	//	return ("Color values must ∈ [0;255]");
 	return (0);
 }
 
@@ -217,7 +217,7 @@ char		*parsing_pl(char **line, t_scene *elem)
 		return ("Plan: too many arguments.\n");
 	while (elem->objects[i].type != -1)
 		i++;
-	elem->objects[i].type = 12;
+	elem->objects[i].type = 8;
 	elem->objects[i + 1].type = -1;
 	split = ft_split(line[1], ',');
 	elem->objects[i].o.coord[0] = ft_atof(split[0]);
@@ -268,7 +268,7 @@ char		*parsing_sq(char **line, t_scene *elem)
 		return ("Square: too many arguments.\n");
 	while (elem->objects[i].type != -1)
 		i++;
-	elem->objects[i].type = 6;
+	elem->objects[i].type = 5;
 	elem->objects[i + 1].type = -1;
 	split = ft_split(line[1], ',');
 	elem->objects[i].o.coord[0] = ft_atof(split[0]);
@@ -296,7 +296,7 @@ char		*parsing_cy(char **line, t_scene *elem)
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
-	elem->objects[i].type = 8;
+	elem->objects[i].type = 6;
 	elem->objects[i + 1].type = -1;
 	split = ft_split(line[1], ',');
 	elem->objects[i].o.coord[0] = ft_atof(split[0]);
@@ -326,7 +326,7 @@ char		*parsing_tr(char **line, t_scene *elem)
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
-	elem->objects[i].type = 10;
+	elem->objects[i].type = 7;
 	elem->objects[i + 1].type = -1;
 	split = ft_split(line[1], ',');
 	elem->objects[i].o.coord[0] = ft_atof(split[0]);

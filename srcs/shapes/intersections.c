@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:30:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/01 19:01:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/03 11:28:30 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ float	inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *normal)
 	float	t;
 
 	type[4] = &inter_sp;
-	type[6] = &inter_sq;
-	type[8] = &inter_cy;
-	type[10] = &inter_tr;
-	type[12] = &inter_pl;
+	type[5] = &inter_sq;
+	type[6] = &inter_cy;
+	type[7] = &inter_tr;
+	type[8] = &inter_pl;
 	t = (*type[o.type])(ray, o, inter, normal);
 	return (t);
 }
