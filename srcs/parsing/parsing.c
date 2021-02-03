@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/02 17:26:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/03 16:57:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ char		*fill_scene(t_scene *s, char **list)
 			return ("Wrong object");
 		line = ft_split(*list, ' ');
 		if ((error = fill_type2(type, s, line)))
-			return (error);
+			return (leaks(line, error));
+		leaks(line, error);
 		list++;
 	}
 	return (error);
@@ -137,8 +138,9 @@ char		*check_parsing(char *file, t_scene *s)
 		content = ft_strjoin(content, line);
 		content = ft_strjoin(content, "\n");
 	}
+	if (content[0] == '\n')
+		return ("Empty file.");
 	list = ft_split(content, '\n');
-	printf("[%s]", content);
 	close(fd);
 	if (!init_scene(s, list))
 		return (0);

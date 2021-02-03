@@ -17,5 +17,6 @@ int         ft_close_win(int keycode, t_scene *s);
 void        color_img(t_scene *s);
 void	    print_window(void *mlx_ptr, void *win_ptr, void *img_ptr);
 int         ft_switch_cam(int keycode, t_scene *s);
+char 		*leaks(char **split, char *error);
 
 #endif
