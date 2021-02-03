@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/03 16:54:01 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/03 17:19:10 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ int			ft_strisfloat(char *str)
 	i = 0;
 	if (str[i] == '-')
 		i++;
-	if (!str[i])
-		return (0);
+	//if (!str[i])
+	//	return (0);
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] == '.')
 		i++;
 	while (ft_isdigit(str[i]))
 		i++;
-	if (str[i])
+	if (str[i] || i == 0)
 		return (0);
 	return (1);
 }
@@ -51,11 +51,11 @@ int			ft_strisdigit(char *str)
 	int i;
 
 	i = 0;
-	if (!str[i])
-		return (0);
+	//if (!str[i])
+	//	return (0);
 	while (ft_isdigit(str[i]))
 		i++;
-	if (str[i])
+	if (str[i] || i == 0)
 		return (0);
 	return (1);
 }
@@ -92,7 +92,7 @@ char		*ft_check_coord(char *line, float c[3])
 		if (ft_strisfloat(split[i]))
 			c[i] = ft_atof(split[i]);
 		else
-			return (leaks(split, "Color value must be float"));
+			return (leaks(split, "Coordinates value must be float"));
 		i++;
 	}
 	if (split[3])
