@@ -6,11 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:32:23 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/03 16:44:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/04 12:53:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <geometry.h>
+#include "geometry.h"
 
 float		quadratic_resolution(float a, float b, float c, float *t1, float *t2)
 {
