@@ -5,9 +5,11 @@
 # include <stdio.h>
 # include <math.h>
 # include <mlx.h>
+# include <fcntl.h>
 # include "geometry.h"
 # include "libft.h"
 # include "printf.h"
+# include <stdlib.h>
 # include "get_next_line.h"
 
 typedef struct  s_BmpHeader
@@ -49,5 +51,12 @@ void	    print_window(void *mlx_ptr, void *win_ptr, void *img_ptr);
 int         ft_switch_cam(int keycode, t_scene *s);
 char 		*leaks(char **split, char *error);
 int         bmp_yay(t_scene *s);
+
+char		*ft_check_coord(char *line, float c[3]);
+char		*ft_check_color(char *line, float c[3]);
+
+int			ft_strisfloat(char *str);
+int			ft_strisdigit(char *str);
+
 
 #endif

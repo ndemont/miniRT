@@ -6,23 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/04 20:18:48 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/04 20:21:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-//void	ft_fill_bmph(int fd, t_scene *s)
-//{
-//	int	int_value;
-
-//	write(fd, "BM", 2);
-//	int_value = 54 + (4 * s->R[0] * s->R[1]);
-//	write(fd, &int_value, 4);
-//	write(fd, "\0\0\0\0", 4);
-//	int_value = 54;
-//	write(fd, &int_value, 4);
-//}
 
 void	ft_fill_bmp(int fd, t_scene *s)
 {

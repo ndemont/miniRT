@@ -1,6 +1,8 @@
 SRCS		=	./srcs/main.c \
 				./srcs/geometry/geometry.c \
 				./srcs/parsing/parsing.c \
+				./srcs/parsing/parsing_shapes.c \
+				./srcs/parsing/parsing_env.c \
 				./srcs/parsing/parsing_type.c \
 				./srcs/ft_atof.c \
 				./srcs/shapes/sphere.c \

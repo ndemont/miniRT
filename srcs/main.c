@@ -1,5 +1,15 @@
 #include "minirt.h"
 
+int		check_file(char *filename)
+{
+	int len;
+
+	len = ft_strlen(filename);
+	if (ft_strcmp(".rt", &filename[len - 3]))
+		return (0);
+	return (1);
+}
+
 t_matrix	rotation_matrix(t_scene s)
 {
 	t_matrix matrix;
