@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/04 13:29:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/04 17:24:30 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    ft_fill_bmph(t_BmpHeader *bmph, int fd, t_scene *s)
     write(fd, &bmph->bitmapSbytes[0], 1);
     bmph->bitmapSbytes[1] = 'M';
     write(fd, &bmph->bitmapSbytes[1], 1);
-    bmph->sizeOfBmpFile = 54 + (3 * s->R[0] * s->R[1]);
+    bmph->sizeOfBmpFile = 54 + (4 * s->R[0] * s->R[1]);
     //bmph->sizeOfBmpFile = 54 + 786432;
     write(fd, &bmph->sizeOfBmpFile, 4);
     bmph->reservedBytes = 0;
@@ -41,15 +41,15 @@ void    ft_fill_bmpinfo(t_bmpInfoHeader *bmpi, int fd, t_scene *s)
     write(fd, &bmpi->height, 4);
     bmpi->numberOfColorPlanes = 1;
     write(fd, &bmpi->numberOfColorPlanes, 2);
-    bmpi->colorDepth = 24;
+    bmpi->colorDepth = 32;
     write(fd, &bmpi->colorDepth, 2);
     bmpi->compressionMethod = 0;
     write(fd, &bmpi->compressionMethod, 4);
     bmpi->rawBitmapDataSize = 0;
     write(fd, &bmpi->rawBitmapDataSize, 4);
-    bmpi->horizontalResolution = 3780;
+    bmpi->horizontalResolution = 0;
     write(fd, &bmpi->horizontalResolution, 4);
-    bmpi->verticalResolution = 3780;
+    bmpi->verticalResolution = 0;
     write(fd, &bmpi->verticalResolution, 4);
     bmpi->colorTableEntries = 0;
     write(fd, &bmpi->colorTableEntries, 4);
@@ -57,39 +57,60 @@ void    ft_fill_bmpinfo(t_bmpInfoHeader *bmpi, int fd, t_scene *s)
     write(fd, &bmpi->importantColors, 4);
 }
 
-void    ft_fill_pixel(t_pixel *pixel, int fd, t_scene *s) 
+void    ft_fill_pixel(int fd, t_scene *s, int pxl) 
 {
-    (void)s;
-    pixel->blue = (char)200;
-    write(fd, &pixel->blue, 1);
-    pixel->green = (char)55;
-    write(fd, &pixel->green, 1);
-    pixel->red = (char)200;
-    write(fd, &pixel->red, 1);
+    int i;
+    int y;
+    char c;
+    int size;
+    int count;
+
+    i = 0;
+    y = (pxl * 4) - 1;
+    c = 0;
+    while (i < pxl)
+    {
+        size = s->size_line - 4;
+        count = 0;
+        printf("size_line = %d\n", s->size_line);
+        while (count < s->size_line / 4)
+        {
+            
+            write(fd, &s->data_addr[y - 3 - size], 1); // pixel bleu
+            write(fd, &s->data_addr[y - 2 - size], 1); // pixel vert
+            write(fd, &s->data_addr[y - 1 - size], 1); // pixel rouge
+            write(fd, &c, 1);
+            y = y - 4;
+            size = size - 8;
+            count++;
+            i++;
+        }
+        // write(fd, &s->data_addr[y - 3], 1); // pixel bleu
+        // write(fd, &s->data_addr[y - 2], 1); // pixel vert
+        // write(fd, &s->data_addr[y - 1], 1); // pixel rouge
+        // write(fd, &c, 1);
+        // y = y - 4;
+        // i++;
+    }
 }
 
 int bmp_yay(t_scene *s) 
 {
     t_BmpHeader     bmph;
     t_bmpInfoHeader bmpi;
-    t_pixel         pixel;
+    //t_pixel         pixel;
     int             pixel_nbr;
     int             fd;
-    int             i;
+    //int             i;
 
     fd = open("file.bmp", O_CREAT | O_TRUNC | O_RDWR, 0644);
     if (fd < 0)
         return (printf("Error: can not open file.\n"));
     ft_fill_bmph(&bmph, fd, s);
     ft_fill_bmpinfo(&bmpi, fd, s);
-    ft_fill_pixel(&pixel, fd, s);
+    //ft_fill_pixel(&pixel, fd, s);
     pixel_nbr = s->R[0] * s->R[1];
-    i = 0;
-    while (i < pixel_nbr)
-    {
-        ft_fill_pixel(&pixel, fd, s);
-        i++;
-    }
+    ft_fill_pixel(fd, s, pixel_nbr);
     close(fd);
     return 0;
 }
