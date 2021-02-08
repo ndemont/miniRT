@@ -31,7 +31,7 @@ int		ft_event(int keycode, t_scene *s)
 
 int		ft_close_win(int keycode, t_scene *s)
 {
-	if (keycode == 0x35)
+	if (keycode == ESC)
 	{
 		mlx_destroy_window(s->mlx_ptr, s->win_ptr);
 		return (0);
@@ -41,7 +41,7 @@ int		ft_close_win(int keycode, t_scene *s)
 
 int		ft_switch_cam(int keycode, t_scene *s)
 {
-	if (keycode == 0x08)
+	if (keycode == SWITCH_CAM)
 	{
 		s->cam_i++;
 		if (s->cameras[s->cam_i].f == -1)
@@ -55,31 +55,31 @@ int		ft_move_cam(int keycode, t_scene *s)
 {
 	t_img	image;
 	
-	if (keycode == 0x7B)
+	if (keycode == MOVE_L)
 	{
 		s->cameras[s->cam_i].o.coord[0] = s->cameras[s->cam_i].o.coord[0] + 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x7C)
+	if (keycode == MOVE_R)
 	{
 		s->cameras[s->cam_i].o.coord[0] = s->cameras[s->cam_i].o.coord[0] - 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x7D)
+	if (keycode == MOVE_U)
 	{
 		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] + 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x7E)
+	if (keycode == MOVE_D)
 	{
 		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] - 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x00)
+	if (keycode == LOOK_L)
 	{
 		printf("left arrow");
 		s->cameras[s->cam_i].c.coord[0] = s->cameras[s->cam_i].c.coord[0] + 0.1;
@@ -88,7 +88,7 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x02)
+	if (keycode == LOOK_R)
 	{
 		s->cameras[s->cam_i].c.coord[0] = s->cameras[s->cam_i].c.coord[0] - 0.1;
 		if (s->cameras[s->cam_i].c.coord[0] < -1)
@@ -96,7 +96,7 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x0D)
+	if (keycode == LOOK_U)
 	{
 		s->cameras[s->cam_i].c.coord[1] = s->cameras[s->cam_i].c.coord[1] + 0.1;
 		if (s->cameras[s->cam_i].c.coord[1] > 1)
@@ -104,7 +104,7 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x01)
+	if (keycode == LOOK_D)
 	{
 		s->cameras[s->cam_i].c.coord[2] = s->cameras[s->cam_i].c.coord[2] - 0.1;
 		if (s->cameras[s->cam_i].c.coord[1] < -1)

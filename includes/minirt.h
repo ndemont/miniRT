@@ -24,20 +24,17 @@
 # define SWITCH_CAM
 # define ESC 65307
 # else
-
-# define MOVE_R 65363
-
-# define MOVE_L 65361
-
-# define MOVE_F 65360
-# define MOVE_B 65362
-# define LOOK_R 100
-# define LOOK_L 97
-# define LOOK_U 119
-# define LOOK_D 115
-# define LOOK_D 115
-# define SWITCH_CAM
-# define ESC 65307
+# define MOVE_R 0x7B
+# define MOVE_L 0x7C
+# define MOVE_F 0x7D
+# define MOVE_B 0x7E
+# define LOOK_R 0x02
+# define LOOK_L 0x00
+# define LOOK_U 0x0D
+# define LOOK_D 0x01
+# define SWITCH_CAM 0x08
+# define ESC 0x35
+# endif
 
 typedef struct  s_BmpHeader
 {
