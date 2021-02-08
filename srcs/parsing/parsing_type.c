@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "libft.h"
 
 char		*leaks(char **split, char *error)
 {

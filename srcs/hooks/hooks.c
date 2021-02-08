@@ -67,13 +67,13 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == MOVE_U)
+	if (keycode == MOVE_F)
 	{
 		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] + 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == MOVE_D)
+	if (keycode == MOVE_B)
 	{
 		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] - 5;
 		image = ft_new_img(s, s->cam_i);

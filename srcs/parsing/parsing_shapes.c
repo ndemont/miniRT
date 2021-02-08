@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "libft.h"
 
 char		*parsing_sp(char **line, t_scene *elem)
 {

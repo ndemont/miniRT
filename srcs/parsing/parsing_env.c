@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "libft.h"
 
 int 	init_scene(t_scene *s, char **list)
 {

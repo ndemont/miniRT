@@ -5,7 +5,7 @@ OS			= $(shell uname)
 
 CFLAGS		= -Wall -Werror -Wextra -O3 -Ofast
 IFLAGS		= -I${INC_DIR} -I${MLX_DIR} -I${LIBFT_DIR}/includes
-LFLAGS		= -L ${MLX_DIR} -lmlx -L ${LIBFT} -lft -framework OpenGL -framework AppKit
+LFLAGS		= -L ${MLX_DIR} -lmlx -L ${LIBFT_DIR} -lft -framework OpenGL -framework AppKit
 
 SRCS_DIR	= srcs
 INC_DIR		= includes
@@ -34,7 +34,7 @@ init:
 ${NAME}:	${OBJS}
 			${CC} ${CFLAGS} ${IFLAGS} -o $@ $^ ${LFLAGS}
 
-${OBJS_DIR}/%o:	%.c
+${OBJS_DIR}/%.o:	%.c
 			${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
 
 clean:
