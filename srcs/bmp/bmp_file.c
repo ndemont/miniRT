@@ -64,7 +64,7 @@ int		bmp_yay(t_scene *s)
 {
 	int				fd;
 
-	fd = open("file.bmp", O_CREAT | O_TRUNC | O_RDWR, 0644);
+	fd = open("new.bmp", O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return (printf("Error: can not open file.\n"));
 	ft_fill_bmp(fd, s);

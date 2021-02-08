@@ -1,4 +1,5 @@
 #include "minirt.h"
+#include "mlx.h"
 
 int		check_file(char *filename)
 {
@@ -138,13 +139,15 @@ t_img	*ft_load_imgs(t_scene *s)
 
 void	init_general(t_scene *s)
 {
+	//int x;
+	//int y;
+
 	printf("initialization");
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
 	s->size_line = 0;
 	s->endian = 0;
 	//mlx_get_screen_size(s->mlx_ptr, &x, &y);
-	//printf("x = %d - y = %d\n", x, y);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
 	s->images = ft_load_imgs(s);
 	printf("images created\n");
@@ -161,8 +164,13 @@ int		main(int ac, char **av)
 	if (!check_file(av[1]))
 		return (print_errors(2));
 	if (ac == 3)
+	{
 		if (ft_strcmp(av[2], "-save"))
 			return (print_errors(5));
+		//init_general(&s);
+		//bmp_yay(&s);
+		//return (0);
+	}
 	if ((error = check_parsing(av[1], &s)))
 		return (print_errors2(error));
 	init_general(&s);
