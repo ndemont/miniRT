@@ -1,47 +1,58 @@
-SRCS		=	./srcs/main.c \
-				./srcs/geometry/geometry.c \
-				./srcs/parsing/parsing.c \
-				./srcs/parsing/parsing_shapes.c \
-				./srcs/parsing/parsing_env.c \
-				./srcs/parsing/parsing_type.c \
-				./srcs/ft_atof.c \
-				./srcs/shapes/sphere.c \
-				./srcs/shapes/triangle.c \
-				./srcs/shapes/square.c \
-				./srcs/shapes/cylinder.c \
-				./srcs/shapes/plan.c \
-				./srcs/shapes/intersections.c \
-				./srcs/colors/lights.c \
-				./srcs/colors/shadows.c \
-				./srcs/hooks/hooks.c \
-				./srcs/geometry/vectors_op.c \
-				./srcs/geometry/vectors_op2.c \
-				./srcs/geometry/vectors_tools.c \
-				./srcs/bmp/bmp_file.c \
+NAME		= minirt
+CC			= cc
+RM			= rm -rf
+OS			= $(shell uname)
+
+CFLAGS		= -Wall -Werror -Wextra -O3 -Ofast
+IFLAGS		= -I${INC_DIR} -I${MLX_DIR} -I${LIBFT_DIR}/includes
+LFLAGS		= -L ${MLX_DIR} -lmlx -L ${LIBFT} -lft -framework OpenGL -framework AppKit
+
+SRCS_DIR	= srcs
+INC_DIR		= includes
+MLX_DIR		= libmac
+LIBFT_DIR	= libft
+OBJS_DIR	= objs
+
+INC         = $(shell find ${INC_DIR} -type f -name "*.h")
+SRCS 		= $(notdir $(shell find ${SRCS_DIR} -type f -name "*.c"))
+OBJS 		= $(addprefix ${OBJS_DIR}/, $(SRCS:.c=.o))
+vpath		%.c $(shell find ${SRCS_DIR} -type d)
 				
-OBJS		=	${SRCS:.c=.o}
-INCLUDES	=	-I./includes -I./liblinux -I./libft/includes -I/usr/include
-RM			=	rm -f
-FLAG_C		=	-O3 -Ofast
-FLAG_MLX	=	-lmlx -lm -lbsd -lX11 -lXext -lft #:-framework OpenGL -framework AppKit
-NAME		=	minirt
-FLAG_LIB	=	-L
-PATH_MLX	=	./liblinux
-PATH_LIBFT	=	./libft
-LIBMLX		=	libmlx.a
-LIBFT		=	libft.a
+ifeq (${OS}, Linux)
+	MLX_DIR = liblinux
+	IFLAGS  = -I/usr/include -I${MLX_DIR} -I${INC_DIR} -I${LIBFT_DIR}/includes -D LINUX=1
+	LFLAGS  = -L ${MLX_DIR} -lmlx -L ${LIBFT} -lft -L /usr/lib -lXext -lX11 -lm
+endif 
 
-all:		${NAME}
-${NAME}:	${OBJS} ${LIBFT}
-			make -C ${PATH_LIBFT}
-			${CC} ${OBJS} ${INCLUDES} ${FLAG_C} -o ${NAME} ${FLAG_LIB}${PATH_MLX} ${FLAG_LIB}${PATH_LIBFT} ${FLAG_MLX} -L /usr/lib
-.c.o:		
-			${CC} ${FLAG_C} ${INCLUDES} -c $< -o ${<:.c=.o}
+all: 		init ${NAME}
+
+init:
+			$(shell mkdir -p ${OBJS_DIR})
+			${MAKE} --silent -C ${LIBFT_DIR}
+			${MAKE} --silent -C ${MLX_DIR}
+
+${NAME}:	${OBJS}
+			${CC} ${CFLAGS} ${IFLAGS} -o $@ $^ ${LFLAGS}
+
+${OBJS_DIR}/%o:	%.c
+			${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
+
 clean:
-			${RM} ${OBJS}
-			make clean -C ${PATH_LIBFT}
+			${RM} ${OBJS_DIR}
+			${MAKE} clean --silent -C ${LIBFT_DIR}
+			${MAKE} clean --silent -C ${MLX_DIR}
 
-fclean:		clean
+fclean:
+			${RM} ${OBJS_DIR}
 			${RM} ${NAME}
+			${MAKE} fclean --silent -C ${LIBFT_DIR}
+			${MAKE} clean --silent -C ${MLX_DIR}
+
 re:			fclean all
+
+norme:
+			~/.norminette/norminette.rb ${SRCS_DIR}
+			~/.norminette/norminette.rb ${INC_DIR}
+
+.SUFFIXES:	.c .o .h
 .PHONY:		all clean fclean re
