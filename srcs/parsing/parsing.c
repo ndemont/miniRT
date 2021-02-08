@@ -103,7 +103,6 @@ int 	init_scene(t_scene *s, char **list)
 		return (0);
 	s->cameras[0].f = -1;
 	s->cam_nbr = c;
-	s->cameras[0].f = -1;
 	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
 		return (0);
 	s->objects[0].type = -1;

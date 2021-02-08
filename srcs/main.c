@@ -45,6 +45,7 @@ void	color_img(t_scene *s)
 	t_matrix	m;
 
 	ray.o = s->cameras[s->cam_i].o;
+	printf("ray origin %d:\nx = %f\ny = %f\nz = %f\n", s->cam_i, ray.o.coord[0], ray.o.coord[1], ray.o.coord[2]);
  	i = 0;
 	set_plan(s);
 	m = rotation_matrix(*s);
@@ -162,7 +163,14 @@ int		main(int ac, char **av)
 	init_general(&s);
 	if (!mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s))
 		return (0);
+	if (!mlx_hook(s.win_ptr, 17, 1L<<17, ft_cross, &s))
+		return (0);
+	//if (!mlx_hook(s.win_ptr, 33, 1L<<5, ft_cross, &s))
+	//	return (0);
 	mlx_loop_hook(s.mlx_ptr, ft_event, &s);
+	//if (!mlx_hook(s.win_ptr, 25, 1L<<18, ft_event, &s))
+	//	return (0);
+	//mlx_loop_hook(s.mlx_ptr, ft_cross, &s);
 	bmp_yay(&s);
 	print_window(s.mlx_ptr, s.win_ptr, s.images[0].img_ptr);
 	return (0);
