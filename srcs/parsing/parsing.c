@@ -52,11 +52,9 @@ char		*fill_type(int x, t_scene *s, char **line)
 char		*fill_scene(t_scene *s, char **list)
 {
 	int		type;
-	int		i;
 	char	**line;
 	char	*error;
 
-	i = 0;
 	while (*list)
 	{
 		type = get_type((ft_split(*list, ' '))[0]);

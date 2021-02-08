@@ -20,13 +20,13 @@ SRCS		=	./srcs/main.c \
 				./srcs/bmp/bmp_file.c \
 				
 OBJS		=	${SRCS:.c=.o}
-INCLUDES	=	-I./includes -I./libmlx -I./libft/includes
+INCLUDES	=	-I./includes -I./liblinux -I./libft/includes -I/usr/include
 RM			=	rm -f
-FLAG_C		=	-Wall -Werror -Wextra -O3 -Ofast
-FLAG_MLX	=	-lmlx -lft -framework OpenGL -framework AppKit
+FLAG_C		=	-O3 -Ofast
+FLAG_MLX	=	-lmlx -lm -lbsd -lX11 -lXext -lft #:-framework OpenGL -framework AppKit
 NAME		=	minirt
 FLAG_LIB	=	-L
-PATH_MLX	=	./libmlx
+PATH_MLX	=	./liblinux
 PATH_LIBFT	=	./libft
 LIBMLX		=	libmlx.a
 LIBFT		=	libft.a
@@ -34,7 +34,7 @@ LIBFT		=	libft.a
 all:		${NAME}
 ${NAME}:	${OBJS} ${LIBFT}
 			make -C ${PATH_LIBFT}
-			${CC} ${OBJS} ${INCLUDES} ${FLAG_C} ${FLAG_LIB}${PATH_MLX} ${FLAG_LIB}${PATH_LIBFT} ${FLAG_MLX} -o ${NAME}
+			${CC} ${OBJS} ${INCLUDES} ${FLAG_C} -o ${NAME} ${FLAG_LIB}${PATH_MLX} ${FLAG_LIB}${PATH_LIBFT} ${FLAG_MLX} -L /usr/lib
 .c.o:		
 			${CC} ${FLAG_C} ${INCLUDES} -c $< -o ${<:.c=.o}
 clean:

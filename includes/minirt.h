@@ -12,6 +12,33 @@
 # include <stdlib.h>
 # include "get_next_line.h"
 
+# ifdef LINUX
+# define MOVE_R 65363
+# define MOVE_L 65361
+# define MOVE_F 65360
+# define MOVE_B 65362
+# define LOOK_R 100
+# define LOOK_L 97
+# define LOOK_U 119
+# define LOOK_D 115
+# define SWITCH_CAM
+# define ESC 65307
+# else
+
+# define MOVE_R 65363
+
+# define MOVE_L 65361
+
+# define MOVE_F 65360
+# define MOVE_B 65362
+# define LOOK_R 100
+# define LOOK_L 97
+# define LOOK_U 119
+# define LOOK_D 115
+# define LOOK_D 115
+# define SWITCH_CAM
+# define ESC 65307
+
 typedef struct  s_BmpHeader
 {
     char            bitmapSbytes[2];

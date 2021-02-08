@@ -166,7 +166,6 @@ int		main(int ac, char **av)
 	if ((error = check_parsing(av[1], &s)))
 		return (print_errors2(error));
 	init_general(&s);
-	write(1, "hooks\n", 6);
 	if (!mlx_hook(s.win_ptr, 2, 1L<<0, ft_event, &s))
 		return (0);
 	if (!mlx_hook(s.win_ptr, 17, 1L<<17, ft_cross, &s))
