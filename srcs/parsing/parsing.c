@@ -6,16 +6,16 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/04 20:40:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/08 13:40:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int		get_type(char *line)
+int			get_type(char *line)
 {
-	int i;
-	int len;
+	int			i;
+	int			len;
 	static char	*list2[9] = {"R", "A", "c", "l", "sp", "sq", "cy", "tr", "pl"};
 
 	i = 0;
@@ -54,7 +54,7 @@ char		*fill_scene(t_scene *s, char **list)
 	int		type;
 	int		i;
 	char	**line;
-	char 	*error;
+	char	*error;
 
 	i = 0;
 	while (*list)
@@ -71,7 +71,7 @@ char		*fill_scene(t_scene *s, char **list)
 	return (error);
 }
 
-void	ft_count_elem(char **list, int *c, int *l, int *o)
+void		ft_count_elem(char **list, int *c, int *l, int *o)
 {
 	*c = 0;
 	*l = 0;
@@ -89,39 +89,15 @@ void	ft_count_elem(char **list, int *c, int *l, int *o)
 	}
 }
 
-int 	init_scene(t_scene *s, char **list)
-{
-	int c;
-	int l;
-	int o;
-
-	ft_count_elem(list, &c, &l, &o);
-	if (!(s->lights = malloc(sizeof(t_light) * (l + 1))))
-		return (0);
-	s->lights[0].i = -1;
-	if (!(s->cameras = malloc(sizeof(t_camera) * (c + 1))))
-		return (0);
-	s->cameras[0].f = -1;
-	s->cam_nbr = c;
-	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
-		return (0);
-	s->objects[0].type = -1;
-	s->A.i = 0;
-	return (1);
-}
-
 char		*check_parsing(char *file, t_scene *s)
 {
 	int		fd;
 	char	*line;
 	char	*content;
-	char 	**list;
+	char	**list;
 	int		ret;
-	char 	*error;
 
-	fd = open(file, O_RDONLY);
-	error = NULL;
-	if (fd < 0)
+	if ((fd = open(file, O_RDONLY)) < 0)
 		return ("Opening file error\n.");
 	ret = 1;
 	content = 0;
@@ -139,7 +115,5 @@ char		*check_parsing(char *file, t_scene *s)
 	close(fd);
 	if (!init_scene(s, list))
 		return (0);
-	error = fill_scene(s, list);
-	return (error);
+	return (fill_scene(s, list));
 }
-

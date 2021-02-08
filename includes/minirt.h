@@ -60,6 +60,8 @@ int			ft_strisdigit(char *str);
 int			ft_cross(int keycode, t_scene *s);
 t_img		ft_new_img(t_scene *s, int i);
 int		ft_move_cam(int keycode, t_scene *s);
+int 	init_scene(t_scene *s, char **list);
+void	ft_count_elem(char **list, int *c, int *l, int *o);
 
 
 #endif
