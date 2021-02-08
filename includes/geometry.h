@@ -119,7 +119,7 @@ t_vector	init_vector(float x, float y, float z);
 
 void		set_plan(t_scene *s);
 
-float		quadratic_resolution(float a, float b, float c, float *t1, float *t2);
+float		quadratic_resolution(float a, float b, float c, float t[2]);
 t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s);
 
 

@@ -16,6 +16,7 @@ SRCS		=	./srcs/main.c \
 				./srcs/hooks/hooks.c \
 				./srcs/geometry/vectors_op.c \
 				./srcs/geometry/vectors_op2.c \
+				./srcs/geometry/vectors_tools.c \
 				./srcs/bmp/bmp_file.c \
 				
 OBJS		=	${SRCS:.c=.o}

@@ -6,13 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/04 20:33:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/08 12:21:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-char 		*leaks(char **split, char *error)
+char		*leaks(char **split, char *error)
 {
 	int i;
 
@@ -31,10 +31,10 @@ int			ft_strisfloat(char *str)
 	int i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	if (str[i] == '-')
 		i++;
-	//if (!str[i])
-	//	return (0);
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] == '.')
@@ -51,8 +51,8 @@ int			ft_strisdigit(char *str)
 	int i;
 
 	i = 0;
-	//if (!str[i])
-	//	return (0);
+	if (!str)
+		return (0);
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] || i == 0)
@@ -112,7 +112,7 @@ char		*ft_check_color(char *line, float c[3])
 	while (i < 3)
 	{
 		if (ft_strisdigit(split[i]))
-			c[i]= ft_atof(split[i]);
+			c[i] = ft_atof(split[i]);
 		else 
 			return (leaks(split, "Color value must be integer"));
 		i++;
@@ -123,5 +123,3 @@ char		*ft_check_color(char *line, float c[3])
 		return (leaks(split, "Color values must ∈ [0;255]"));
 	return (leaks(split, 0));
 }
-
-

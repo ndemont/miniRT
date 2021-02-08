@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 10:12:22 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/05 14:21:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/08 12:19:34 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,31 @@ int		ft_move_cam(int keycode, t_scene *s)
 {
 	t_img	image;
 	
-	if (keycode == 0x7B) // left arrow
+	if (keycode == 0x7B)
 	{
 		s->cameras[s->cam_i].o.coord[0] = s->cameras[s->cam_i].o.coord[0] + 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x7C) // right arrow
+	if (keycode == 0x7C)
 	{
 		s->cameras[s->cam_i].o.coord[0] = s->cameras[s->cam_i].o.coord[0] - 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x7D) // down arrow
+	if (keycode == 0x7D)
 	{
 		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] + 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x7E) // up arrow
+	if (keycode == 0x7E)
 	{
 		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] - 5;
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x00) // a, vers les x positif
+	if (keycode == 0x00)
 	{
 		printf("left arrow");
 		s->cameras[s->cam_i].c.coord[0] = s->cameras[s->cam_i].c.coord[0] + 0.1;
@@ -88,7 +88,7 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x02) // d, vers les x negatif
+	if (keycode == 0x02)
 	{
 		s->cameras[s->cam_i].c.coord[0] = s->cameras[s->cam_i].c.coord[0] - 0.1;
 		if (s->cameras[s->cam_i].c.coord[0] < -1)
@@ -96,7 +96,7 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x0D) // w, vers les y positif
+	if (keycode == 0x0D)
 	{
 		s->cameras[s->cam_i].c.coord[1] = s->cameras[s->cam_i].c.coord[1] + 0.1;
 		if (s->cameras[s->cam_i].c.coord[1] > 1)
@@ -104,7 +104,7 @@ int		ft_move_cam(int keycode, t_scene *s)
 		image = ft_new_img(s, s->cam_i);
 		print_window(s->mlx_ptr, s->win_ptr, image.img_ptr);
 	}
-	if (keycode == 0x01) // s, vers les y negatif
+	if (keycode == 0x01)
 	{
 		s->cameras[s->cam_i].c.coord[2] = s->cameras[s->cam_i].c.coord[2] - 0.1;
 		if (s->cameras[s->cam_i].c.coord[1] < -1)
