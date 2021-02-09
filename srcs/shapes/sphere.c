@@ -6,11 +6,11 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:16:00 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/08 11:57:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 09:58:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <geometry.h>
+#include "geometry.h"
 
 float		quadratic_sp(t_ray ray, t_object sp, float t[2])
 {

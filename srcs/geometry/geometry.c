@@ -6,11 +6,12 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:32:23 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/08 12:15:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 15:25:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "geometry.h"
+#include "minirt.h"
 
 float		quadratic_resolution(float a, float b, float c, float t[2])
 {
@@ -21,7 +22,7 @@ float		quadratic_resolution(float a, float b, float c, float t[2])
 		return (0);
 	t[0] = (-b - (sqrt(delta))) / (2 * a);
 	t[1] = (-b + (sqrt(delta))) / (2 * a);
-	if (t[0] >= 0.000001)
+	if (t[1] >= 0.000001)
 		return (1);
 	else
 		return (0);
@@ -51,7 +52,7 @@ void		switch_normal(t_scene *s, t_ray ray, int i)
 	}
 	if (s->objects[i].type == 7)
 	{
-		normal = v_produit_v(v_minus_v(s->objects[i].t2, s->objects[i].t1),
+		normal = v_dot_v(v_minus_v(s->objects[i].t2, s->objects[i].t1),
 			v_minus_v(s->objects[i].t3, s->objects[i].t1));
 		scal = scalaire(v_minus_v(s->objects[i].t1, ray.o), normal);
 		s->objects[i].d = normal;

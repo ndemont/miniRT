@@ -1,4 +1,5 @@
 NAME		= minirt
+CLEAR		= \033[2K\c
 CC			= cc
 RM			= rm -rf
 OS			= $(shell uname)
@@ -35,7 +36,9 @@ ${NAME}:	${OBJS}
 			${CC} ${CFLAGS} ${IFLAGS} -o $@ $^ ${LFLAGS}
 
 ${OBJS_DIR}/%.o:	%.c
-			${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
+			@echo "${CLEAR}"
+			@echo "compiling $<\r\c"
+			@${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
 
 clean:
 			${RM} ${OBJS_DIR}

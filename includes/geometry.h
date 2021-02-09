@@ -37,19 +37,20 @@ typedef struct	s_ray
 	t_vector	d;
 }				t_ray;
 
-typedef struct	s_sphere
-{
-	t_vector	o;
-	float		r;
-	t_vector	albedo;
-}				t_sphere;
-
 typedef struct	s_camera
 {
 	float		f;
 	t_vector	o;
 	t_vector	c;
 }				t_camera;
+
+typedef struct s_pixel
+{
+	int 			p;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}				t_pixel;
 
 typedef struct	s_object
 {
@@ -85,7 +86,7 @@ typedef struct	s_scene
 	void			*img_ptr;
 	unsigned char	*data_addr;
 	int				bits_per_pixel;
-	int				size_line;
+	int				size;
 	int				endian;
 	int				ret;
 	int				cam_i;
@@ -95,15 +96,15 @@ typedef struct	s_scene
 
 
 t_vector	color_limit(t_vector v);
-
 float		intensity_limit(float i);
-
-int			ft_power(int nb, int power);
 
 float		scalaire(t_vector v1, t_vector v2);
 float		get_norme(t_vector v);
 float		get_norme_2(t_vector v1);
 void		normalize(t_vector *v);
+t_vector	get_normalized(t_vector v);
+
+int			closest_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *N);
 int			inter(t_ray ray, t_object sphere, t_vector *inter, t_vector *normal);
 float		inter_tr(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
 float		inter_cy(t_ray ray, t_object cy, t_vector *inter, t_vector *N);
@@ -111,30 +112,24 @@ float		inter_sp(t_ray ray, t_object sp, t_vector *inter, t_vector *normal);
 float		inter_sq(t_ray ray, t_object sq, t_vector *inter, t_vector *N);
 float		inter_pl(t_ray ray, t_object sp, t_vector *inter, t_vector *N);
 float		inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *N);
-int			closest_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *N);
 
 float		check_shadow(t_scene *s, t_vector inter, t_vector N, int l);
 
 t_vector	init_vector(float x, float y, float z);
+t_vector	v_plus_i(t_vector v, float i);
+t_vector	v_minus_i(t_vector v, float i);
+t_vector	v_mult_i(t_vector v, float i);
+t_vector	v_div_i(t_vector v, float i);
+t_vector	v_plus_v(t_vector v1, t_vector v2);
+t_vector	v_minus_v(t_vector v1, t_vector v2);
+t_vector	v_mult_v(t_vector v1, t_vector v2);
+t_vector	v_dot_v(t_vector v1, t_vector v2);
+t_vector	v_mult_m(t_vector v, t_matrix m);
 
 void		set_plan(t_scene *s);
 
 float		quadratic_resolution(float a, float b, float c, float t[2]);
 t_vector	find_intensity(t_vector inter, float *fint, t_vector N, t_scene s);
-
-
-t_vector	get_normalized(t_vector v);
-
-t_vector	v_plus_i(t_vector v, float i);
-t_vector	v_minus_i(t_vector v, float i);
-t_vector	v_mult_i(t_vector v, float i);
-t_vector	v_mult_v(t_vector v1, t_vector v2);
-t_vector	v_div_i(t_vector v, float i);
-t_vector	v_plus_v(t_vector v1, t_vector v2);
-t_vector	v_minus_v(t_vector v1, t_vector v2);
-t_vector	v_produit_v(t_vector v1, t_vector v2);
-t_vector	v_mult_m(t_vector v, t_matrix m);
-float		scalaire(t_vector v1, t_vector v2);
 
 char		*parsing_a(char **line, t_scene *elem);
 char		*parsing_r(char **line, t_scene *elem);

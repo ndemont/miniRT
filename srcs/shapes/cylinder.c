@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 11:12:58 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/08 12:00:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 15:25:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ float		quadratic_cy(t_ray ray, t_object cy, float t[2])
 	t_vector	rorcy;
 
 	rorcy = v_minus_v(ray.o, cy.o);
-	rao = v_produit_v(v_produit_v(cy.d, rorcy), cy.d);
-	va = v_produit_v(v_produit_v(cy.d, ray.d), cy.d);
+	rao = v_dot_v(v_dot_v(cy.d, rorcy), cy.d);
+	va = v_dot_v(v_dot_v(cy.d, ray.d), cy.d);
 	quadratic[0] = scalaire(va, va);
 	quadratic[1] = scalaire(v_mult_i(rao, 2), va);
 	quadratic[2] = scalaire(rao, rao) - powf(cy.diam, 2);

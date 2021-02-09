@@ -45,6 +45,7 @@ SRCS		=	./srcs/gnl/get_next_line.c \
 				./srcs/mem/ft_calloc.c \
 				./srcs/convert/ft_toupper.c \
 				./srcs/convert/ft_atoi.c \
+				./srcs/convert/ft_atof.c \
 				./srcs/convert/ft_itoa.c \
 				./srcs/convert/ft_tolower.c \
 				./srcs/printf/ft_put_functions.c \
@@ -56,7 +57,7 @@ SRCS		=	./srcs/gnl/get_next_line.c \
 				./srcs/printf/ft_check_conversion.c \
 				./srcs/printf/ft_init_parsing.c \
 				./srcs/printf/ft_print_hexa.c \
-				./srcs/printf/ft_select_conversion.c
+				./srcs/printf/ft_select_conversion.c \
 
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	./includes
@@ -69,15 +70,18 @@ COLOR_DEFAULT	= \e[0m
 COLOR_GREEN		= \e[92m
 COLOR_YELLOW	= \e[93m
 COLOR_BLUE		= \e[94m
+CLEAR			= \033[2K
 
 all:		${NAME}
 	
 ${NAME}:	${OBJS} ${INCLUDES}
+			@printf "${CLEAR}"
 			@ar rcs ${NAME} ${OBJS}
 			@printf "📚 ${COLOR_BLUE}${NAME} created${COLOR_DEFAULT}\n"
 
 .c.o:
-			@printf "🚧 ${COLOR_GREEN}Compiling $<${COLOR_DEFAULT}\n"
+			@printf "${CLEAR}"
+			@printf "🚧 ${COLOR_GREEN}Compiling $<${COLOR_DEFAULT}\r"
 			@${CC} ${CFLAGS} -I${INCLUDES} -c $< -o ${<:.c=.o}
 clean:
 			@printf "🧽 ${COLOR_YELLOW}Cleaning... ${NAME}${COLOR_DEFAULT}\n"
