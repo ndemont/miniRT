@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/08 13:40:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 17:26:18 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,37 @@ void		ft_count_elem(char **list, int *c, int *l, int *o)
 	}
 }
 
+char 		*read_file(int fd)
+{
+	char 	*content;
+	char 	*tmp;
+	char 	*line;
+	int		ret;
+
+	ret = 1;
+	while (ret > 0)
+	{
+		ret = get_next_line(fd, &line);
+		if (ret < 0)
+		{
+			free(line);
+			return ("Reading file error.\n");
+		}
+		tmp = content;
+		content = ft_strjoin(content, line);
+		free(tmp);
+		tmp = content;
+		content = ft_strjoin(content, "\n");
+		free(tmp);
+		free(line);
+	}
+	return (content);
+}
+
 char		*check_parsing(char *file, t_scene *s)
 {
 	int		fd;
-	char	*line;
+	//char	*line;
 	char	*content;
 	char	**list;
 	int		ret;
@@ -99,15 +126,15 @@ char		*check_parsing(char *file, t_scene *s)
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return ("Opening file error\n.");
 	ret = 1;
-	content = 0;
-	while (ret > 0)
-	{
-		ret = get_next_line(fd, &line);
-		if (ret < 0)
-			return ("Reading file error.\n");
-		content = ft_strjoin(content, line);
-		content = ft_strjoin(content, "\n");
-	}
+	content = read_file(fd);
+	// while (ret > 0)
+	// {
+	// 	ret = get_next_line(fd, &line);
+	// 	if (ret < 0)
+	// 		return ("Reading file error.\n");
+	// 	content = ft_strjoin(content, line);
+	// 	content = ft_strjoin(content, "\n");
+	// }
 	if (content[0] == '\n')
 		return ("Empty file.");
 	list = ft_split(content, '\n');
