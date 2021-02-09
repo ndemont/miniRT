@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 15:36:39 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/03 20:33:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:28:56 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,29 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector n, t_scene s)
 	rgb = color_limit(rgb);
 	*fint = intensity_limit(*fint);
 	return (rgb);
+}
+
+static t_pixel	fill_pixel(t_scene *s, int obj, t_vector light, float intensity)
+{
+	t_pixel pixel;
+
+	pixel.r = fmin(s->objects[obj].c.coord[0], light.coord[0]) * intensity;
+	pixel.g = fmin(s->objects[obj].c.coord[1], light.coord[1]) * intensity;
+	pixel.b = fmin(s->objects[obj].c.coord[2], light.coord[2]) * intensity;
+	return (pixel);
+}
+
+t_pixel	find_color(t_scene *s, int obj, t_vector inter, t_vector normal)
+{
+	float			intensity;
+	t_vector		lights;
+	t_vector		new;
+	t_pixel			pixel;
+
+	intensity = 0;
+	new = v_minus_v(s->lights[0].o, inter);
+	new = get_normalized(new);
+	lights = find_intensity(inter, &intensity, normal, *s);
+	pixel = fill_pixel(s, obj, lights, intensity);
+	return (pixel);
 }

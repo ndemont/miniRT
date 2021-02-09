@@ -6,38 +6,13 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 15:06:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:49:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
 #include "geometry.h"
-
-static t_pixel	fill_pixel(t_scene *s, int obj, t_vector light, float intensity)
-{
-	t_pixel pixel;
-
-	pixel.r = fmin(s->objects[obj].c.coord[0], light.coord[0]) * intensity;
-	pixel.g = fmin(s->objects[obj].c.coord[1], light.coord[1]) * intensity;
-	pixel.b = fmin(s->objects[obj].c.coord[2], light.coord[2]) * intensity;
-	return (pixel);
-}
-
-static t_pixel	find_color(t_scene *s, int obj, t_vector inter, t_vector normal)
-{
-	float			intensity;
-	t_vector		lights;
-	t_vector		new;
-	t_pixel			pixel;
-
-	intensity = 0;
-	new = v_minus_v(s->lights[0].o, inter);
-	new = get_normalized(new);
-	lights = find_intensity(inter, &intensity, normal, *s);
-	pixel = fill_pixel(s, obj, lights, intensity);
-	return (pixel);
-}
 
 static void		create_img(t_ray ray, int i[2], t_scene *s, t_matrix m)
 {
@@ -70,7 +45,6 @@ void			minirt(t_scene *s)
 	ray.o = s->cameras[s->cam_i].o;
 	ray.d.coord[2] = -((s->R[0]) / (2 * (tan(s->cameras[s->cam_i].f / 2))));
 	i[0] = 0;
-	set_plan(s);
 	m = rotation_matrix(*s);
 	while (i[0] < s->R[1])
 	{
@@ -84,23 +58,50 @@ void			minirt(t_scene *s)
 	}
 }
 
+#ifdef LINUX
+
+void	init_general(t_scene *s)
+{
+	int x;
+	int y;
+
+	(void)x;
+	(void)y;
+	s->mlx_ptr = mlx_init();
+	s->bits_per_pixel = 0;
+	s->size = 0;
+	s->endian = 0;
+	mlx_get_screen_size(s->mlx_ptr, &x, &y);
+	set_plan(s);
+}
+
+#else
+
+void	init_general(t_scene *s)
+{
+	int x;
+	int y;
+
+	(void)x;
+	(void)y;
+	s->mlx_ptr = mlx_init();
+	s->bits_per_pixel = 0;
+	s->size = 0;
+	s->endian = 0;
+	set_plan(s);
+}
+
+#endif
+
+
 int			main(int ac, char **av)
 {
-	char 			*error;
 	t_scene			s;
 
-	if (ac < 2 || ac > 3)
-		return (print_errors(1));
-	if (!check_file(av[1]))
-		return (print_errors(2));
-	if (ac == 3)
-	{
-		if (ft_strcmp(av[2], "-save"))
-			return (print_errors(5));
-	}
-	if ((error = check_parsing(av[1], &s)))
-		return (print_errors2(error));
+	if (check_errors(ac, av, &s))
+		return (1);
 	init_general(&s);
+	init_images(&s);
 	if (!mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s))
 		return (0);
 	if (!mlx_hook(s.win_ptr, 17, 1L << 17, ft_cross, &s))
@@ -111,7 +112,6 @@ int			main(int ac, char **av)
 	//if (!mlx_hook(s.win_ptr, 25, 1L << 18, ft_event, &s))
 	//	return (0);
 	//mlx_loop_hook(s.mlx_ptr, ft_cross, &s);
-	bmp_yay(&s);
 	print_window(s.mlx_ptr, s.win_ptr, s.images[0].img_ptr);
 	return (0);
 }

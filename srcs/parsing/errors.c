@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:37 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 11:38:23 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/09 16:48:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,31 @@ int		check_file(char *filename)
 	return (1);
 }
 
-int		print_errors(int error)
-{
-	if (error == 1)
-		ft_printf("Wrong number of arguments.\n");
-	if (error == 2)
-		ft_printf("Wrong type of file\n");
-	if (error == 3)
-		ft_printf("Wrong configuration of the file\n");
-	if (error == 5)
-		ft_printf("Wrong option\n");
-	return (1);
-}
 
 int		print_errors2(char *error)
 {
 	ft_printf("%s\n", error);
 	return (1);
+}
+
+
+int		check_errors(int ac, char **av, t_scene *s)
+{
+	char 			*error;
+
+	if (ac < 2 || ac > 3)
+		return (print_errors2("Wrong number of arguments."));
+	if (!check_file(av[1]))
+		return (print_errors2("Wrong type of file."));
+	if (ac == 3)
+	{
+		if (ft_strcmp(av[2], "-save"))
+			return (print_errors2("Wrong option\n"));
+		init_general(s);
+		save_bmp(s);
+		exit(0);
+	}
+	if ((error = check_parsing(av[1], s)))
+		return (print_errors2(error));
+	return (0);
 }

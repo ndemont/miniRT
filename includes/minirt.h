@@ -36,7 +36,7 @@ void        minirt(t_scene *s);
 void	    print_window(void *mlx_ptr, void *win_ptr, void *img_ptr);
 int         ft_switch_cam(int keycode, t_scene *s);
 char 		*leaks(char **split, char *error);
-int         bmp_yay(t_scene *s);
+int		save_bmp(t_scene *s);
 
 char		*ft_check_coord(char *line, float c[3]);
 char		*ft_check_color(char *line, float c[3]);
@@ -45,14 +45,20 @@ int			ft_strisfloat(char *str);
 int			ft_strisdigit(char *str);
 int			ft_cross(int keycode, t_scene *s);
 t_img		ft_new_img(t_scene *s);
-void	ft_move_cam(int keycode, t_scene *s);
-int 	init_scene(t_scene *s, char **list);
-void	ft_count_elem(char **list, int *c, int *l, int *o);
+void	    ft_move_cam(int keycode, t_scene *s);
+int 	    init_scene(t_scene *s, char **list);
+void	    ft_count_elem(char **list, int *c, int *l, int *o);
 char		*leaks(char **split, char *error);
-int		print_errors(int error);
-int		print_errors2(char *error);
+int		    print_errors(int error);
+int		    print_errors2(char *error);
 t_matrix	rotation_matrix(t_scene s);
-void	init_general(t_scene *s);
+void	    init_general(t_scene *s);
 
+
+int		check_errors(int ac, char **av, t_scene *s);
+void	init_images(t_scene *s);
+
+t_pixel	find_color(t_scene *s, int obj, t_vector inter, t_vector normal);
+void	bmp_image(t_scene *s);
 
 #endif
