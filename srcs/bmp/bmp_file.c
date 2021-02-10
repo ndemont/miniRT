@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 16:48:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 12:19:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int		save_bmp(t_scene *s)
 	ft_fill_bmp(fd, s);
 	ft_fill_pixel(fd, s);
 	close(fd);
+	free_scene(0, s);
 	exit(0);
 	return (0);
 }

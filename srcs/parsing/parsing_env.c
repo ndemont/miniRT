@@ -6,14 +6,14 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:32:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/08 13:34:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 12:29:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "libft.h"
 
-int 	init_scene(t_scene *s, char **list)
+int		init_scene(t_scene *s, char **list)
 {
 	int c;
 	int l;
@@ -34,7 +34,7 @@ int 	init_scene(t_scene *s, char **list)
 	return (1);
 }
 
-char		*parsing_r(char **line, t_scene *elem)
+char	*parsing_r(char **line, t_scene *elem)
 {
 	if (!line[1] || !line[2])
 		return ("Resolution: Missing argument.\n");
@@ -46,16 +46,12 @@ char		*parsing_r(char **line, t_scene *elem)
 	elem->R[1] = ft_atof(line[2]);
 	if ((int)(elem->R[0]) <= 0 || (int)(elem->R[1]) <= 0)
 		return ("Resolution: value can not be negative.\n");
-	// if (elem->R[0] > width_max)
-	// 	elem->R[0] = width_max;
-	// if (elem->R[1] > height_max)
-	// 	elem->R[1] = height_max;
 	if (line[3])
 		return ("Resolution: too many arguments.\n");
 	return (0);
 }
 
-char		*parsing_a(char **line, t_scene *elem)
+char	*parsing_a(char **line, t_scene *elem)
 {
 	char	*error;
 
@@ -71,7 +67,7 @@ char		*parsing_a(char **line, t_scene *elem)
 	return (0);
 }
 
-char		*parsing_c(char **line, t_scene *elem)
+char	*parsing_c(char **line, t_scene *elem)
 {
 	char	*error;
 	int		i;
@@ -93,7 +89,7 @@ char		*parsing_c(char **line, t_scene *elem)
 	return (0);
 }
 
-char		*parsing_l(char **line, t_scene *elem)
+char	*parsing_l(char **line, t_scene *elem)
 {
 	char	*error;
 	int		i;

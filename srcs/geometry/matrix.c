@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:32:50 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 15:25:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 11:27:35 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_matrix	rotation_matrix(t_scene s)
 	t_vector up;
 
 	forward = get_normalized(v_mult_i(s.cameras[s.cam_i].c, -1));
-	if (abs((int)forward.coord[1]) == 1)
+	if ((int)forward.coord[1] == 1 || (int)forward.coord[1] == -1)
 		right = get_normalized(init_vector(1, 0, 0));
 	else
 		right = get_normalized(init_vector(0, 1, 0));

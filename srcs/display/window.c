@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:11:34 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 16:44:37 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 12:26:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_img	ft_new_img(t_scene *s)
 
 t_img	*ft_load_imgs(t_scene *s)
 {
-	int 	i;
+	int		i;
 	t_img	*images;
 
 	i = 0;
@@ -42,12 +42,14 @@ t_img	*ft_load_imgs(t_scene *s)
 		s->cam_i = i;
 		images[i] = ft_new_img(s);
 		i++;
+		printf("image %i created\n", i);
 	}
 	return (images);
 }
 
 void	init_images(t_scene *s)
 {
+	printf("Resolution %f - %f\n", s->R[0], s->R[1]);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
 	s->images = ft_load_imgs(s);
 	s->cam_i = 0;

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 10:12:22 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 11:27:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 12:20:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 int				ft_event(int keycode, t_scene *s)
 {
 	if (!ft_close_win(keycode, s))
+	{
+		free_scene(0, s);
 		exit(0);
+	}
 	ft_switch_cam(keycode, s);
 	ft_move_cam(keycode, s);
 	return (1);

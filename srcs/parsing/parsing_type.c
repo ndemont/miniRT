@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 13:19:18 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 10:50:59 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 11:43:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ char		*ft_check_coord(char *line, float c[3])
 		if (ft_strisfloat(split[i]))
 			c[i] = ft_atof(split[i]);
 		else
-			return (leaks(split, "Coordinates value must be float"));
+			return (free_split(split, "Coordinates value must be float"));
 		i++;
 	}
 	if (split[3])
-		return (leaks(split, "Wrong number of coordinates arguments"));
-	return (leaks(split, 0));
+		return (free_split(split, "Wrong number of coordinates arguments"));
+	return (free_split(split, 0));
 }
 
 char		*ft_check_color(char *line, float c[3])
@@ -101,13 +101,13 @@ char		*ft_check_color(char *line, float c[3])
 		if (ft_strisdigit(split[i]))
 			c[i] = ft_atof(split[i]);
 		else
-			return (leaks(split, "Color value must be integer"));
+			return (free_split(split, "Color value must be integer"));
 		i++;
 	}
 	if (split[3])
-		return (leaks(split, "Wrong number of color arguments"));
+		return (free_split(split, "Wrong number of color arguments"));
 	if (c[0] < 0 || c[1] < 0 || c[2] < 0 || c[0] > 255 ||
 		c[1] > 255 || c[2] > 255)
-		return (leaks(split, "Color values must ∈ [0;255]"));
-	return (leaks(split, 0));
+		return (free_split(split, "Color values must ∈ [0;255]"));
+	return (free_split(split, 0));
 }

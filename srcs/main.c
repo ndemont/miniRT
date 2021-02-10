@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 16:49:35 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 12:25:16 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "mlx.h"
 #include "geometry.h"
 
-static void		create_img(t_ray ray, int i[2], t_scene *s, t_matrix m)
+static void	create_img(t_ray ray, int i[2], t_scene *s, t_matrix m)
 {
 	t_pixel		pxl;
 	t_vector	inter;
@@ -36,7 +36,7 @@ static void		create_img(t_ray ray, int i[2], t_scene *s, t_matrix m)
 	}
 }
 
-void			minirt(t_scene *s)
+void		minirt(t_scene *s)
 {
 	int			i[2];
 	t_ray		ray;
@@ -60,7 +60,7 @@ void			minirt(t_scene *s)
 
 #ifdef LINUX
 
-void	init_general(t_scene *s)
+void		init_general(t_scene *s)
 {
 	int x;
 	int y;
@@ -72,18 +72,17 @@ void	init_general(t_scene *s)
 	s->size = 0;
 	s->endian = 0;
 	mlx_get_screen_size(s->mlx_ptr, &x, &y);
+	if (s->R[0] > x)
+		s->R[0] = x;
+	if (s->R[1] > y)
+		s->R[1] = y;
 	set_plan(s);
 }
 
 #else
 
-void	init_general(t_scene *s)
+void		init_general(t_scene *s)
 {
-	int x;
-	int y;
-
-	(void)x;
-	(void)y;
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
 	s->size = 0;
@@ -92,7 +91,6 @@ void	init_general(t_scene *s)
 }
 
 #endif
-
 
 int			main(int ac, char **av)
 {
@@ -113,5 +111,5 @@ int			main(int ac, char **av)
 	//	return (0);
 	//mlx_loop_hook(s.mlx_ptr, ft_cross, &s);
 	print_window(s.mlx_ptr, s.win_ptr, s.images[0].img_ptr);
-	return (0);
+	return (free_scene(0, &s));
 }

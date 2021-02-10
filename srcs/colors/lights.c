@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 15:36:39 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/09 16:28:56 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 12:26:32 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector n, t_scene s)
 	return (rgb);
 }
 
-static t_pixel	fill_pixel(t_scene *s, int obj, t_vector light, float intensity)
+t_pixel		fill_pixel(t_scene *s, int obj, t_vector light, float intensity)
 {
 	t_pixel pixel;
 
@@ -69,7 +69,7 @@ static t_pixel	fill_pixel(t_scene *s, int obj, t_vector light, float intensity)
 	return (pixel);
 }
 
-t_pixel	find_color(t_scene *s, int obj, t_vector inter, t_vector normal)
+t_pixel		find_color(t_scene *s, int obj, t_vector inter, t_vector normal)
 {
 	float			intensity;
 	t_vector		lights;
