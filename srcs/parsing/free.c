@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 10:21:19 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:27:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 14:52:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*free_split(char **split, char *error)
 	int i;
 
 	i = 0;
+	if (!split)
+		return (error);
 	while (split[i])
 	{
 		free(split[i]);

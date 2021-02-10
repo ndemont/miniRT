@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:25:16 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:21:03 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,14 @@ void		init_general(t_scene *s)
 	s->bits_per_pixel = 0;
 	s->size = 0;
 	s->endian = 0;
+	s->lights = 0;
+	s->cameras = 0;
+	s->objects = 0;
 	mlx_get_screen_size(s->mlx_ptr, &x, &y);
 	if (s->R[0] > x)
 		s->R[0] = x;
 	if (s->R[1] > y)
 		s->R[1] = y;
-	set_plan(s);
 }
 
 #else
@@ -87,7 +89,11 @@ void		init_general(t_scene *s)
 	s->bits_per_pixel = 0;
 	s->size = 0;
 	s->endian = 0;
-	set_plan(s);
+	s->lights = 0;
+	s->cameras = 0;
+	s->objects = 0;
+	s->R[0] = 0;
+	s->R[1] = 0;
 }
 
 #endif
@@ -96,9 +102,9 @@ int			main(int ac, char **av)
 {
 	t_scene			s;
 
+	init_general(&s);
 	if (check_errors(ac, av, &s))
 		return (1);
-	init_general(&s);
 	init_images(&s);
 	if (!mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s))
 		return (0);

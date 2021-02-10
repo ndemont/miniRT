@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:25:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/04 20:29:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:32:03 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char		*parsing_sp(char **line, t_scene *elem)
 	int		i;
 
 	if (line[4])
-		return ("Sphere: too many arguments.\n");
+		return ("Sphere: wrong numbers of arguments.\n");
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
@@ -67,7 +67,7 @@ char		*parsing_cy(char **line, t_scene *elem)
 	int		i;
 
 	if (line[6])
-		return ("Cylinder: too many arguments.\n");
+		return ("Cylinder: wrong numbers of argumetns.");
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
@@ -77,14 +77,14 @@ char		*parsing_cy(char **line, t_scene *elem)
 		return (error);
 	if ((error = ft_check_coord(line[2], elem->objects[i].d.coord)))
 		return (error);
-	if (!ft_strisfloat(line[3]))
-		return ("Cylinder: diameter must be a float.\n");
-	elem->objects[i].diam = ft_atof(line[3]) / 2;
-	if (!ft_strisfloat(line[3]))
-		return ("Cylinder: height must be a float.\n");
-	elem->objects[i].h = ft_atof(line[4]);
-	if ((error = ft_check_color(line[5], elem->objects[i].c.coord)))
+	if ((error = ft_check_color(line[3], elem->objects[i].c.coord)))
 		return (error);
+	if (!ft_strisfloat(line[4]))
+		return ("Cylinder: diameter must be a float.");
+	elem->objects[i].diam = ft_atof(line[4]) / 2;
+	if (!ft_strisfloat(line[5]))
+		return ("Cylinder: height must be a float.");
+	elem->objects[i].h = ft_atof(line[5]);
 	return (0);
 }
 
@@ -94,7 +94,7 @@ char		*parsing_tr(char **line, t_scene *elem)
 	int		i;
 
 	if (line[5])
-		return ("Triangle: too many arguments.\n");
+		return ("Triangle: wrong numbers of arguments.");
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;

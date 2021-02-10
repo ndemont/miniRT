@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:19:02 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:22:09 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	bmp_image(t_scene *s)
 
 	s->cam_i = 0;
 	images = malloc(sizeof(t_img));
+	set_plan(s);
 	images[0] = ft_new_img(s);
 }
 

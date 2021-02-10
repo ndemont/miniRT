@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:11:34 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:26:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:38:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_img	*ft_load_imgs(t_scene *s)
 
 void	init_images(t_scene *s)
 {
-	printf("Resolution %f - %f\n", s->R[0], s->R[1]);
+	set_plan(s);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
 	s->images = ft_load_imgs(s);
 	s->cam_i = 0;

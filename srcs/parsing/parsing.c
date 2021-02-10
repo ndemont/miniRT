@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 13:46:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 14:54:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,15 @@ char		*fill_scene(t_scene *s, char **list)
 		type = get_type(line[0]);
 		if (type == -1)
 			return ("Wrong object");
-		//line = ft_split(*list, ' ');
 		if ((error = fill_type(type, s, line)))
 			return (free_split(line, error));
 		free_split(line, error);
 		list++;
 	}
+	if ((int)(s->R[0]) == 0 || (int)(s->R[1]) == 0)
+		return ("Error 11: Resolution has to be set to open a window");
+	if (s->cam_nbr < 1)
+		return ("Error 11: At least one camera has to be set to create a view");
 	return (error);
 }
 
@@ -103,7 +106,7 @@ static char	*read_file(int fd)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
-			return (free_parsing(content));
+			return (0);
 		tmp = content;
 		content = ft_strjoin(content, line);
 		free(tmp);
@@ -124,12 +127,12 @@ char		*check_parsing(char *file, t_scene *s)
 	char 	*ret2;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
-		return ("Opening file error\n.");
+		return ("Error 2: Cannot open file.");
 	ret = 1;
 	if (!(content = read_file(fd)))
-		return ("Error 3: Reading file.");
+		return ("Error 3: Cannot read file.");
 	if (content[0] == '\n')
-		return ("Empty file.");
+		return ("Error 4: Empty file.");
 	list = ft_split(content, '\n');
 	free_parsing(content);
 	close(fd);

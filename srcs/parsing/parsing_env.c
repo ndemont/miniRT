@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:32:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:29:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 15:00:58 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,19 @@ int		init_scene(t_scene *s, char **list)
 char	*parsing_r(char **line, t_scene *elem)
 {
 	if (!line[1] || !line[2])
-		return ("Resolution: Missing argument.\n");
+		return ("Error 8: Resolution - missing argument.");
 	if (!ft_strisfloat(line[1]))
-		return ("Resolution: value must be digital.\n");
+		return ("Error 10: Resolution - value must be digital.");
 	if (!ft_strisfloat(line[2]))
-		return ("Resolution: value must be digital.\n");
+		return ("Error 10: Resolution: value must be digital.");
+	if (elem->R[0] || elem->R[1])
+		return ("Resolution: too many resolution.");
 	elem->R[0] = ft_atof(line[1]);
 	elem->R[1] = ft_atof(line[2]);
 	if ((int)(elem->R[0]) <= 0 || (int)(elem->R[1]) <= 0)
-		return ("Resolution: value can not be negative.\n");
+		return ("Error 9: Resolution - value can not be negative.");
 	if (line[3])
-		return ("Resolution: too many arguments.\n");
+		return ("Resolution: too many arguments.");
 	return (0);
 }
 
@@ -56,9 +58,11 @@ char	*parsing_a(char **line, t_scene *elem)
 	char	*error;
 
 	if (!line[1] || !line[2])
-		return ("Ambiant light: Missing argument.\n");
+		return ("Ambiant light: Missing argument.");
 	if (!ft_strisfloat(line[1]))
-		return ("Ambiant light: value must be digital.\n");
+		return ("Ambiant light: value must be digital.");
+	if (elem->A.i < 0)
+		return ("Ambiant light: too many ambiant lights.");
 	elem->A.i = ft_atof(line[1]);
 	if ((error = ft_check_color(line[2], elem->A.color.coord)))
 		return (error);
@@ -95,7 +99,7 @@ char	*parsing_l(char **line, t_scene *elem)
 	int		i;
 
 	if (line[4])
-		return ("Light: too many arguments.\n");
+		return ("Light: wrong numbers of arguments.\n");
 	i = 0;
 	while (elem->lights[i].i != -1)
 		i++;

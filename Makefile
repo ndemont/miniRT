@@ -1,4 +1,4 @@
-NAME		= minirt
+NAME		= miniRT
 CLEAR		= \033[2K\c
 CC			= cc
 RM			= rm -rf
