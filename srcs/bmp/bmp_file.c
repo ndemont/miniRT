@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:18:05 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 18:40:32 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,16 @@ void	bmp_image(t_scene *s)
 	images[0] = ft_new_img(s);
 }
 
-int		save_bmp(t_scene *s)
+char	*save_bmp(t_scene *s)
 {
 	int				fd;
 
 	bmp_image(s);
 	fd = open("new.bmp", O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
-		return (printf("Error: can not open file.\n"));
+		return ("Error 3: Cannot open file.");
 	ft_fill_bmp(fd, s);
 	ft_fill_pixel(fd, s);
 	close(fd);
-	free_scene(0, s);
-	exit(0);
 	return (0);
 }

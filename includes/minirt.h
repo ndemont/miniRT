@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 18:01:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:03:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 18:41:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		*free_split(char **split, char *error);
 char		*free_parsing(char *content);
 int			free_scene(char **split, t_scene *s);
 
-int			save_bmp(t_scene *s);
+char		*save_bmp(t_scene *s);
 
 char		*ft_check_coord(char *line, float c[3]);
 char		*ft_check_color(char *line, float c[3]);

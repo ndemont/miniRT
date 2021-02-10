@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:11:34 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:18:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 18:40:14 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_img	*ft_load_imgs(t_scene *s)
 		s->cam_i = i;
 		images[i] = ft_new_img(s);
 		i++;
-		printf("image %i created\n", i);
+		ft_printf("Camera number %i created.\n", i);
 	}
 	return (images);
 }

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:20:33 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 18:42:07 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ char		*fill_scene(t_scene *s, char **list)
 		line = ft_split(*list, ' ');
 		type = get_type(line[0]);
 		if (type == -1)
-			return ("Wrong object");
+			return ("Error 7: Unknown object.");
 		if ((error = fill_type(type, s, line)))
 			return (free_split(line, error));
 		free_split(line, error);
 		list++;
 	}
 	if ((int)(s->r[0]) == 0 || (int)(s->r[1]) == 0)
-		return ("Error 11: Resolution has to be set to open a window");
+		return ("Error 8: Resolution has to be set to open a window.");
 	if (s->cam_nbr < 1)
-		return ("Error 11: At least one camera has to be set to create a view");
+		return ("Error 9: One camera has to be set to create a view.");
 	return (error);
 }
 
@@ -127,21 +127,21 @@ char		*check_parsing(char *file, t_scene *s)
 	char 	*ret2;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
-		return ("Error 2: Cannot open file.");
+		return ("Error 3: Cannot open file.");
 	ret = 1;
 	if (!(content = read_file(fd)))
-		return ("Error 3: Cannot read file.");
+		return ("Error 4: Cannot read file.");
 	if (content[0] == '\n')
-		return ("Error 4: Empty file.");
+		return ("Error 5: Empty file.");
 	list = ft_split(content, '\n');
 	free_parsing(content);
 	close(fd);
 	if (!init_scene(s, list))
 	{
 		free_scene(list, s);
-		return (0);
+		return ("Error 6: memory allocation failure.");
 	}
 	ret2 = fill_scene(s, list);
-	free_split(list, "Error");
+	free_split(list, 0);
 	return (ret2);
 }
