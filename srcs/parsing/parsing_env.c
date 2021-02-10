@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:32:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 15:00:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 17:22:39 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		init_scene(t_scene *s, char **list)
 	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
 		return (0);
 	s->objects[0].type = -1;
-	s->A.i = 0;
+	s->a.i = 0;
 	return (1);
 }
 
@@ -42,11 +42,11 @@ char	*parsing_r(char **line, t_scene *elem)
 		return ("Error 10: Resolution - value must be digital.");
 	if (!ft_strisfloat(line[2]))
 		return ("Error 10: Resolution: value must be digital.");
-	if (elem->R[0] || elem->R[1])
+	if (elem->r[0] || elem->r[1])
 		return ("Resolution: too many resolution.");
-	elem->R[0] = ft_atof(line[1]);
-	elem->R[1] = ft_atof(line[2]);
-	if ((int)(elem->R[0]) <= 0 || (int)(elem->R[1]) <= 0)
+	elem->r[0] = ft_atof(line[1]);
+	elem->r[1] = ft_atof(line[2]);
+	if ((int)(elem->r[0]) <= 0 || (int)(elem->r[1]) <= 0)
 		return ("Error 9: Resolution - value can not be negative.");
 	if (line[3])
 		return ("Resolution: too many arguments.");
@@ -61,10 +61,10 @@ char	*parsing_a(char **line, t_scene *elem)
 		return ("Ambiant light: Missing argument.");
 	if (!ft_strisfloat(line[1]))
 		return ("Ambiant light: value must be digital.");
-	if (elem->A.i < 0)
+	if (elem->a.i < 0)
 		return ("Ambiant light: too many ambiant lights.");
-	elem->A.i = ft_atof(line[1]);
-	if ((error = ft_check_color(line[2], elem->A.color.coord)))
+	elem->a.i = ft_atof(line[1]);
+	if ((error = ft_check_color(line[2], elem->a.color.coord)))
 		return (error);
 	if (line[3])
 		return ("Ambiant light: too many arguments.");

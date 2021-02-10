@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:11:34 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 15:38:46 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 17:18:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_img	ft_new_img(t_scene *s)
 {
 	t_img img;
 
-	img.img_ptr = mlx_new_image(s->mlx_ptr, s->R[0], s->R[1]);
+	img.img_ptr = mlx_new_image(s->mlx_ptr, s->r[0], s->r[1]);
 	s->data_addr = (unsigned char *)mlx_get_data_addr(img.img_ptr,
 		&(s->bits_per_pixel), &(s->size), &(s->endian));
 	minirt(s);
@@ -50,7 +50,7 @@ t_img	*ft_load_imgs(t_scene *s)
 void	init_images(t_scene *s)
 {
 	set_plan(s);
-	s->win_ptr = mlx_new_window(s->mlx_ptr, s->R[0], s->R[1], "miniRT");
+	s->win_ptr = mlx_new_window(s->mlx_ptr, s->r[0], s->r[1], "miniRT");
 	s->images = ft_load_imgs(s);
 	s->cam_i = 0;
 }

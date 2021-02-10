@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 14:54:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 17:20:33 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char		*fill_scene(t_scene *s, char **list)
 		free_split(line, error);
 		list++;
 	}
-	if ((int)(s->R[0]) == 0 || (int)(s->R[1]) == 0)
+	if ((int)(s->r[0]) == 0 || (int)(s->r[1]) == 0)
 		return ("Error 11: Resolution has to be set to open a window");
 	if (s->cam_nbr < 1)
 		return ("Error 11: At least one camera has to be set to create a view");

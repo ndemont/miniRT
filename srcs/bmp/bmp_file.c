@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 15:22:09 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 17:18:05 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	ft_fill_bmp(int fd, t_scene *s)
 	short int	short_value;
 
 	write(fd, "BM", 2);
-	int_value = 54 + (4 * s->R[0] * s->R[1]);
+	int_value = 54 + (4 * s->r[0] * s->r[1]);
 	write(fd, &int_value, 4);
 	write(fd, "\0\0\0\0", 4);
 	int_value = 54;
 	write(fd, &int_value, 4);
 	int_value = 40;
 	write(fd, &int_value, 4);
-	int_value = s->R[0];
+	int_value = s->r[0];
 	write(fd, &int_value, 4);
-	int_value = s->R[1];
+	int_value = s->r[1];
 	write(fd, &int_value, 4);
 	short_value = 1;
 	write(fd, &short_value, 2);
@@ -45,11 +45,11 @@ void	ft_fill_pixel(int fd, t_scene *s)
 	int		j;
 	int		pixel;
 
-	i = s->R[0] - 1;
+	i = s->r[0] - 1;
 	while (i >= 0)
 	{
 		j = 0;
-		while (j < s->R[1])
+		while (j < s->r[1])
 		{
 			pixel = (i * s->size) + (j * 4);
 			write(fd, &s->data_addr[pixel + 0], 3);

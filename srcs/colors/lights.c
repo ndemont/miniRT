@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 15:36:39 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:26:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 17:18:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector n, t_scene s)
 		rgb = v_plus_v(rgb, v_mult_i(s.lights[i].c, intensity));
 		i++;
 	}
-	*fint += s.A.i;
-	rgb = v_plus_v(rgb, v_mult_i(s.A.color, s.A.i));
+	*fint += s.a.i;
+	rgb = v_plus_v(rgb, v_mult_i(s.a.color, s.a.i));
 	rgb = color_limit(rgb);
 	*fint = intensity_limit(*fint);
 	return (rgb);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:30:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/03 11:28:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/10 17:27:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ float	inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *normal)
 	return (t);
 }
 
-int		closest_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *normal)
+int		near_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *normal)
 {
 	t_vector	inter_p;
 	t_vector	normal_p;
