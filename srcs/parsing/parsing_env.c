@@ -34,6 +34,8 @@ int		init_scene(t_scene *s, char **list)
 	return (1);
 }
 
+#ifdef LINUX
+
 char	*parsing_r(char **line, t_scene *elem)
 {
 	int x;
@@ -62,6 +64,30 @@ char	*parsing_r(char **line, t_scene *elem)
 	return (0);
 }
 
+#else
+
+char	*parsing_r(char **line, t_scene *elem)
+{
+	if (!line[1] || !line[2])
+		return ("Error 8: Resolution - missing argument.");
+	if (!ft_strisfloat(line[1]))
+		return ("Error 10: Resolution - value must be digital.");
+	if (!ft_strisfloat(line[2]))
+		return ("Error 10: Resolution: value must be digital.");
+	if (elem->r[0] || elem->r[1])
+		return ("Resolution: too many resolution.");
+	elem->r[0] = ft_atof(line[1]);
+	elem->r[1] = ft_atof(line[2]);
+	if ((int)(elem->r[0]) <= 0 || (int)(elem->r[1]) <= 0)
+		return ("Error 9: Resolution value has to be > 0");
+	if (line[3])
+		return ("Resolution: too many arguments.");
+	return (0);
+}
+
+
+#endif
+
 char	*parsing_a(char **line, t_scene *elem)
 {
 	char	*error;
@@ -79,6 +105,7 @@ char	*parsing_a(char **line, t_scene *elem)
 		return ("Ambiant light: too many arguments.");
 	return (0);
 }
+
 
 char	*parsing_c(char **line, t_scene *elem)
 {
