@@ -5,7 +5,7 @@ RM			= rm -rf
 OS			= $(shell uname)
 
 CFLAGS		= -Wall -Wextra -Werror -O3 -Ofast
-IFLAGS		= -I${INC_DIR} -I${MLX_DIR} -I${LIBFT_DIR}/includes
+IFLAGS		= -I${INC_DIR} -I${MLX_DIR} -I${LIBFT_DIR}/includes -D LINUX=0
 LFLAGS		= -L ${MLX_DIR} -lmlx -L ${LIBFT_DIR} -lft -framework OpenGL -framework AppKit
 
 SRCS_DIR	= srcs

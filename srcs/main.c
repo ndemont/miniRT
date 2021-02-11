@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:27:03 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 00:07:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,78 +14,72 @@
 #include "mlx.h"
 #include "geometry.h"
 
-void	create_img(t_ray ray, int i[2], t_scene *s, t_matrix m)
+int		init_scene(t_scene *s, char **list)
+{
+	int c;
+	int l;
+	int o;
+
+	ft_count_elem(list, &c, &l, &o);
+	if (!(s->lights = malloc(sizeof(t_light) * (l + 1))))
+		return (0);
+	s->lights[0].i = -1;
+	if (!(s->cameras = malloc(sizeof(t_camera) * (c + 1))))
+		return (0);
+	s->cameras[0].f = -1;
+	s->cam_nbr = c;
+	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
+		return (0);
+	s->objects[0].type = -1;
+	s->a.i = 0;
+	return (1);
+}
+
+void	create_img(t_ray ray, t_pos pos, t_scene *s, t_matrix m)
 {
 	t_pixel		pxl;
 	t_vector	inter;
 	t_vector	normal;
 	int			object;
 
-	ray.d.coord[0] = (i[1] - ((s->r[0]) / 2));
-	ray.d.coord[1] = (i[0] - ((s->r[1]) / 2));
+	ray.d.coord[0] = (pos.j - ((s->r[0]) / 2));
+	ray.d.coord[1] = (pos.i - ((s->r[1]) / 2));
 	normalize(&ray.d);
 	ray.d = get_normalized(v_mult_m(ray.d, m));
 	object = near_inter(ray, s, &inter, &normal);
 	if (object != -1)
 	{
 		pxl = find_color(s, object, inter, normal);
-		pxl.p = (((s->r[1]) - i[0] - 1) * s->size) + ((s->r[0]) - i[1] - 1) * 4;
+		pxl.p = (((s->r[1]) - pos.i - 1) * s->size) + ((s->r[0]) - pos.j - 1) * 4;
 		s->data_addr[pxl.p + 2] = pxl.r;
 		s->data_addr[pxl.p + 1] = pxl.g;
 		s->data_addr[pxl.p + 0] = pxl.b;
 	}
 }
 
-void		minirt(t_scene *s)
+void	minirt(t_scene *s)
 {
-	int			i[2];
+	t_pos		pos;
 	t_ray		ray;
 	t_matrix	m;
 
 	ray.o = s->cameras[s->cam_i].o;
 	ray.d.coord[2] = -((s->r[0]) / (2 * (tan(s->cameras[s->cam_i].f / 2))));
-	i[0] = 0;
+	pos.i = 0;
 	m = rotation_matrix(*s);
-	while (i[0] < s->r[1])
+	while (pos.i < s->r[1])
 	{
-		i[1] = 0;
-		while (i[1] < s->r[0])
+		pos.j = 0;
+		while (pos.j < s->r[0])
 		{
-			create_img(ray, i, s, m);
-			(i[1])++;
+			create_img(ray, pos, s, m);
+			pos.j++;
 		}
-		(i[0])++;
+		pos.i++;
 	}
 }
 
-#ifdef LINUX
-
-void		init_general(t_scene *s)
-{
-	int x;
-	int y;
-
-	(void)x;
-	(void)y;
-	s->mlx_ptr = mlx_init();
-	s->bits_per_pixel = 0;
-	s->size = 0;
-	s->endian = 0;
-	s->lights = 0;
-	s->cameras = 0;
-	s->objects = 0;
-	s->images = 0;
-	s->cam_i = 0;
-	mlx_get_screen_size(s->mlx_ptr, &x, &y);
-	if (s->r[0] > x)
-		s->r[0] = x;
-	if (s->r[1] > y)
-		s->r[1] = y;
-}
-
-#else
-
-void		init_general(t_scene *s)
+void	init_general(t_scene *s)
 {
 	s->mlx_ptr = mlx_init();
 	s->bits_per_pixel = 0;
@@ -96,13 +90,12 @@ void		init_general(t_scene *s)
 	s->objects = 0;
 	s->images = 0;
 	s->cam_i = 0;
+	s->cam_nbr = 0;
 	s->r[0] = 0;
 	s->r[1] = 0;
 }
 
-#endif
-
-int			main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_scene			s;
 
@@ -112,16 +105,12 @@ int			main(int ac, char **av)
 	write(1, "parsing done\n", 13);
 	init_images(&s);
 	write(1, "images created\n", 15);
-	if (!mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s))
-		return (0);
-	if (!mlx_hook(s.win_ptr, 17, 1L << 17, ft_cross, &s))
-		return (0);
-	//if (!mlx_hook(s.win_ptr, 33, 1L << 5, ft_cross, &s))
-	//	return (0);
+	mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s);
+	if (!LINUX)
+		mlx_hook(s.win_ptr, 17, 1L << 17, ft_cross, &s);
+	else
+		mlx_hook(s.win_ptr, 33, 1L << 5, ft_cross, &s);
 	mlx_loop_hook(s.mlx_ptr, ft_event, &s);
-	//if (!mlx_hook(s.win_ptr, 25, 1L << 18, ft_event, &s))
-	//	return (0);
-	//mlx_loop_hook(s.mlx_ptr, ft_cross, &s);
 	print_window(s.mlx_ptr, s.win_ptr, s.images[0].img_ptr);
 	return (free_scene(0, &s));
 }

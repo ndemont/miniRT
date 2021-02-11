@@ -6,35 +6,14 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:32:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:22:39 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/11 23:39:13 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "libft.h"
 
-int		init_scene(t_scene *s, char **list)
-{
-	int c;
-	int l;
-	int o;
-
-	ft_count_elem(list, &c, &l, &o);
-	if (!(s->lights = malloc(sizeof(t_light) * (l + 1))))
-		return (0);
-	s->lights[0].i = -1;
-	if (!(s->cameras = malloc(sizeof(t_camera) * (c + 1))))
-		return (0);
-	s->cameras[0].f = -1;
-	s->cam_nbr = c;
-	if (!(s->objects = malloc(sizeof(t_object) * (o + 1))))
-		return (0);
-	s->objects[0].type = -1;
-	s->a.i = 0;
-	return (1);
-}
-
-#ifdef LINUX
+#if LINUX == 1
 
 char	*parsing_r(char **line, t_scene *elem)
 {
@@ -55,8 +34,7 @@ char	*parsing_r(char **line, t_scene *elem)
 	if (elem->r[0] > x)
 		elem->r[0] = x;
 	if (elem->r[1] > y)
-		elem->r[1] = y;	
-	printf("x = %f\ny = %f\n", elem->r[0], elem->r[1]);
+		elem->r[1] = y;
 	if ((int)(elem->r[0]) <= 0 || (int)(elem->r[1]) <= 0)
 		return ("Error 9: Resolution value has to be > 0");
 	if (line[3])
@@ -85,7 +63,6 @@ char	*parsing_r(char **line, t_scene *elem)
 	return (0);
 }
 
-
 #endif
 
 char	*parsing_a(char **line, t_scene *elem)
@@ -105,7 +82,6 @@ char	*parsing_a(char **line, t_scene *elem)
 		return ("Ambiant light: too many arguments.");
 	return (0);
 }
-
 
 char	*parsing_c(char **line, t_scene *elem)
 {

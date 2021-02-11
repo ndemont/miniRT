@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 17:03:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:24:10 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 00:05:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <math.h>
+
+typedef struct		s_pos
+{
+					int i;
+					int j;
+}					t_pos;
+
+typedef struct		s_resolution
+{
+					int width;
+					int height;
+}					t_resolution;
 
 typedef struct		s_vector
 {
@@ -63,6 +75,17 @@ typedef struct		s_pixel
 	char			b;
 }					t_pixel;
 
+/* s_object
+** c => 
+** o => 
+** d =>
+** t1
+** t2
+** t3
+** p
+** h
+** diam 
+*/
 typedef struct		s_object
 {
 	int				type;
@@ -84,6 +107,12 @@ typedef struct		s_img
 	unsigned char	*data_addr;
 }					t_img;
 
+typedef struct plan
+{
+	float x;
+	float y;
+} t_plan;
+
 typedef struct		s_scene
 {
 	float			r[2];
@@ -101,6 +130,7 @@ typedef struct		s_scene
 	int				ret;
 	int				cam_i;
 	int				cam_nbr;
+	float			bmp[2];
 	t_img			*images;
 }					t_scene;
 

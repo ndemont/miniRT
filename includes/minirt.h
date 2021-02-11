@@ -32,9 +32,9 @@
 # else
 #  define MOVE_R 0x7C
 #  define MOVE_L 0x7B
-#  define MOVE_F 0x7D
-#  define MOVE_B 0x7E
-#  define SWITCH_CAM 0x08
+#  define MOVE_F 0x7E
+#  define MOVE_B 0x7D
+#  define SWITCH_CAM 0x31
 #  define ESC 0x35
 # endif
 

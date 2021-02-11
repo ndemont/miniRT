@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:32:23 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:44:40 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 00:03:30 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,12 @@ void		set_plan(t_scene *s)
 	int			i;
 
 	i = 0;
-	write(1, "plans not set\n" ,14);
 	while (s->objects[i].type != -1)
 	{
-		write(1, "beginning objects search\n", 25);
-		printf("camera = %d\n", s->cam_i);
 		ray.o = s->cameras[s->cam_i].o;
-		printf(" ray o = %f/%f/%f\n", ray.o.coord[0], ray.o.coord[1], ray.o.coord[2]);
 		ray.d = s->cameras[s->cam_i].c;
 		normalize(&ray.d);
-		write(1, "not switched\n", 13);
 		switch_normal(s, ray, i);
-		write(1, "switched\n", 9);
 		i++;
 	}
-	write(1, "plans set\n" ,10);
 }

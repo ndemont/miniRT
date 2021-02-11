@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:42:07 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/11 19:09:25 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char		*check_parsing(char *file, t_scene *s)
 	char	*content;
 	char	**list;
 	int		ret;
-	char 	*ret2;
+	char	*ret2;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return ("Error 3: Cannot open file.");

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 12:11:34 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:40:14 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/11 19:07:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_img	*ft_load_imgs(t_scene *s)
 
 void	init_images(t_scene *s)
 {
-	write(1, "beginning images\n" ,17);
+	write(1, "beginning images\n", 17);
 	set_plan(s);
 	write(1, "plan setted\n", 12);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->r[0], s->r[1], "miniRT");
