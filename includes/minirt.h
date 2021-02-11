@@ -20,7 +20,9 @@
 # include "geometry.h"
 # include "libft.h"
 # include "printf.h"
+# include "get_next_line.h"
 # include <stdlib.h>
+# ifdef LINUX
 #  define MOVE_R 65363
 #  define MOVE_L 65361
 #  define MOVE_F 65362
