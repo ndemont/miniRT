@@ -47,6 +47,7 @@ static void		ft_print_w(t_scene *s)
 
 void			ft_move_cam(int keycode, t_scene *s)
 {
+	printf("keycode = %d\n", keycode);
 	if (keycode == MOVE_L)
 	{
 		s->cameras[s->cam_i].o.coord[0] = s->cameras[s->cam_i].o.coord[0] + 5;
@@ -59,12 +60,12 @@ void			ft_move_cam(int keycode, t_scene *s)
 	}
 	if (keycode == MOVE_F)
 	{
-		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] + 5;
+		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] - 5;
 		ft_print_w(s);
 	}
 	if (keycode == MOVE_B)
 	{
-		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] - 5;
+		s->cameras[s->cam_i].o.coord[2] = s->cameras[s->cam_i].o.coord[2] + 5;
 		ft_print_w(s);
 	}
 }

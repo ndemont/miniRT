@@ -49,7 +49,9 @@ t_img	*ft_load_imgs(t_scene *s)
 
 void	init_images(t_scene *s)
 {
+	write(1, "beginning images\n" ,17);
 	set_plan(s);
+	write(1, "plan setted\n", 12);
 	s->win_ptr = mlx_new_window(s->mlx_ptr, s->r[0], s->r[1], "miniRT");
 	s->images = ft_load_imgs(s);
 	s->cam_i = 0;

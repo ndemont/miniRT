@@ -21,13 +21,11 @@
 # include "libft.h"
 # include "printf.h"
 # include <stdlib.h>
-# include "get_next_line.h"
-# ifdef LINUX
 #  define MOVE_R 65363
 #  define MOVE_L 65361
-#  define MOVE_F 65360
-#  define MOVE_B 65362
-#  define SWITCH_CAM 65311
+#  define MOVE_F 65362
+#  define MOVE_B 65364
+#  define SWITCH_CAM 32
 #  define ESC 65307
 # else
 #  define MOVE_R 0x7C

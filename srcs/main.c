@@ -75,6 +75,7 @@ void		init_general(t_scene *s)
 	s->cameras = 0;
 	s->objects = 0;
 	s->images = 0;
+	s->cam_i = 0;
 	mlx_get_screen_size(s->mlx_ptr, &x, &y);
 	if (s->r[0] > x)
 		s->r[0] = x;
@@ -94,6 +95,7 @@ void		init_general(t_scene *s)
 	s->cameras = 0;
 	s->objects = 0;
 	s->images = 0;
+	s->cam_i = 0;
 	s->r[0] = 0;
 	s->r[1] = 0;
 }
@@ -107,7 +109,9 @@ int			main(int ac, char **av)
 	init_general(&s);
 	if (check_errors(ac, av, &s))
 		return (1);
+	write(1, "parsing done\n", 13);
 	init_images(&s);
+	write(1, "images created\n", 15);
 	if (!mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s))
 		return (0);
 	if (!mlx_hook(s.win_ptr, 17, 1L << 17, ft_cross, &s))
