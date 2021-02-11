@@ -1,10 +1,10 @@
 NAME		= miniRT
 CLEAR		= \033[2K\c
-CC			= cc
+CC			= clang
 RM			= rm -rf
 OS			= $(shell uname)
 
-CFLAGS		= -Wall -Werror -Wextra -O3 -Ofast
+CFLAGS		= -Wall -Wextra -Werror -O3 -Ofast
 IFLAGS		= -I${INC_DIR} -I${MLX_DIR} -I${LIBFT_DIR}/includes
 LFLAGS		= -L ${MLX_DIR} -lmlx -L ${LIBFT_DIR} -lft -framework OpenGL -framework AppKit
 
@@ -22,7 +22,7 @@ vpath		%.c $(shell find ${SRCS_DIR} -type d)
 ifeq (${OS}, Linux)
 	MLX_DIR = liblinux
 	IFLAGS  = -I/usr/include -I${MLX_DIR} -I${INC_DIR} -I${LIBFT_DIR}/includes -D LINUX=1
-	LFLAGS  = -L ${MLX_DIR} -lmlx -L ${LIBFT} -lft -L /usr/lib -lXext -lX11 -lm
+	LFLAGS  = -L ${MLX_DIR} -lmlx -L ${LIBFT_DIR} -lft -L /usr/lib -lXext -lX11 -lm
 endif 
 
 all: 		init ${NAME}

@@ -27,7 +27,7 @@
 #  define MOVE_L 65361
 #  define MOVE_F 65360
 #  define MOVE_B 65362
-#  define SWITCH_CAM
+#  define SWITCH_CAM 65311
 #  define ESC 65307
 # else
 #  define MOVE_R 0x7C

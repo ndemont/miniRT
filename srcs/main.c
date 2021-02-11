@@ -74,6 +74,7 @@ void		init_general(t_scene *s)
 	s->lights = 0;
 	s->cameras = 0;
 	s->objects = 0;
+	s->images = 0;
 	mlx_get_screen_size(s->mlx_ptr, &x, &y);
 	if (s->r[0] > x)
 		s->r[0] = x;
@@ -92,6 +93,7 @@ void		init_general(t_scene *s)
 	s->lights = 0;
 	s->cameras = 0;
 	s->objects = 0;
+	s->images = 0;
 	s->r[0] = 0;
 	s->r[1] = 0;
 }

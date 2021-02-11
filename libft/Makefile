@@ -62,7 +62,7 @@ SRCS		=	./srcs/gnl/get_next_line.c \
 OBJS		=	${SRCS:.c=.o}
 INCLUDES	=	./includes
 NAME		=	libft.a
-CC			=	gcc
+CC			=	clang
 RM 			=	rm -f
 CFLAGS		=	-Wall -Wextra -Werror
 
