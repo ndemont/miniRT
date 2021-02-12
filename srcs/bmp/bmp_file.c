@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 01:03:55 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 13:06:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_fill_bmp(int fd, t_scene *s)
 	short int	short_value;
 
 	write(fd, "BM", 2);
-	int_value = 54 + (4 * s->r[0] * s->r[1]);
+	int_value = 54 + (4 * (int)s->r[0] * (int)s->r[1]);
 	write(fd, &int_value, 4);
 	write(fd, "\0\0\0\0", 4);
 	int_value = 54;
@@ -45,14 +45,14 @@ void	ft_fill_pixel(int fd, t_scene *s)
 	int		j;
 	int		pixel;
 
-	i = s->r[0] - 1;
+	i = (int)s->r[0] - 1;
 	while (i >= 0)
 	{
 		j = 0;
-		while (j < s->r[1])
+		while (j < (int)s->r[1])
 		{
 			pixel = (i * s->size) + (j * 4);
-			write(fd, &s->data_addr[pixel + 0], 3);
+			write(fd, &s->data_addr[pixel], 3);
 			write(fd, "\0", 1);
 			j++;
 		}
@@ -67,6 +67,8 @@ void	bmp_image(t_scene *s)
 	s->cam_i = 0;
 	images = malloc(sizeof(t_img));
 	set_plan(s);
+	s->r[0] = s->reso.width;
+	s->r[1] = s->reso.height;
 	if (s->reso.width > MAX_WIDTH_BMP || s->reso.width < 0)
 	{
 		ft_printf("Oooops :/ your width resolution is too high for my bmp:\n\
@@ -92,6 +94,10 @@ char	*save_bmp(t_scene *s)
 	fd = open("new.bmp", O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (fd < 0)
 		return ("Error 3: Cannot open file.");
+	printf("size line = %d\n", s->size);
+	printf("w = %f\n", s->r[0]);
+	printf("h = %f\n", s->r[1]);
+	printf("size line = %d\n", s->size);
 	ft_fill_bmp(fd, s);
 	ft_fill_pixel(fd, s);
 	close(fd);
