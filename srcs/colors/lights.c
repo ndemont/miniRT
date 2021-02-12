@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 15:36:39 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 16:08:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 17:52:28 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,6 @@ t_pixel		find_color(t_scene *s, int obj, t_vector inter, t_vector normal)
 	new = v_minus_v(s->lights[0].o, inter);
 	new = get_normalized(new);
 	lights = find_intensity(inter, &intensity, normal, *s);
-	if (s->objects[obj].type == 4)
-	{
-		printf("test\n");
-		s->objects[obj].c = get_sphere_pattern(s, obj, inter);
-	}
 	pixel = fill_pixel(s, obj, lights, intensity);
 	return (pixel);
 }

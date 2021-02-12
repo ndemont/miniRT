@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 13:11:24 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 19:43:21 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	minirt(t_scene *s)
 	ray.o = s->cameras[s->cam_i].o;
 	ray.d.coord[2] = -((s->r[0]) / (2 * (tan(s->cameras[s->cam_i].f / 2))));
 	pos.i = 0;
-	m = rotation_matrix(*s);
+	m = rotation_matrix(s->cameras[s->cam_i].c);
 	while (pos.i < s->r[1])
 	{
 		pos.j = 0;

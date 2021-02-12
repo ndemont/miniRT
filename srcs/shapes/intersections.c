@@ -6,11 +6,12 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:30:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 17:27:44 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 18:21:54 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <geometry.h>
+#include "geometry.h"
+#include "minirt.h"
 
 float	inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *normal)
 {
@@ -30,8 +31,8 @@ int		near_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *normal)
 {
 	t_vector	inter_p;
 	t_vector	normal_p;
-	int			i;
 	int			object;
+	int			i;
 	float		t[2];
 
 	t[0] = 1E99;
@@ -49,5 +50,7 @@ int		near_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *normal)
 		}
 		i++;
 	}
+	if (object != -1 && s->objects[object].type == 4)
+		s->objects[object].c = get_sphere_pattern(s, object, *inter);
 	return (object);
 }

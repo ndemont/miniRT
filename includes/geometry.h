@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 17:03:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 13:10:26 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 18:43:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,20 @@ typedef struct		s_img
 	void			*img_ptr;
 	unsigned char	*data_addr;
 }					t_img;
+
+typedef struct   s_pattern
+{
+    float width;
+    float height;
+    t_vector a;
+    t_vector b;
+}               t_pattern;
+
+typedef struct   s_2d
+{
+    float u;
+    float v;
+}               t_2d;
 
 typedef struct		s_scene
 {

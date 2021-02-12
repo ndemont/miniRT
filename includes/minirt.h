@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 18:01:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 16:07:41 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 19:43:45 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 #  define ESC 0x35
 # endif
 
-t_vector    get_sphere_pattern(t_scene *s, int i, t_vector inter);
+t_vector	get_sphere_pattern(t_scene *s, int i, t_vector inter);
 
 int			check_file(char *filename);
 char		*check_parsing(char *file, t_scene *s);
@@ -73,7 +73,7 @@ void		ft_move_cam(int keycode, t_scene *s);
 int			init_scene(t_scene *s, char **list);
 void		ft_count_elem(char **list, int *c, int *l, int *o);
 int			print_errors(char *error);
-t_matrix	rotation_matrix(t_scene s);
+t_matrix	rotation_matrix(t_vector c);
 void		init_general(t_scene *s);
 
 int			check_errors(int ac, char **av, t_scene *s);
