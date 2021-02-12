@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:40:32 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 01:03:55 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,20 @@ void	bmp_image(t_scene *s)
 	s->cam_i = 0;
 	images = malloc(sizeof(t_img));
 	set_plan(s);
+	if (s->reso.width > MAX_WIDTH_BMP || s->reso.width < 0)
+	{
+		ft_printf("Oooops :/ your width resolution is too high for my bmp:\n\
+given resolution:\t%d\n\
+hardcoded to HD:\t%d\n\n", s->reso.width, MAX_WIDTH_BMP);
+		s->r[0] = MAX_WIDTH_BMP;
+	}
+	if (s->reso.height > MAX_HEIGHT_BMP || s->reso.height < 0)
+	{
+		ft_printf("Oooops :/ your height resolution is too high for my bmp:\n\
+given resolution:\t%d\n\
+hardcoded to HD:\t%d\n\n", s->reso.height, MAX_HEIGHT_BMP);
+		s->r[1] = MAX_HEIGHT_BMP;
+	}
 	images[0] = ft_new_img(s);
 }
 

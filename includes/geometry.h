@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 17:03:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 00:05:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 01:03:17 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct		s_scene
 	int				ret;
 	int				cam_i;
 	int				cam_nbr;
-	float			bmp[2];
+	t_resolution	reso;
 	t_img			*images;
 }					t_scene;
 

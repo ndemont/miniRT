@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 18:01:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:41:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 01:01:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 # include "printf.h"
 # include "get_next_line.h"
 # include <stdlib.h>
-# ifdef LINUX
+# define MAX_WIDTH_BMP 1920
+# define MAX_HEIGHT_BMP 1080
+# define MAX_WIDTH_MAC 1280
+# define MAX_HEIGHT_MAC 720
+# if LINUX == 1
 #  define MOVE_R 65363
 #  define MOVE_L 65361
 #  define MOVE_F 65362

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:32:05 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/11 23:39:13 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 01:03:42 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #if LINUX == 1
 
-char	*parsing_r(char **line, t_scene *elem)
+char	*parsing_r(char **line, t_scene *s)
 {
 	int x;
 	int y;
@@ -26,16 +26,18 @@ char	*parsing_r(char **line, t_scene *elem)
 		return ("Error 10: Resolution - value must be digital.");
 	if (!ft_strisfloat(line[2]))
 		return ("Error 10: Resolution: value must be digital.");
-	if (elem->r[0] || elem->r[1])
+	if (s->r[0] || s->r[1])
 		return ("Resolution: too many resolution.");
-	elem->r[0] = ft_atof(line[1]);
-	elem->r[1] = ft_atof(line[2]);
-	mlx_get_screen_size(elem->mlx_ptr, &x, &y);
-	if (elem->r[0] > x)
-		elem->r[0] = x;
-	if (elem->r[1] > y)
-		elem->r[1] = y;
-	if ((int)(elem->r[0]) <= 0 || (int)(elem->r[1]) <= 0)
+	s->r[0] = ft_atof(line[1]);
+	s->r[1] = ft_atof(line[2]);
+	s->reso.width = s->r[0];
+	s->reso.height = s->r[1];
+	mlx_get_screen_size(s->mlx_ptr, &x, &y);
+	if (s->r[0] > x)
+		s->r[0] = x;
+	if (s->r[1] > y)
+		s->r[1] = y;
+	if ((int)(s->r[0]) <= 0 || (int)(s->r[1]) <= 0)
 		return ("Error 9: Resolution value has to be > 0");
 	if (line[3])
 		return ("Resolution: too many arguments.");
@@ -44,7 +46,7 @@ char	*parsing_r(char **line, t_scene *elem)
 
 #else
 
-char	*parsing_r(char **line, t_scene *elem)
+char	*parsing_r(char **line, t_scene *s)
 {
 	if (!line[1] || !line[2])
 		return ("Error 8: Resolution - missing argument.");
@@ -52,11 +54,17 @@ char	*parsing_r(char **line, t_scene *elem)
 		return ("Error 10: Resolution - value must be digital.");
 	if (!ft_strisfloat(line[2]))
 		return ("Error 10: Resolution: value must be digital.");
-	if (elem->r[0] || elem->r[1])
+	if (s->r[0] || s->r[1])
 		return ("Resolution: too many resolution.");
-	elem->r[0] = ft_atof(line[1]);
-	elem->r[1] = ft_atof(line[2]);
-	if ((int)(elem->r[0]) <= 0 || (int)(elem->r[1]) <= 0)
+	s->r[0] = ft_atof(line[1]);
+	s->r[1] = ft_atof(line[2]);
+	s->reso.width = s->r[0];
+	s->reso.height = s->r[1];
+	if (s->r[0] > MAX_WIDTH_MAC)
+		s->r[0] = MAX_WIDTH_MAC;
+	if (s->r[1] > MAX_HEIGHT_MAC)
+		s->r[1] = MAX_HEIGHT_MAC;
+	if ((int)(s->r[0]) <= 0 || (int)(s->r[1]) <= 0)
 		return ("Error 9: Resolution value has to be > 0");
 	if (line[3])
 		return ("Resolution: too many arguments.");
