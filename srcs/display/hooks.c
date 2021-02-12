@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 10:12:22 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 12:20:33 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 13:16:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void		ft_print_w(t_scene *s)
 
 void			ft_move_cam(int keycode, t_scene *s)
 {
-	printf("keycode = %d\n", keycode);
 	if (keycode == MOVE_L)
 	{
 		s->cameras[s->cam_i].o.coord[0] = s->cameras[s->cam_i].o.coord[0] + 5;

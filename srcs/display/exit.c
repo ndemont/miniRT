@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:23:38 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 00:17:58 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 13:12:04 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int		ft_cross(int keycode, t_scene *s)
 {
 	(void)keycode;
 	(void)s;
-	//free_scene(0, s);
 	exit(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 00:07:28 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 13:11:24 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	create_img(t_ray ray, t_pos pos, t_scene *s, t_matrix m)
 	if (object != -1)
 	{
 		pxl = find_color(s, object, inter, normal);
-		pxl.p = (((s->r[1]) - pos.i - 1) * s->size) + ((s->r[0]) - pos.j - 1) * 4;
+		pxl.p = (((s->r[1]) - pos.i - 1) * s->size);
+		pxl.p += ((s->r[0]) - pos.j - 1) * 4;
 		s->data_addr[pxl.p + 2] = pxl.r;
 		s->data_addr[pxl.p + 1] = pxl.g;
 		s->data_addr[pxl.p + 0] = pxl.b;

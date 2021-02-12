@@ -6,12 +6,37 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:37 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/10 18:37:47 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/12 13:13:36 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
+
+char	*fill_scene(t_scene *s, char **list)
+{
+	int		type;
+	char	**line;
+	char	*error;
+
+	error = 0;
+	while (*list)
+	{
+		line = ft_split(*list, ' ');
+		type = get_type(line[0]);
+		if (type == -1)
+			return ("Error 7: Unknown object.");
+		if ((error = fill_type(type, s, line)))
+			return (free_split(line, error));
+		free_split(line, error);
+		list++;
+	}
+	if ((int)(s->r[0]) == 0 || (int)(s->r[1]) == 0)
+		return ("Error 8: Resolution has to be set to open a window.");
+	if (s->cam_nbr < 1)
+		return ("Error 9: One camera has to be set to create a view.");
+	return (error);
+}
 
 int		check_file(char *filename)
 {
