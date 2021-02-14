@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:32:23 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 00:03:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/14 22:55:23 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void		switch_normal(t_scene *s, t_ray ray, int i)
 	float		scal;
 	t_vector	normal;
 
-	if (s->objects[i].type == 5 || s->objects[i].type == 8)
+	if (s->objects[i].type == 5 || s->objects[i].type == 8 || s->objects[i].type == 9)
 	{
 		normal = get_normalized(s->objects[i].d);
 		scal = scalaire(v_minus_v(s->objects[i].o, ray.o), normal);
@@ -76,3 +76,5 @@ void		set_plan(t_scene *s)
 		i++;
 	}
 }
+
+

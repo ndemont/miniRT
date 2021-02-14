@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:30:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 18:21:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/14 23:03:49 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ float	inter_type(t_ray ray, t_object o, t_vector *inter, t_vector *normal)
 	type[6] = &inter_cy;
 	type[7] = &inter_tr;
 	type[8] = &inter_pl;
+	type[9] = &inter_cl;
+	type[10] = &inter_sp;
 	t = (*type[o.type])(ray, o, inter, normal);
 	return (t);
 }
@@ -50,7 +52,7 @@ int		near_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *normal)
 		}
 		i++;
 	}
-	if (object != -1 && s->objects[object].type == 4)
-		s->objects[object].c = get_sphere_pattern(s, object, *inter);
+	if (object != -1 && s->objects[object].type == 10)
+		s->objects[object].c = get_sphere_pattern(s, object, *inter, s->objects[object].h);
 	return (object);
 }

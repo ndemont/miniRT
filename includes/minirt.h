@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 18:01:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 19:43:45 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/14 23:05:22 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define MAX_WIDTH_BMP 1920
 # define MAX_HEIGHT_BMP 1080
 # define MAX_WIDTH_MAC 1280
-# define MAX_HEIGHT_MAC 720
+# define MAX_HEIGHT_MAC 1000
 # if LINUX == 1
 #  define MOVE_R 65363
 #  define MOVE_L 65361
@@ -41,8 +41,6 @@
 #  define SWITCH_CAM 0x31
 #  define ESC 0x35
 # endif
-
-t_vector	get_sphere_pattern(t_scene *s, int i, t_vector inter);
 
 int			check_file(char *filename);
 char		*check_parsing(char *file, t_scene *s);
@@ -80,5 +78,14 @@ int			check_errors(int ac, char **av, t_scene *s);
 void		init_images(t_scene *s);
 t_pixel		find_color(t_scene *s, int obj, t_vector inter, t_vector normal);
 void		bmp_image(t_scene *s);
+
+t_2d		plan_map(t_vector inter, t_scene *s, int i);
+t_2d		spherical_map(t_vector inter, t_scene *s, int i);
+t_vector	get_sphere_pattern(t_scene *s, int i, t_vector inter, int h);
+
+t_vector	quadrilles_pattern_color(t_pattern pat, float u, float v);
+t_vector	gradient_pattern_color(t_pattern pat, float u, float v);
+t_vector	stripes_pattern_color(t_pattern pat, float u, float v);
+t_vector	rings_pattern_color(t_pattern pat, float u, float v);
 
 #endif

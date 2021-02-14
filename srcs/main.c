@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 19:43:21 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/14 22:57:38 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int		main(int ac, char **av)
 	init_general(&s);
 	if (check_errors(ac, av, &s))
 		return (1);
-	write(1, "parsing done\n", 13);
 	init_images(&s);
 	write(1, "images created\n", 15);
 	mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 17:03:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 18:43:29 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/14 23:00:19 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,9 @@ float				inter_cy(t_ray r, t_object cy, t_vector *hit, t_vector *n);
 float				inter_sp(t_ray r, t_object sp, t_vector *hit, t_vector *n);
 float				inter_sq(t_ray r, t_object sq, t_vector *hit, t_vector *n);
 float				inter_pl(t_ray r, t_object sp, t_vector *hit, t_vector *n);
+float				inter_cl(t_ray ray, t_object cl, t_vector *inter, t_vector *normal);
+float				inter_py(t_ray ray, t_object sq, t_vector *inter, t_vector *normal);
+
 float				inter_type(t_ray r, t_object o, t_vector *hit, t_vector *n);
 
 float				check_shadow(t_scene *s, t_vector inter, t_vector n, int l);
@@ -176,6 +179,9 @@ char				*parsing_sq(char **line, t_scene *elem);
 char				*parsing_cy(char **line, t_scene *elem);
 char				*parsing_tr(char **line, t_scene *elem);
 char				*parsing_pl(char **line, t_scene *elem);
+char				*parsing_cl(char **line, t_scene *elem);
+char				*parsing_spp(char **line, t_scene *elem);
+
 
 float				ft_atof(const char *str);
 
