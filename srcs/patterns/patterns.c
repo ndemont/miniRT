@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 12:45:34 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 12:57:52 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:59:29 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_vector   gradient_pattern_color(t_pattern pat, float u, float v)
 	t_vector color;
 
 	(void)u;
-	//u = floor(u * pat.height);
 	color.coord[0] = v * pat.a.coord[0] + (1 - v) * pat.b.coord[0];
     color.coord[1] = v * pat.a.coord[1] + (1 - v) * pat.b.coord[1];
     color.coord[2] = v * pat.a.coord[2] + (1 - v) * pat.b.coord[2];

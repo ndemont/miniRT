@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 15:23:10 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 12:52:34 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:59:44 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	get_sphere_pattern(t_scene *s, int i, t_vector inter, t_vector *color)
 	float		rot_z;
     t_pattern pat;
 
-    printf("color1 = %f/%f/%f\n", s->objects[i].t2.coord[0], s->objects[i].t2.coord[1], s->objects[i].t2.coord[2]);
-    printf("color2 = %f/%f/%f\n", s->objects[i].t1.coord[0], s->objects[i].t1.coord[1], s->objects[i].t1.coord[2]);
     pat = check_pattern(15, 15, s->objects[i].t2, s->objects[i].t1);
     rot_x = (inter.coord[0] - s->objects[i].o.coord[0]);
     rot_y = (inter.coord[1] - s->objects[i].o.coord[1]);
@@ -69,6 +67,4 @@ void	get_sphere_pattern(t_scene *s, int i, t_vector inter, t_vector *color)
         free_scene(0, s);
         exit(1);
     }
-    printf("color = %f/%f/%f\n", color->coord[0], color->coord[1], color->coord[2]);
-    write(1, "OH NO\n", 6);
 }
