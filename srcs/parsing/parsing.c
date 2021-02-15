@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:29:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/14 23:00:55 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:14:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			get_type(char *line)
 {
 	int			i;
 	int			len;
-	static char	*list2[11] = {"R", "A", "c", "l", "sp", "sq", "cy", "tr", "pl", "cl", "spp"};
+	static char	*list2[11] = {"R", "A", "c", "l", "sp", "sq", "cy", "tr", "pl", "cl", "st"};
 
 	i = 0;
 	len = 1;
@@ -25,8 +25,6 @@ int			get_type(char *line)
 	{
 		if (i == 4)
 			len = 2;
-		if (i == 10)
-			len = 3;
 		if (ft_strnstr(list2[i], line, len))
 			return (i);
 		i++;
@@ -49,7 +47,7 @@ char		*fill_type(int x, t_scene *s, char **line)
 	type[7] = &parsing_tr;
 	type[8] = &parsing_pl;
 	type[9] = &parsing_cl;
-	type[10] = &parsing_spp;
+	type[10] = &parsing_st;
 	error = (*type[x])(line, s);
 	return (error);
 }
@@ -65,9 +63,7 @@ void		ft_count_elem(char **list, int *c, int *l, int *o)
 			*c = *c + 1;
 		if ((*list)[0] == 'l')
 			*l = *l + 1;
-		if (((*list)[0] == 'p' && (*list)[1] == 'y') || ((*list)[0] == 'p' && (*list)[1] == 'l') || ((*list)[0] == 's') || \
-			((*list)[0] == 'c' && (*list)[1] == 'y') || ((*list)[0] == 't') \
-			|| ((*list)[0] == 'c' && (*list)[1] == 'l'))
+		if ((*list)[0] == 's' || (*list)[0] == 'p' || ((*list)[0] == 'c' && (*list)[1] == 'y') || (*list)[0] == 't' || ((*list)[0] == 'c' && (*list)[1] == 'l'))
 			*o = *o + 1;
 		list++;
 	}

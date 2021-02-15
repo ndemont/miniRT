@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 20:25:52 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/14 23:03:38 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:49:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*parsing_sp(char **line, t_scene *elem)
 	return (0);
 }
 
-char		*parsing_spp(char **line, t_scene *elem)
+char		*parsing_st(char **line, t_scene *elem)
 {
 	char	*error;
 	int		i;
@@ -45,16 +45,16 @@ char		*parsing_spp(char **line, t_scene *elem)
 	i = 0;
 	while (elem->objects[i].type != -1)
 		i++;
-	elem->objects[i].type = 4;
+	elem->objects[i].type = 10;
 	elem->objects[i + 1].type = -1;
 	if ((error = ft_check_coord(line[1], elem->objects[i].o.coord)))
 		return (error);
 	if (!ft_strisfloat(line[2]))
 		return ("Sphere: diameter must be a float.\n");
 	elem->objects[i].diam = ft_atof(line[2]) / 2;
-	if ((error = ft_check_color(line[3], elem->objects[i].c.coord)))
+	if ((error = ft_check_color(line[3], elem->objects[i].t1.coord)))
 		return (error);
-	if ((error = ft_check_color(line[4], elem->objects[i].c.coord)))
+	if ((error = ft_check_color(line[4], elem->objects[i].t2.coord)))
 		return (error);
 	elem->objects[i].h = ft_atof(line[5]);
 	if (!ft_strisfloat(line[5]))

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 14:30:04 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/14 23:03:49 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:46:53 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int		near_inter(t_ray ray, t_scene *s, t_vector *inter, t_vector *normal)
 		i++;
 	}
 	if (object != -1 && s->objects[object].type == 10)
-		s->objects[object].c = get_sphere_pattern(s, object, *inter, s->objects[object].h);
+	{
+		printf("K0\n");
+		get_sphere_pattern(s, object, *inter, &(s->objects[object].c));
+		printf("OK\n");
+	}
 	return (object);
 }

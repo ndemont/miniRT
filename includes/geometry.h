@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 17:03:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/14 23:00:19 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:09:55 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ char				*parsing_cy(char **line, t_scene *elem);
 char				*parsing_tr(char **line, t_scene *elem);
 char				*parsing_pl(char **line, t_scene *elem);
 char				*parsing_cl(char **line, t_scene *elem);
-char				*parsing_spp(char **line, t_scene *elem);
+char				*parsing_st(char **line, t_scene *elem);
 
 
 float				ft_atof(const char *str);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 18:01:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/14 23:05:22 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 12:46:27 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		bmp_image(t_scene *s);
 
 t_2d		plan_map(t_vector inter, t_scene *s, int i);
 t_2d		spherical_map(t_vector inter, t_scene *s, int i);
-t_vector	get_sphere_pattern(t_scene *s, int i, t_vector inter, int h);
+void	    get_sphere_pattern(t_scene *s, int i, t_vector inter, t_vector *color);
 
 t_vector	quadrilles_pattern_color(t_pattern pat, float u, float v);
 t_vector	gradient_pattern_color(t_pattern pat, float u, float v);
