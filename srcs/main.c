@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 12:40:06 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 17:15:50 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	init_general(t_scene *s)
 	s->cam_nbr = 0;
 	s->r[0] = 0;
 	s->r[1] = 0;
+	s->filter = 0;
 }
 
 int		main(int ac, char **av)

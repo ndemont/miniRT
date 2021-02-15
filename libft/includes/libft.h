@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 19:43:03 by ndemont           #+#    #+#             */
-/*   Updated: 2020/11/29 14:57:20 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:57:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_list
 }				t_list;
 
 int				ft_atoi(const char *str);
+float			ft_atof(const char *str);
 
 int				ft_isascii(int c);
 int				ft_isalpha(int c);

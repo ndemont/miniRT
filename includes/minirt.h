@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 18:01:40 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 12:46:27 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 19:22:46 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 #  define MOVE_F 65362
 #  define MOVE_B 65364
 #  define SWITCH_CAM 32
+#  define FILTER 41
 #  define ESC 65307
 # else
 #  define MOVE_R 0x7C
@@ -39,6 +40,7 @@
 #  define MOVE_F 0x7E
 #  define MOVE_B 0x7D
 #  define SWITCH_CAM 0x31
+#  define FILTER 0x03
 #  define ESC 0x35
 # endif
 
@@ -47,6 +49,7 @@ char		*check_parsing(char *file, t_scene *s);
 int			ft_event(int keycode, t_scene *s);
 int			ft_close_win(int keycode, t_scene *s);
 void		minirt(t_scene *s);
+t_vector	apply_filter(t_vector color, t_vector light, float i, int filter);
 void		print_window(void *mlx_ptr, void *win_ptr, void *img_ptr);
 int			ft_switch_cam(int keycode, t_scene *s);
 
@@ -56,7 +59,7 @@ int			free_scene(char **split, t_scene *s);
 
 int			get_type(char *line);
 char		*fill_type(int x, t_scene *s, char **line);
-char	    *fill_scene(t_scene *s, char **list);
+char		*fill_scene(t_scene *s, char **list);
 
 char		*save_bmp(t_scene *s);
 
@@ -81,7 +84,7 @@ void		bmp_image(t_scene *s);
 
 t_2d		plan_map(t_vector inter, t_scene *s, int i);
 t_2d		spherical_map(t_vector inter, t_scene *s, int i);
-void	    get_sphere_pattern(t_scene *s, int i, t_vector inter, t_vector *color);
+void		get_sphere_pattern(t_scene *s, int i, t_vector p, t_vector *rgb);
 
 t_vector	quadrilles_pattern_color(t_pattern pat, float u, float v);
 t_vector	gradient_pattern_color(t_pattern pat, float u, float v);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 15:36:39 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/13 12:49:08 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 18:43:43 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,18 @@ t_vector	find_intensity(t_vector inter, float *fint, t_vector n, t_scene s)
 	return (rgb);
 }
 
-t_pixel		fill_pixel(t_scene *s, int obj, t_vector light, float intensity)
+t_pixel		fill_pixel(t_scene *s, int obj, t_vector light, float i)
 {
-	t_pixel pixel;
+	t_pixel		pixel;
+	t_vector	color;
 
-	pixel.r = fmin(s->objects[obj].c.coord[0], light.coord[0]) * intensity;
-	pixel.g = fmin(s->objects[obj].c.coord[1], light.coord[1]) * intensity;
-	pixel.b = fmin(s->objects[obj].c.coord[2], light.coord[2]) * intensity;
-	//pixel.r = 255 - pixel.r;
-	//pixel.g = 255 - pixel.g;
-	//pixel.b = 255 - pixel.b; //negative;
-	// pixel.g = 0; // rouge
-	// pixel.b = 0; //rouge;
-	//pixel.r = 0; //beuleu
-	//pixel.g = 0; // bleu 
-	//pixel.r = 0; // vert
-	//pixel.b = 0; // vert
-	//pixel.r = (fmin(s->objects[obj].c.coord[0], light.coord[0]) + fmin(s->objects[obj].c.coord[1], light.coord[1]) + fmin(s->objects[obj].c.coord[2], light.coord[2])) / 3 * intensity;
-	//pixel.g = pixel.r;
-	//pixel.b = pixel.r; //b and white
+	color.coord[0] = fmin(s->objects[obj].c.coord[0], light.coord[0]) * i;
+	color.coord[1] = fmin(s->objects[obj].c.coord[1], light.coord[1]) * i;
+	color.coord[2] = fmin(s->objects[obj].c.coord[2], light.coord[2]) * i;
+	color = apply_filter(color, light, i, s->filter);
+	pixel.r = color.coord[0];
+	pixel.g = color.coord[1];
+	pixel.b = color.coord[2];
 	return (pixel);
 }
 

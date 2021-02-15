@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 17:03:02 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 12:09:55 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 19:26:02 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,19 +96,19 @@ typedef struct		s_img
 	unsigned char	*data_addr;
 }					t_img;
 
-typedef struct   s_pattern
+typedef struct		s_pattern
 {
-    float width;
-    float height;
-    t_vector a;
-    t_vector b;
-}               t_pattern;
+	float			width;
+	float			height;
+	t_vector		a;
+	t_vector		b;
+}					t_pattern;
 
-typedef struct   s_2d
+typedef struct		s_2d
 {
-    float u;
-    float v;
-}               t_2d;
+	float u;
+	float v;
+}					t_2d;
 
 typedef struct		s_scene
 {
@@ -129,10 +129,13 @@ typedef struct		s_scene
 	int				cam_nbr;
 	t_resolution	reso;
 	t_img			*images;
+	int				filter;
 }					t_scene;
 
 t_vector			color_limit(t_vector v);
 float				intensity_limit(float i);
+t_vector			find_intensity(t_vector h, float *i, t_vector n, t_scene s);
+float				check_shadow(t_scene *s, t_vector inter, t_vector n, int l);
 
 float				scalaire(t_vector v1, t_vector v2);
 float				get_norme(t_vector v);
@@ -147,12 +150,8 @@ float				inter_cy(t_ray r, t_object cy, t_vector *hit, t_vector *n);
 float				inter_sp(t_ray r, t_object sp, t_vector *hit, t_vector *n);
 float				inter_sq(t_ray r, t_object sq, t_vector *hit, t_vector *n);
 float				inter_pl(t_ray r, t_object sp, t_vector *hit, t_vector *n);
-float				inter_cl(t_ray ray, t_object cl, t_vector *inter, t_vector *normal);
-float				inter_py(t_ray ray, t_object sq, t_vector *inter, t_vector *normal);
-
+float				inter_cl(t_ray r, t_object cl, t_vector *hit, t_vector *n);
 float				inter_type(t_ray r, t_object o, t_vector *hit, t_vector *n);
-
-float				check_shadow(t_scene *s, t_vector inter, t_vector n, int l);
 
 t_vector			init_vector(float x, float y, float z);
 t_vector			v_plus_i(t_vector v, float i);
@@ -168,7 +167,6 @@ t_vector			v_mult_m(t_vector v, t_matrix m);
 void				set_plan(t_scene *s);
 
 float				quadratic_resolution(float a, float b, float c, float t[2]);
-t_vector			find_intensity(t_vector h, float *i, t_vector n, t_scene s);
 
 char				*parsing_a(char **line, t_scene *elem);
 char				*parsing_r(char **line, t_scene *elem);
@@ -181,8 +179,5 @@ char				*parsing_tr(char **line, t_scene *elem);
 char				*parsing_pl(char **line, t_scene *elem);
 char				*parsing_cl(char **line, t_scene *elem);
 char				*parsing_st(char **line, t_scene *elem);
-
-
-float				ft_atof(const char *str);
 
 #endif
