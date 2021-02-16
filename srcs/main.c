@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:47 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 17:15:50 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 21:13:40 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	minirt(t_scene *s)
 void	init_general(t_scene *s)
 {
 	s->mlx_ptr = mlx_init();
+	s->win_ptr = 0;
 	s->bits_per_pixel = 0;
 	s->size = 0;
 	s->endian = 0;
@@ -105,7 +106,6 @@ int		main(int ac, char **av)
 	if (check_errors(ac, av, &s))
 		return (1);
 	init_images(&s);
-	write(1, "images created\n", 15);
 	mlx_hook(s.win_ptr, 2, 1L << 0, ft_event, &s);
 	if (!LINUX)
 		mlx_hook(s.win_ptr, 17, 1L << 17, ft_cross, &s);

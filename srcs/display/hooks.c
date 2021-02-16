@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 10:12:22 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 18:35:54 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/15 20:35:52 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int				ft_apply_filter(int keycode, t_scene *s)
 {
 	if (keycode == FILTER)
 	{
-		printf("filter\n");
 		if (s->filter < 5)
 			s->filter++;
 		else
