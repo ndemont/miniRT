@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 11:37:37 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/15 22:36:55 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/16 12:45:01 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		check_errors(int ac, char **av, t_scene *s)
 			return (print_errors("Error 10: Unknown option."));
 		if ((error = save_bmp(s)))
 			return (print_errors(error));
+		ft_printf("Bmp created\n");
 		exit(free_scene(0, s));
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ndemont <ndemont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 11:21:44 by ndemont           #+#    #+#             */
-/*   Updated: 2021/02/12 13:18:30 by ndemont          ###   ########.fr       */
+/*   Updated: 2021/02/16 12:40:41 by ndemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	ft_fill_pixel(int fd, t_scene *s)
 	int		j;
 	int		pixel;
 
-	i = (int)s->r[0] - 1;
+	i = (int)s->r[1] - 1;
 	while (i >= 0)
 	{
 		j = 0;
-		while (j < (int)s->r[1])
+		while (j < (int)s->r[0])
 		{
 			pixel = (i * s->size) + (j * 4);
 			write(fd, &s->data_addr[pixel], 3);
