@@ -26,16 +26,38 @@ Checks if the list of instructions you’ll generate with the program push_swap 
 
 ## objects
 
-**sphere**: swap a - swap the first 2 elements at the top of stack a. Do nothing if there
-is only one or no elements).
+**sphere** `sp 0.0,0.0,20.6 12.6 10,0,255`
 
-**plan**: swap b - swap the first 2 elements at the top of stack b. Do nothing if there
-is only one or no elements).
+· identifier: sp
+
+· x,y,z coordinates of the sphere center: 0.0,0.0,20.6
+
+· the sphere diameter: 12.6
+
+· R,G,B colors in range [0-255]: 10, 0, 255
+
+**plan** `0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225`
+
+identifier: pl
+· x,y,z coordinates: 0.0,0.0,-10.0
+
+· 3d normalized orientation vector. In range [-1,1] for each x,y,z axis: 0.0,0.0,1.0
+
+· R,G,B colors in range [0-255]: 0, 0, 255
 
 **triangle**: sa and sb at the same time.
 
-**square**: push a - take the first element at the top of b and put it at the top of a. Do
-nothing if b is empty.
+**square** `sq 0.0,0.0,20.6 1.0,0.0,0.0 12.6 255,0,255`
+
+· identifier: sq
+
+· x,y,z coordinates of the square center: 0.0,0.0,20.6
+
+· 3d normalized orientation vector. In range [-1,1] for each x,y,z axis: 1.0,0.0,0.0
+
+· side size: 12.6
+
+· R,G,B colors in range [0-255]: 255, 0, 255
 
 **cylinder**: push b - take the first element at the top of a and put it at the top of b. Do
 nothing if a is empty.
