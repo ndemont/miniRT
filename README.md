@@ -38,14 +38,25 @@ Checks if the list of instructions you’ll generate with the program push_swap 
 
 **plan** `0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225`
 
-identifier: pl
+· identifier: pl
+
 · x,y,z coordinates: 0.0,0.0,-10.0
 
 · 3d normalized orientation vector. In range [-1,1] for each x,y,z axis: 0.0,0.0,1.0
 
 · R,G,B colors in range [0-255]: 0, 0, 255
 
-**triangle**: sa and sb at the same time.
+**triangle** `tr 10.0,20.0,10.0 10.0,10.0,20.0 20.0,10.0,10.0 0,0,255`
+
+· identifier: tr
+
+· x,y,z coordinates of the first point: 10.0,20.0,10.0
+
+· x,y,z coordinates of the second point: 10.0,10.0,20.0
+
+· x,y,z coordinates of the third point: 20.0,10.0,10.0
+
+· R,G,B colors in range [0,255]: 0, 255, 255
 
 **square** `sq 0.0,0.0,20.6 1.0,0.0,0.0 12.6 255,0,255`
 
@@ -59,8 +70,19 @@ identifier: pl
 
 · R,G,B colors in range [0-255]: 255, 0, 255
 
-**cylinder**: push b - take the first element at the top of a and put it at the top of b. Do
-nothing if a is empty.
+**cylinder** `cy 50.0,0.0,20.6 0.0,0.0,1.0 14.2 21.42 10,0,255`
+
+· identifier: cy
+
+· x,y,z coordinates: 50.0,0.0,20.6
+
+· 3d normalized orientation vector. In range [-1,1] for each x,y,z axis: 0.0,0.0,1.0
+
+· the cylinder diameter: 14.2
+
+· the cylinder height: 21.42
+
+· R,G,B colors in range [0,255]: 10, 0, 255
 
 ## bonus
 
