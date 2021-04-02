@@ -22,6 +22,42 @@ Receives a list of integer arguments as a pile and generates the instructions us
 
 ## objects
 
+**resolution** `R 1920 1080`
+
+- identifier: R
+
+- x render size
+
+- y render size
+
+**ambient lightning** `A 0.2 255,255,255`
+
+- identifier: A
+
+- ambient lighting ratio in range [0.0,1.0]: 0.2
+
+- R,G,B colors in range [0-255]: 255, 255, 255
+
+**camera** `c -50.0,0,20 0,0,1 70`
+
+- identifier: c
+
+- x,y,z coordinates of the view point: 0.0,0.0,20.6
+
+- 3d normalized orientation vector. In range [-1,1] for each x,y,z axis: 0.0,0.0,1.0
+
+- FOV : Horizontal field of view in degrees in range [0,180]
+
+**light** `l -40.0,50.0,0.0 0.6 10,0,255`
+
+- identifier: l
+
+- x,y,z coordinates of the light point: 0.0,0.0,20.6
+
+- the light brightness ratio in range [0.0,1.0]: 0.6
+
+- R,G,B colors in range [0-255]: 10, 0, 255
+
 **sphere** `sp 0.0,0.0,20.6 12.6 10,0,255`
 
 - identifier: sp
