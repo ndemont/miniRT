@@ -15,14 +15,10 @@ lighting system.
 
 ## binary
 
-- `push_swap [-cvs] [--dst] [file ...] [arguments ...]`
+- `minirt [file] [--save]`
 
 Receives a list of integer arguments as a pile and generates the instructions used to sort that pile.
 
-
-- `checker [-cvs] [--src] [file ...] [arguments ...]`
-
-Checks if the list of instructions you’ll generate with the program push_swap is actually sorting the stack properly.
 
 ## objects
 
@@ -36,7 +32,7 @@ Checks if the list of instructions you’ll generate with the program push_swap 
 
 - R,G,B colors in range [0-255]: 10, 0, 255
 
-**plan** `0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225`
+**plan** `tr 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225`
 
 - identifier: pl
 
