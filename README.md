@@ -19,8 +19,9 @@ lighting system.
 
 - `minirt [file] [--save]`
 
-Receives a list of integer arguments as a pile and generates the instructions used to sort that pile.
+Receives a file containing the informations relative to a specific scenes.
 
+The program displays the scene in a window or saves it in a bmp file with the --save flag.
 
 ## objects
 
