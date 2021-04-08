@@ -120,6 +120,16 @@ The program displays the scene in a window or saves it in a bmp file with the --
 - R,G,B colors in range [0,255]: 10, 0, 255
 
 
+## bonus
+
+**filters** `f`
+
+- red
+- green
+- blue
+- black and white
+- negative
+
 ## allowed functions
 
 - `open`
