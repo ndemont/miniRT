@@ -1,5 +1,7 @@
 # miniRT
 
+<img src="/images/all.bmp" alt="Image"/>
+
 ## subject
 
 This project is an introduction to the beautiful world of Raytracing.
