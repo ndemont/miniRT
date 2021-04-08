@@ -23,7 +23,7 @@ ifeq (${OS}, Linux)
 	MLX_DIR = liblinux
 	IFLAGS  = -I/usr/include -I${MLX_DIR} -I${INC_DIR} -I${LIBFT_DIR}/includes -D LINUX=1
 	LFLAGS  = -L ${MLX_DIR} -lmlx -L ${LIBFT_DIR} -lft -L /usr/lib -lXext -lX11 -lm
-endif 
+endif
 
 all: 		init ${NAME}
 
