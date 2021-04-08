@@ -130,6 +130,17 @@ The program displays the scene in a window or saves it in a bmp file with the --
 - black and white
 - negative
 
+**camera position** `arrows`
+
+- x
+- y
+- z
+
+**camera direction** `wasd`
+- x
+- y 
+- z
+
 ## allowed functions
 
 - `open`
