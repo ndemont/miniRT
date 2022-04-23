@@ -1,4 +1,4 @@
-# miniRT
+# Raytracing
 
 <img src="/images/all.bmp" alt="Image"/>
 
