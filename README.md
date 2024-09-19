@@ -5,10 +5,9 @@
 ## subject
 
 This project is an introduction to the beautiful world of Raytracing.
-Once completed you will be able to render simple Computer-Generated-Images and you
-will never be afraid of implementing mathematical formulas again.
+It allows to render simple Computer-Generated-Images.
 
-The goal of your program is to generate images
+The goal of your the program is to generate images
 using the Raytracing protocol. Those computer
 generated images will each represent a scene, as
 seen from a specific angle and position, defined
