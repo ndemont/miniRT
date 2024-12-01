@@ -70,7 +70,7 @@ The program displays the scene in a window or saves it in a bmp file with the --
 
 - R,G,B colors in range [0-255]: 10, 0, 255
 
-**plan** `tr 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225`
+**plan** `pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225`
 
 - identifier: pl
 
